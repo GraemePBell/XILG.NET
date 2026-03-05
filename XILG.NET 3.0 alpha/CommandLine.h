@@ -58,12 +58,12 @@ public:
 	const std::wstring& HtmlBackgroundImagePosition() const;
 
 	const std::wstring& BannerImage() const;
-	const unsigned int BannerHeight() const;
+	const size_t BannerHeight() const;
 
-	const unsigned int ImagesPerPage() const;
-	const unsigned int NumberOfPages() const;
+	const size_t ImagesPerPage() const;
+	const size_t NumberOfPages() const;
 
-	const unsigned int NumberOfInputPaths() const; 
+	const size_t NumberOfInputPaths() const; 
 	const std::list<std::wstring>& InputPaths() const;
 
 	const std::wstring& UserCSS() const;
@@ -117,10 +117,10 @@ public:
 	void ParseWmPos(const std::wstring& wmp);
 
 	void BannerImage(const std::wstring& banner_path);
-	void BannerHeight(const unsigned int h);
+	void BannerHeight(const size_t h);
 
-	void ImagesPerPage(const unsigned int h);
-	void NumberOfPages(const unsigned int h);
+	void ImagesPerPage(const size_t h);
+	void NumberOfPages(const size_t h);
 
 	void HtmlColor(const std::wstring& color);
 	void HtmlBackgroundColor(const std::wstring& color);
@@ -191,11 +191,11 @@ private:
 	bool verbose;
 	bool diagnostic;
 
-	int thumb_height;
-	int thumb_width;
+	size_t thumb_height;
+	size_t thumb_width;
 
-	unsigned int pics_per_page;
-	unsigned int number_of_pages;
+	size_t pics_per_page;
+	size_t number_of_pages;
 	
 	unsigned int banner_height;
 

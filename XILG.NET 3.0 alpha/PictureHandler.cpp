@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "PictureHandler.h"
+#include <gdiplus.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -11,7 +12,13 @@
 
 PictureHandler::PictureHandler()
 {
-	Gdiplus::GdiplusStartup(&gdiplus_token,&gdiplusStartupInput,0);
+    Gdiplus::GdiplusStartupInput startupInput;
+    startupInput.GdiplusVersion = 1;
+    startupInput.DebugEventCallback = nullptr;
+    startupInput.SuppressBackgroundThread = FALSE;
+    startupInput.SuppressExternalCodecs = FALSE;
+
+    Gdiplus::Status status = Gdiplus::GdiplusStartup(&gdiplus_token,&gdiplusStartupInput,0);
 	biggest_height = 0;
 	biggest_width = 0;
 }

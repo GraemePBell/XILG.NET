@@ -993,29 +993,29 @@ void CommandLine::BannerImage(const std::wstring &banner_path)
 	banner = banner_path;
 }
 
-const unsigned int CommandLine::BannerHeight(void) const
+const size_t CommandLine::BannerHeight(void) const
 {
 	return banner_height;
 }
 
-void CommandLine::BannerHeight(const unsigned int h)
+void CommandLine::BannerHeight(const size_t h)
 {
 	banner_height = h;
 }
 
-const unsigned int CommandLine::ImagesPerPage(void) const
+const size_t CommandLine::ImagesPerPage(void) const
 {
 	return pics_per_page;
 }
 
-void CommandLine::ImagesPerPage(const unsigned int h)
+void CommandLine::ImagesPerPage(const size_t h)
 {
 	pics_per_page = h;
 }
 
 void CommandLine::ImagesPerPage(const std::wstring& mipp)
 {
-	unsigned int temp = _wtoi(mipp.c_str());
+	size_t temp = _wtoi(mipp.c_str());
 	if (temp)
 		pics_per_page = temp;
 	else
@@ -1027,12 +1027,12 @@ void CommandLine::ImagesPerPage(const std::wstring& mipp)
 	}
 }
 
-const unsigned int CommandLine::NumberOfPages(void) const
+const size_t CommandLine::NumberOfPages(void) const
 {
 	return number_of_pages;
 }
 
-void CommandLine::NumberOfPages(const unsigned int h)
+void CommandLine::NumberOfPages(const size_t h)
 {
 	number_of_pages = h;
 }
@@ -1043,7 +1043,7 @@ void CommandLine::InsertInputPath(const std::wstring &i_path)
 	input_paths.unique();
 }
 
-const unsigned int CommandLine::NumberOfInputPaths() const
+const size_t CommandLine::NumberOfInputPaths() const
 {
 	return input_paths.size();
 }

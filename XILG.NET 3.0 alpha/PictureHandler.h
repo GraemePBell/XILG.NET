@@ -27,7 +27,7 @@ private:
 	int biggest_width;
 	
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-	ULONG gdiplus_token;
+	ULONG_PTR gdiplus_token;
 };
 
 #endif // !defined(AFX_PICTUREHANDLER_H__7F0B89F1_BA13_4233_A99B_B7F6E6ACBBCA__INCLUDED_)

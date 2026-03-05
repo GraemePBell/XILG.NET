@@ -33,7 +33,7 @@ System::Void Form1::build_website_Click(System::Object^  sender, System::EventAr
 
 position Form1::WatermarkPos()
 {
-	position p;
+	position p{};
 	if (topleft->Checked)
 		p = tl;
 	if (centerright->Checked)
@@ -53,7 +53,10 @@ position Form1::WatermarkPos()
 	if (bottomcenter->Checked)
 		p = bc;
 
-	return p;
+	if (!p)
+		return br;
+	else
+		return p;
 }
 
 System::Boolean Form1::SetParameters(CLProxy^ parameters)
@@ -230,14 +233,15 @@ System::Boolean Form1::SetParameters(CLProxy^ parameters)
 
 bool Form1::PassFoldersToParameter(CLProxy^ cl)
 {
-	int num_items = listBox1->Items->Count;
+	size_t num_items = listBox1->Items->Count;
 
 	if (!num_items)
 		return false;
 
-	for (int count = 0; count < num_items; count++)
+	for (size_t count = 0; count < num_items; count++)
 	{
 		String^ st = listBox1->Items[count]->ToString();
+			//listBox1->Items[count]->ToString();
 		
 		cl->input_paths->Add(st);
 	}
