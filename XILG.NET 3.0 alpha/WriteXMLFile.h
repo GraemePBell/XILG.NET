@@ -33,7 +33,7 @@ protected:
 // functions
 	virtual bool save(const std::wstring& filename, const CommandLine& cl);
 	void xml_declaration();
-	void write_processing_instruction(BSTR s1, BSTR s2, bool initial=false);
+	void write_processing_instruction(const std::wstring& s1, const std::wstring& s2, bool initial=false);
 	void cr_indent(int il,MSXML2::IXMLDOMElementPtr ePtr);
 //	data
 	MSXML2::IXMLDOMDocumentPtr doc_ptr;

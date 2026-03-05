@@ -61,17 +61,34 @@ bool basic_xmlfile::save(const std::wstring& filename, const CommandLine& cl)
 
 
 //////////////////// create an XML PI //////////////////////////
-void basic_xmlfile::write_processing_instruction(BSTR s1, BSTR s2, bool initial)
+void basic_xmlfile::write_processing_instruction(const std::wstring& s1, const std::wstring& s2, bool initial)
 {
 	MSXML2::IXMLDOMProcessingInstructionPtr pi = NULL;
 	const _variant_t refChild;
+	BSTR b1 = SysAllocString(s1.data());
+	BSTR b2 = SysAllocString(s2.data());
 
-	pi = doc_ptr->createProcessingInstruction(s1,s2);
-	
-	if (!initial)
-		doc_ptr->appendChild(pi);
-	else
-		doc_ptr->insertBefore(pi,&refChild);
+	try {
+
+		pi = doc_ptr->createProcessingInstruction(b1, b2);
+
+		SysFreeString(b1);
+		SysFreeString(b2);
+
+		if (!initial)
+			doc_ptr->appendChild(pi);
+		else
+			doc_ptr->insertBefore(pi, &refChild);
+
+	}
+	catch (...)
+	{
+		if (b1) SysFreeString(b1);
+		if (b2) SysFreeString(b2);
+		throw;
+	}
+	if (b1) SysFreeString(b1);
+	if (b2) SysFreeString(b2);
 }
 
 /////////////////// standard XML Declaration
@@ -97,9 +114,21 @@ void xml_image_list::xslinclude(const std::wstring& xsl_filename)
 
 void xml_image_list::xslinclude(MSXML2::IXMLDOMDocumentPtr doc_ptr, const std::wstring& xsl_filename)
 {
+	std::wstring first_arg = L"xml-stylesheet";
 	std::wstring second_arg = L"type=\"text/xsl\" href=\"" + xsl_filename + L"\"";
-	BSTR temp = const_cast<BSTR>(second_arg.c_str());
-	write_processing_instruction(doc_ptr, L"xml-stylesheet",temp);
+	BSTR t2 = SysAllocString(second_arg.c_str());
+	BSTR t1 = SysAllocString(first_arg.c_str());
+	try {
+		write_processing_instruction(doc_ptr, t1,t2,true);
+	}
+	catch (...)
+	{
+		SysFreeString(t1);
+		SysFreeString(t2);
+		throw;
+	}
+	SysFreeString(t1);
+	SysFreeString(t2);
 }
 
 bool xml_image_list::build(const CommandLine& cl, const ImageFileList& ifl)
@@ -368,7 +397,23 @@ void xml_image_list::write_processing_instruction(MSXML2::IXMLDOMDocumentPtr doc
 /////////////////// standard XML Declaration
 void xml_image_list::xml_declaration(MSXML2::IXMLDOMDocumentPtr doc_ptr)
 {
-	write_processing_instruction(doc_ptr, L"xml", L"version='1.0' encoding='ISO-8859-1' ",true);
+	const std::wstring xml = L"xml";
+	const std::wstring ver = L"version='1.0' encoding='ISO-8859-1' ";
+
+	BSTR s1 = SysAllocString(xml.c_str());
+	BSTR s2 = SysAllocString(ver.c_str());
+
+	try {
+		write_processing_instruction(doc_ptr, s1, s2, true);
+	}
+	catch (...)
+	{
+		SysFreeString(s1);
+		SysFreeString(s2);
+		throw;
+	}
+	SysFreeString(s1);
+	SysFreeString(s2);
 }
 
 

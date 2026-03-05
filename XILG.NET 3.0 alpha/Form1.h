@@ -1549,7 +1549,7 @@ namespace XILGNET30alpha {
 		}
 #pragma endregion
 private: System::Boolean SetParameters(CLProxy^ parameters);
-private: bool Form1::PassFoldersToParameter(CLProxy^ cl);
+private: bool PassFoldersToParameter(CLProxy^ cl);
 private: System::Void finalise_input_folders_tab();
 private: System::Void finalise_background_tab();
 private: System::Void finalise_watermark_tab();
