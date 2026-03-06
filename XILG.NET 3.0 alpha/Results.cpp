@@ -20,7 +20,7 @@ System::Void Results::Results_Load(System::Object^  sender, System::EventArgs^  
 	RegistryKey^ SMIkey;
 	RegistryKey^ BrowserNameKey;
 	RegistryKey^ BrowserPathKey;
-	alsp = gcnew SortedList; 
+	alsp = gcnew SortedList(0); 
 
 	SMIkey = rk->OpenSubKey(L"SOFTWARE\\Clients\\StartMenuInternet");
 	

@@ -33,30 +33,28 @@ System::Void Form1::build_website_Click(System::Object^  sender, System::EventAr
 
 position Form1::WatermarkPos()
 {
-	position p{};
-	if (topleft->Checked)
-		p = tl;
-	if (centerright->Checked)
-		p = cr;
-	if (topcenter->Checked)
-		p = tc;
-	if (this->middle->Checked)
-		p = center;
-	if (topright->Checked)
-		p = tr;
-	if (bottomright->Checked)
-		p = br;
-	if (centerleft->Checked)
-		p = lc;
-	if (bottomleft->Checked)
-		p = bl;
-	if (bottomcenter->Checked)
-		p = bc;
+	auto p = position::bad_pos;
 
-	if (!p)
-		return br;
-	else
-		return p;
+	if (topleft->Checked)
+		p = position::tl;
+	if (centerright->Checked)
+		p = position::cr;
+	if (topcenter->Checked)
+		p = position::tc;
+	if (this->middle->Checked)
+		p = position::center;
+	if (topright->Checked)
+		p = position::tr;
+	if (bottomright->Checked)
+		p = position::br;
+	if (centerleft->Checked)
+		p = position::lc;
+	if (bottomleft->Checked)
+		p = position::bl;
+	if (bottomcenter->Checked)
+		p = position::bc;
+
+	return p;
 }
 
 System::Boolean Form1::SetParameters(CLProxy^ parameters)
@@ -191,7 +189,7 @@ System::Boolean Form1::SetParameters(CLProxy^ parameters)
 	else
 	{
 		parameters->water_mark = String::Empty;
-		parameters->pos = bl;
+		parameters->pos = position::bl;
 	}
 
 	if (!PassFoldersToParameter(parameters))
@@ -233,12 +231,7 @@ System::Boolean Form1::SetParameters(CLProxy^ parameters)
 
 bool Form1::PassFoldersToParameter(CLProxy^ cl)
 {
-	size_t num_items = listBox1->Items->Count;
-
-	if (!num_items)
-		return false;
-
-	for (size_t count = 0; count < num_items; count++)
+	for (int count = 0; count < listBox1->Items->Count; count++)
 	{
 		String^ st = listBox1->Items[count]->ToString();
 			//listBox1->Items[count]->ToString();

@@ -20,9 +20,9 @@ public:
 	virtual ~FolderBuilder();
 private:
 	bool failed;
-	std::wstring dir_name;
-	std::wstring big_name;
-	std::wstring wee_name;
+	path dir_name;
+	path big_name;
+	path wee_name;
 };
 
 

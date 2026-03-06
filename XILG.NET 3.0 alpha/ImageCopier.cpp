@@ -59,12 +59,12 @@ void ImageCopier::copy(const CommandLine &cl, const ImageFileList &ifl)
  	
 	for (file_count = 0; file_count < max_items; file_count++)
 	{
-		image_src = (*first).GetOriginalPath() + (*first).GetOriginalName();
-		image_dst = ifl.GetBigPath() + (*first).GetLargeImageName();
+		image_src = (*first).GetOriginalPath() / (*first).GetOriginalName();
+		image_dst = ifl.GetBigPath() / (*first).GetLargeImageName();
 	
 		GetFullPathName(image_dst.c_str(),bufsize,buf,0);
 		image_dst = buf;
-		ReplaceExtension(image_dst,std::wstring(L"jpg"));
+		image_dst.replace_extension(L".jpg");
 
 		if (cl.Verbose())
 			std::wcout << L"Copying " << image_src << L" to " << image_dst;
@@ -118,12 +118,12 @@ void ImageCopier::copy_one_at_a_time(const CommandLine &cl, const ImageFileList 
 		first++;
 	}
 
-	image_src = (*first).GetOriginalPath() + (*first).GetOriginalName();
-	image_dst = ifl.GetBigPath() + (*first).GetLargeImageName();
+	image_src = (*first).GetOriginalPath() / (*first).GetOriginalName();
+	image_dst = ifl.GetBigPath() / (*first).GetLargeImageName();
 	
 	GetFullPathName(image_dst.c_str(),bufsize,buf,0);
 	image_dst = buf;
-	ReplaceExtension(image_dst,std::wstring(L"jpg"));
+	image_dst.replace_extension(L".jpg");
 
 	Gdiplus::Bitmap i(image_src.c_str());
 
@@ -142,9 +142,9 @@ void ImageCopier::copy_one_at_a_time(const CommandLine &cl, const ImageFileList 
 
 void ImageCopier::BackgroundCopy(const CommandLine &cl, const ImageFileList &ifl)
 {
-	std::wstring src = cl.HtmlBackgroundImage();
-	wchar_t* temp = PathFindFileName(src.c_str());
-	std::wstring dest = ifl.GetBigPath() + temp;
+	path src = cl.HtmlBackgroundImage();
+	path temp = PathFindFileName(src.c_str());
+	path dest = ifl.GetBigPath() / temp;
 
 	if (!CopyFile(src.c_str(),dest.c_str(),false))
 	{
@@ -161,9 +161,9 @@ void ImageCopier::BackgroundCopy(const CommandLine &cl, const ImageFileList &ifl
 
 void ImageCopier::BannerCopy(const CommandLine &cl, const ImageFileList &ifl)
 {
-	std::wstring src = cl.BannerImage();
-	wchar_t* temp = PathFindFileName(src.c_str());
-	std::wstring dest = ifl.GetBigPath() + temp;
+	path src = cl.BannerImage();
+	path temp = PathFindFileName(src.c_str());
+	path dest = ifl.GetBigPath() / temp;
 
 	if (!CopyFile(src.c_str(),dest.c_str(),false))
 	{

@@ -47,7 +47,7 @@ void FolderBuilder::build(const CommandLine& cl, const ImageFileList& ifl)
 		success = CreateDirectory(dir_name.c_str(),NULL);
 		if (!success)
 		{
-			xilgerr = L"Failed to create folder " + dir_name;
+			xilgerr = L"Failed to create folder " + dir_name.wstring();
 			std::wstring xilgerr_line = stringer(__LINE__);
 			std::wstring xilgerr_file = widen(__FILE__);
 			throw (xilg_error(xilgerr,xilgerr_file,xilgerr_line));
@@ -58,7 +58,7 @@ void FolderBuilder::build(const CommandLine& cl, const ImageFileList& ifl)
 		success = CreateDirectory(big_name.c_str(),NULL);
 		if (!success)
 		{
-			xilgerr = L"Failed to create folder " + big_name;
+			xilgerr = L"Failed to create folder " + big_name.wstring();
 			std::wstring xilgerr_line = stringer(__LINE__);
 			std::wstring xilgerr_file = widen(__FILE__);
 			throw (xilg_error(xilgerr,xilgerr_file,xilgerr_line));
@@ -69,7 +69,7 @@ void FolderBuilder::build(const CommandLine& cl, const ImageFileList& ifl)
 		success = CreateDirectory(wee_name.c_str(),NULL);
 		if (!success)
 		{
-			xilgerr = L"Failed to create folder " + wee_name;
+			xilgerr = L"Failed to create folder " + wee_name.wstring();
 			std::wstring xilgerr_line = stringer(__LINE__);
 			std::wstring xilgerr_file = widen(__FILE__);
 			throw (xilg_error(xilgerr,xilgerr_file,xilgerr_line));

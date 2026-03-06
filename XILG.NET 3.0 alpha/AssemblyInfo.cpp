@@ -16,7 +16,7 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyConfigurationAttribute("")];
 [assembly:AssemblyCompanyAttribute("Graeme P. Bell")];
 [assembly:AssemblyProductAttribute("XILG.NET")];
-[assembly:AssemblyCopyrightAttribute("Copyright (c) Graeme P. Bell 2007")];
+[assembly:AssemblyCopyrightAttribute("Copyright (c) Graeme P. Bell 2007-2026")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];
 
@@ -38,3 +38,12 @@ using namespace System::Security::Permissions;
 [assembly:CLSCompliantAttribute(true)];
 
 // [assembly:SecurityPermission(SecurityAction::RequestMinimum, UnmanagedCode = true)];
+using namespace System::Diagnostics::CodeAnalysis;
+
+[assembly:SuppressMessage(
+    "Microsoft.Security",
+    "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands",
+    Scope = "member",
+    Target = "XILGNET30alpha.Form1.InitializeComponent()"
+)] ;
+

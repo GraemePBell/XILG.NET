@@ -87,8 +87,6 @@ void basic_xmlfile::write_processing_instruction(const std::wstring& s1, const s
 		if (b2) SysFreeString(b2);
 		throw;
 	}
-	if (b1) SysFreeString(b1);
-	if (b2) SysFreeString(b2);
 }
 
 /////////////////// standard XML Declaration
@@ -133,7 +131,7 @@ void xml_image_list::xslinclude(MSXML2::IXMLDOMDocumentPtr doc_ptr, const std::w
 
 bool xml_image_list::build(const CommandLine& cl, const ImageFileList& ifl)
 {
-	unsigned int ipp = cl.ImagesPerPage();
+	size_t ipp = cl.ImagesPerPage();
 	if (ipp)
 	{
 		buildrange(cl,ifl,0,ipp);
@@ -153,8 +151,8 @@ bool xml_image_list::buildone(const CommandLine& cl, const ImageFileList& ifl)
 	MSXML2::IXMLDOMTextPtr text_ptr;
 
 	project_name = cl.ProjectName();
-	std::wstring xsl_filename = project_name + L"_xsl.xml";
-	std::wstring xml_filename = cl.OutputPath() + project_name + L".xml";
+	path xsl_filename = project_name.wstring() + L"_xsl.xml";
+	path xml_filename = cl.OutputPath() / project_name.replace_extension(L".xml");
 
 	basic_xmlfile::xml_declaration();
 	xslinclude(xsl_filename);
@@ -169,7 +167,7 @@ bool xml_image_list::buildone(const CommandLine& cl, const ImageFileList& ifl)
 	std::list<ImageNames>::iterator first = i_names.begin();
 	std::list<ImageNames>::size_type max_items = i_names.size();
 
-	for (std::list<ImageNames>::size_type count = 0; count < max_items-1; count++)
+	for (auto name : i_names)
 	{
 		std::wstring image_name;
 		std::wstring thumb_name;
@@ -178,19 +176,17 @@ bool xml_image_list::buildone(const CommandLine& cl, const ImageFileList& ifl)
 		basic_xmlfile::cr_indent(1,image_list_ptr);
 		image_ptr = doc_ptr->createElement(L"image");
 
-		image_name = L"images/" + (*first).GetLargeImageName();
+		image_name = L"images" / name.GetLargeImageName();
 		
 		image_ptr->setAttribute(L"image-name",image_name.c_str());
 		
-		thumb_name = L"thumbs/" + (*first).GetThumbnailImageName();
+		thumb_name = L"thumbs" / name.GetThumbnailImageName();
 		image_ptr->setAttribute(L"thumb-name",thumb_name.c_str());
 
-		display_name = (*first).GetOriginalName();
+		display_name = name.GetOriginalName();
 		image_ptr->setAttribute(L"display-name",display_name.c_str());
 
 		image_list_ptr->appendChild(image_ptr);
-
-		first++;
 	}
 	basic_xmlfile::cr_indent(0, image_list_ptr);
 
@@ -200,14 +196,14 @@ bool xml_image_list::buildone(const CommandLine& cl, const ImageFileList& ifl)
 }
 
 
-bool xml_image_list::buildrange(const CommandLine &cl, const ImageFileList &ifl, const unsigned int start, const unsigned int how_many)
+bool xml_image_list::buildrange(const CommandLine &cl, const ImageFileList &ifl, const size_t start, const size_t how_many)
 {
 	UNREFERENCED_PARAMETER(start);
 
 	std::wcout << L"\nCreating the XML files";
-	unsigned int num_pages = 1;
+	size_t num_pages = 1;
 	project_name = cl.ProjectName();
-	std::wstring xsl_filename = project_name + L"_xsl.xml";
+	std::wstring xsl_filename = project_name.wstring() + L"_xsl.xml";
 
 	std::list<ImageNames> i_names = ifl.RetrieveImageNames();
 	std::list<ImageNames>::size_type total_items = i_names.size();
@@ -219,7 +215,7 @@ bool xml_image_list::buildrange(const CommandLine &cl, const ImageFileList &ifl,
 	if (total_items % how_many) num_pages++;
 
 	const_cast<CommandLine&>(cl).NumberOfPages(num_pages);
-	std::vector<std::list<ImageNames> > vector_of_imagelists(num_pages);
+	std::vector<std::list<ImageNames>> vector_of_imagelists(num_pages);
 	std::vector<MSXML2::IXMLDOMDocumentPtr> multidocs(num_pages);
 	
 	unsigned int x = 0;
@@ -252,34 +248,33 @@ bool xml_image_list::buildrange(const CommandLine &cl, const ImageFileList &ifl,
 		ImageListAttributes(multidocs[i], cl, image_list_ptr,i, num_pages);
 
 		std::list<ImageNames>::iterator voi = vector_of_imagelists[i].begin();
-		unsigned int size = vector_of_imagelists[i].size();
+		size_t size = vector_of_imagelists[i].size();
 
 		for (std::list<ImageNames>::size_type count = 0; count < size; count++)
 		{
-			std::wstring image_name;
-			std::wstring thumb_name;
-			std::wstring display_name;
+				std::wstring image_name;
+				std::wstring thumb_name;
+				std::wstring display_name;
 
-			image_name = L"images/" + voi->GetLargeImageName();
-			thumb_name = L"thumbs/" + voi->GetThumbnailImageName();
+			image_name = L"images" / voi->GetLargeImageName();
+			thumb_name = L"thumbs" / voi->GetThumbnailImageName();
 			display_name = voi->GetOriginalName();
 
 			cr_indent(multidocs[i],1,image_list_ptr);
-			image_ptr = doc_ptr->createElement(L"image");
+				image_ptr = doc_ptr->createElement(L"image");
 
 			image_ptr->setAttribute(L"image-name",image_name.c_str());
 			image_ptr->setAttribute(L"thumb-name",thumb_name.c_str());
 			image_ptr->setAttribute(L"display-name",display_name.c_str());
 
-			image_list_ptr->appendChild(image_ptr);
+				image_list_ptr->appendChild(image_ptr);
 
 			voi++;
-		}
+			}
 		cr_indent(multidocs[i],0, image_list_ptr);	
 
-		wchar_t page[5];
-		_itow_s(i+1,page,5,10);
-		std::wstring xml_filename = cl.OutputPath() + project_name + L"-" + page + L".xml"; // plus a numeric indicator of file number!!!
+		std::wstring page = std::format(L"{}", i);
+		std::wstring xml_filename = cl.OutputPath() / (project_name.wstring() + L"-" + page + L".xml"); // plus a numeric indicator of file number!!!
 
 		save(multidocs[i],xml_filename,cl);
 	}
@@ -289,27 +284,23 @@ bool xml_image_list::buildrange(const CommandLine &cl, const ImageFileList &ifl,
 void xml_image_list::ImageListAttributes(MSXML2::IXMLDOMDocumentPtr doc_ptr, 
 										 const CommandLine& cl, 
 										 MSXML2::IXMLDOMElementPtr ilp, 
-										 const unsigned int index, 
-										 const unsigned int max_pages)
+										 const size_t index,
+										 const size_t max_pages)
 {
-
-	wchar_t prev[5];
-	wchar_t next[5];
-	wchar_t pnum[5];
-
 	std::wstring att1;
 	std::wstring att2;
 	std::wstring att3;
 	std::wstring att_temp;
 	std::wstring ext;
 
-	unsigned int previous = index;
-	if (previous == 0) previous = max_pages;
-	unsigned int nex = index + 2;
-	if (nex > max_pages) nex = 1;
-	unsigned int current = index + 1;
+	size_t  previous = index -1;
+	if (previous <= 0) previous = max_pages-1;
+	size_t  nex = index + 1;
+	if (nex >= max_pages) nex = 1;
+	size_t  current = index ;
 
-	_itow_s(current,pnum,5,10);
+	std::wstring pnum = std::format(L"{}", current);
+
 	att_temp = L"";
 	att1 = att_temp + pnum;
 
@@ -318,12 +309,13 @@ void xml_image_list::ImageListAttributes(MSXML2::IXMLDOMDocumentPtr doc_ptr,
 	else
 		ext = L".html";
 
-	
-	_itow_s(previous,prev,5,10);
-	att2 = cl.ProjectName() + L"-" + prev + ext;
+	std::wstring prev = std::format(L"{}", previous);
 
-	_itow_s(nex,next,5,10);
-	att3 = cl.ProjectName() + L"-" + next + ext;
+	att2 = cl.ProjectName().wstring() + L"-" + prev + ext;
+
+	std::wstring next = std::format(L"{}", nex);
+
+	att3 = cl.ProjectName().wstring() + L"-" + next + ext;
 
 	ilp->setAttribute(L"title",cl.PageTitle().c_str());
 	ilp->setAttribute(L"project",project_name.c_str());
@@ -341,7 +333,7 @@ void xml_image_list::cr_indent(MSXML2::IXMLDOMDocumentPtr doc_ptr, int il, MSXML
 	MSXML2::IXMLDOMTextPtr textPtr;
 	std::wstring level = L"\n";
 	
-	for (int i = 0; i < il; i++)
+	for (size_t  i = 0; i < il; i++)
 	{
 		level += L"\t";
 	}
@@ -456,7 +448,7 @@ bool xsl_image_list::build(const CommandLine& cl, const ImageFileList& ifl)
 	cr_indent(0,style_sheetPtr);
 	cr_indent(0,style_sheetPtr);
 	
-	std::wstring xsl_filename = cl.OutputPath()+cl.ProjectName()+L"_xsl.xml";
+	std::wstring xsl_filename = cl.OutputPath() / (cl.ProjectName().wstring() + L"_xsl.xml");
 	save(xsl_filename,cl);
 
 	return true;
@@ -590,7 +582,7 @@ void xsl_image_list::css_declaration(MSXML2::IXMLDOMElementPtr head_ptr)
 	}
 	else
 	{
-		std::wstring import = L"@import url('" + project_name + L".css');";
+		std::wstring import = L"@import url('" + project_name.wstring() + L".css');";
 		
 		e4ptr = doc_ptr->createElement(L"style");
 		e4ptr->setAttribute(L"type",L"text/css");
@@ -1079,24 +1071,23 @@ bool WebPageBuilder::build(const CommandLine& cl, const ImageFileList& ifl)
 	UNREFERENCED_PARAMETER(ifl);
 	
 	std::wcout << L"\nCreating your website!\n";
-	project_name = cl.OutputPath()+cl.ProjectName();
-	xsl_file = project_name + L"_xsl.xml"; 
-	css_file = project_name + L".css"; 
+	project_name = cl.OutputPath()/cl.ProjectName();
+	xsl_file = project_name.wstring() + L"_xsl.xml";
+	css_file = project_name.wstring() + L".css";
 
-	unsigned int total_pages = cl.NumberOfPages();
+	size_t total_pages = cl.NumberOfPages();
 	
-	for (unsigned int count = 0; count < total_pages; count++)
+	for (size_t count = 0; count < total_pages; count++)
 	{
 		std::wstring page_num = empty;
 		if (total_pages > 1)
 		{
-			wchar_t page[5];
-			_itow_s(count+1,page,5,10);
+			std::wstring page = std::format(L"{}", count);
 			page_num = L"-";
 			page_num += page;
 		}
-		xml_file = project_name + page_num + L".xml";
-		html_file = project_name + page_num + L".html";
+		xml_file = project_name.wstring() + (page_num + L".xml");
+		html_file = project_name.wstring() + (page_num + L".html");
 
 		internal_build(cl);
 	}
@@ -1161,7 +1152,7 @@ bool WebPageBuilder::save(const std::wstring& filename, const CommandLine& cl)
 		throw (xilg_error(xilgerr,xilgerr_file,xilgerr_line));
 	}
 	
-	DWORD BytesToWrite = html.length() * sizeof(wchar_t);
+	DWORD BytesToWrite = static_cast<DWORD>(html.length() * sizeof(wchar_t));
 	DWORD BytesWritten;
 	
 	BOOL success = WriteFile(hFile,html.c_str(),BytesToWrite,&BytesWritten,NULL);

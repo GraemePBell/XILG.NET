@@ -17,7 +17,7 @@ void WaterMarker::Save(const std::wstring& image_dst, const CommandLine &cl, Gdi
 		std::wcout << L" ... watermarking";
 
 	/////////////////////////////////////////////////////////////////////
-	std::wstring fb; 
+	path fb; 
 	MakeTempFileName(fb);
 	encoder = encoderClsid;
 
@@ -84,47 +84,47 @@ void WaterMarker::PositionWaterMark(Gdiplus::RectF& wm_pos,
 	
 	switch (cl.WatermarkPosition())
 	{
-		case center:
+		case position::center:
 		{
 			wm_pos.Offset(pos_h_center,pos_v_center);
 			break;
 		}
-		case tc:
+		case position::tc:
 		{
 			wm_pos.Offset(pos_h_center,pos_top);
 			break;
 		}
-		case lc:
+		case position::lc:
 		{
 			wm_pos.Offset(pos_left,pos_v_center);
 			break;
 		}
-		case cr:
+		case position::cr:
 		{
 			wm_pos.Offset(pos_right,pos_v_center);
 			break;
 		}
-		case bc:
+		case position::bc:
 		{
 			wm_pos.Offset(pos_h_center,pos_bottom);
 			break;
 		}
-		case bl:
+		case position::bl:
 		{
 			wm_pos.Offset(pos_left,pos_bottom);
 			break;
 		}
-		case tr:
+		case position::tr:
 		{
 			wm_pos.Offset(pos_right,pos_top);
 			break;
 		}
-		case tl:
+		case position::tl:
 		{
 			wm_pos.Offset(pos_left,pos_top);
 			break;
 		}
-		case br:
+		case position::br:
 		default:
 		{
 			wm_pos.Offset(pos_right,pos_bottom);

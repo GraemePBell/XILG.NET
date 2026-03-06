@@ -51,45 +51,45 @@ std::wstring& AddBackSlash(std::wstring& w)
 	return w;
 }
 
+//
+//std::list<std::wstring>& AddBackSlashes(std::list<std::wstring>& w)
+//{
+//	for_each(w.begin(),w.end(),AddBackSlash);
+//	return w;
+//}
+//
 
-std::list<std::wstring>& AddBackSlashes(std::list<std::wstring>& w)
-{
-	for_each(w.begin(),w.end(),AddBackSlash);
-	return w;
-}
+//std::wstring& StripExtension(std::wstring& w)
+//{
+//	std::basic_string <wchar_t>::size_type index;
+//
+//	index = w.find_last_of(L".");
+//	w.erase(index);
+//	return w;
+//}
 
-
-std::wstring& StripExtension(std::wstring& w)
-{
-	std::basic_string <wchar_t>::size_type index;
-
-	index = w.find_last_of(L".");
-	w.erase(index);
-	return w;
-}
-
-std::wstring& AddExtension(std::wstring& w, const std::wstring& ext)
-{
-	std::wstring temp = w;
-	temp += L".";
-	temp += ext;
-	w = temp;
-	return w;
-}
-
-std::wstring& ReplaceExtension(std::wstring& w, const std::wstring& ext)
-{
-	std::wstring temp = w;
-	temp = StripExtension(temp);
-	temp = AddExtension(temp,ext);
-	w = temp;
-	return w;
-}
-
+//std::wstring& AddExtension(std::wstring& w, const std::wstring& ext)
+//{
+//	std::wstring temp = w;
+//	temp += L".";
+//	temp += ext;
+//	w = temp;
+//	return w;
+//}
+//
+//std::wstring& ReplaceExtension(std::wstring& w, const std::wstring& ext)
+//{
+//	std::wstring temp = w;
+//	temp = StripExtension(temp);
+//	temp = AddExtension(temp,ext);
+//	w = temp;
+//	return w;
+//}
+//
 /////////////////////////////////////////////////////////////////////
 
 
-std::wstring& MakeTempFileName(std::wstring& buffer)
+const path& MakeTempFileName(path& buffer)
 {
 	std::wstring xilgerr;
 	wchar_t path_buffer[MAX_PATH];

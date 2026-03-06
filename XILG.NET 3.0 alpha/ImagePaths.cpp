@@ -22,46 +22,42 @@ ImagePaths::~ImagePaths()
 
 }
 
-void ImagePaths::SetOriginalFolder(const std::wstring& foldername)
+void ImagePaths::SetOriginalFolder(const path& foldername)
 {
-	std::wstring temp(foldername);
-	original_image_folder = AddBackSlash(temp);
+	original_image_folder = foldername;
 }
 
-void ImagePaths::SetOriginalFolders(const std::list<std::wstring>& foldernames)
+void ImagePaths::SetOriginalFolders(const std::list<path>& foldernames)
 {
-	std::list<std::wstring> temp(foldernames);
-	input_folders = AddBackSlashes(temp);
+	input_folders = foldernames;
 }
 
-void ImagePaths::SetLargeImageFolder(const std::wstring& foldername)
+void ImagePaths::SetLargeImageFolder(const path& foldername)
 {
-	std::wstring temp(foldername);
-	large_image_folder = AddBackSlash(temp);
+	large_image_folder = foldername;
 }
 
-void ImagePaths::SetThumbnailImageFolder(const std::wstring& foldername)
+void ImagePaths::SetThumbnailImageFolder(const path& foldername)
 {
-	std::wstring temp(foldername);
-	thumbnail_image_folder = AddBackSlash(temp);
+	thumbnail_image_folder = foldername;
 }
 
-const std::wstring& ImagePaths::GetOriginalFolder() const
+const path& ImagePaths::GetOriginalFolder() const
 {
 	return original_image_folder;
 }
 
-const std::list<std::wstring>& ImagePaths::GetOriginalFolders() const
+const std::list<path>& ImagePaths::GetOriginalFolders() const
 {
 	return input_folders;
 }
 
-const std::wstring& ImagePaths::GetLargeImageFolder() const
+const path& ImagePaths::GetLargeImageFolder() const
 {
 	return large_image_folder;
 }
 
-const std::wstring& ImagePaths::GetThumbnailImageFolder() const
+const path& ImagePaths::GetThumbnailImageFolder() const
 {
 	return thumbnail_image_folder;
 }
@@ -72,47 +68,46 @@ const std::wstring& ImagePaths::GetThumbnailImageFolder() const
 ImageNames::ImageNames() { }
 ImageNames::~ImageNames() { }
 
-void ImageNames::SetOriginalName(const std::wstring& filename)
+void ImageNames::SetOriginalName(const path& filename)
 {
 	original_name = filename;
 }
 
-void ImageNames::SetOriginalPath(const std::wstring& filename)
+void ImageNames::SetOriginalPath(const path& filename)
 {
 	original_path = filename;
 }
 
 
-void ImageNames::SetLargeImageName(const std::wstring& filename)
+void ImageNames::SetLargeImageName(const path& filename)
 {
 	large_image_name = filename;
-	ReplaceExtension(large_image_name,std::wstring(L"jpg"));
-
+	large_image_name.replace_extension(L".jpg");
 }
 
-void ImageNames::SetThumbnailImageName(const std::wstring& filename)
+void ImageNames::SetThumbnailImageName(const path& filename)
 {
 	thumbnail_image_name = filename;
-	ReplaceExtension(thumbnail_image_name,std::wstring(L"jpg"));
+	thumbnail_image_name.replace_extension(L".jpg");
 }
 
-const std::wstring& ImageNames::GetOriginalName()
+const path& ImageNames::GetOriginalName()
 {
 	return original_name;
 }
 
-const std::wstring& ImageNames::GetOriginalPath()
+const path& ImageNames::GetOriginalPath()
 {
 	return original_path;
 }
 
 
-const std::wstring& ImageNames::GetLargeImageName()
+const path& ImageNames::GetLargeImageName()
 {
 	return large_image_name;
 }
 
-const std::wstring& ImageNames::GetThumbnailImageName()
+const path& ImageNames::GetThumbnailImageName()
 {
 	return thumbnail_image_name;
 }

@@ -14,17 +14,17 @@ class PictureHandler
 public:
 	PictureHandler();
 	virtual ~PictureHandler();
-	std::pair<int,int> BiggestImageDimensions() const;
+	std::pair<size_t, size_t> BiggestImageDimensions() const;
 protected:
-	void BiggestWidth(int w);
-	void BiggestHeight(int h);
-	int BiggestWidth();
-	int BiggestHeight();
+	void BiggestWidth(size_t w);
+	void BiggestHeight(size_t h);
+	size_t BiggestWidth();
+	size_t BiggestHeight();
 	int GetEncoderClsid(const std::wstring& format, CLSID* pClsid);
 
 private:
-	int biggest_height;
-	int biggest_width;
+	size_t biggest_height;
+	size_t biggest_width;
 	
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplus_token;

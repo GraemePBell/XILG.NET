@@ -67,12 +67,12 @@ System::Void progress_dialog::ProxyToCommand(CommandLine& cl)
 	cl.Recurse(params->recurse);
 	
 	p = PtrToStringChars(params->banner);
-	cl.BannerImage(p);
+	cl.BannerImage(path(p));
 
 	cl.BannerHeight(params->banner_height);
 
 	p = PtrToStringChars(params->usercss);
-	cl.UserCSS(p);
+	cl.UserCSS(path(p));
 
 	p = PtrToStringChars(params->html_background_image_position);
 	cl.HtmlBackgroundImagePosition(p);
@@ -86,10 +86,10 @@ System::Void progress_dialog::ProxyToCommand(CommandLine& cl)
 	cl.ImagesPerPage(params->pics_per_page);
 
 	p = PtrToStringChars(params->page_title);
-	cl.PageTitle(p);
+	cl.PageTitle(path(p));
 
 	p = PtrToStringChars(params->water_mark);
-	cl.WaterMark(p);
+	cl.WaterMark(path(p));
 	cl.WatermarkAlpha(params->wm_alpha);
 	cl.WatermarkPosition(params->pos);
 	cl.WatermarkScale(params->wm_scale);
@@ -98,15 +98,15 @@ System::Void progress_dialog::ProxyToCommand(CommandLine& cl)
 	for (int x = 0; x < count; x++)
 	{
 		p = PtrToStringChars(params->input_paths[x]);
-		cl.InputPath(p);
+		cl.InputPath(path(p));
 	}
 
 	p = PtrToStringChars(params->project_name);
-	cl.ProjectName(p);
+	cl.ProjectName(path(p));
 
 	String^ op = params->output_path + L"\\" + params->project_name;
 	p = PtrToStringChars(op);
-	cl.OutputPath(p);
+	cl.OutputPath(path(p));
 
 	cl.Verbose(false);
 }
@@ -179,7 +179,7 @@ System::Void progress_dialog::backgroundWorker1_DoWork(System::Object^  sender, 
 		backgroundWorker1->ReportProgress(100);
 		backgroundWorker1->ReportProgress(0);
 
-		std::pair<int,int> bts = tc.BiggestImageDimensions();
+		std::pair<size_t, size_t > bts = tc.BiggestImageDimensions();
 		
 		basic_xmlfile* bmx = new xml_image_list;
 		bmx->build(cl,ifl);

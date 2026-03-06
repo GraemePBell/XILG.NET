@@ -7,8 +7,8 @@ public:
 	build_css(void);
 	~build_css(void);
 	
-	void thumbsize_x(int x);
-	void thumbsize_y(int y);
+	void thumbsize_x(size_t  x);
+	void thumbsize_y(size_t  y);
 
 	std::wstring& html(std::wstring& st, const CommandLine& cl);
 	std::wstring& h1(std::wstring &st, const CommandLine &cl);
@@ -34,6 +34,6 @@ protected:
 private:
 	std::wstring nlf;
 	std::wstring temp;
-	int biggest_thumb_x;
-	int biggest_thumb_y;
+	size_t  biggest_thumb_x;
+	size_t  biggest_thumb_y;
 };

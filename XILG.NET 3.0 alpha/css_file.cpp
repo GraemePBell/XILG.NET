@@ -21,7 +21,8 @@ css_file::~css_file(){}
 
 void css_file::build(const CommandLine& cl)
 {
-	css_filename = cl.OutputPath() + cl.ProjectName() + L".css";
+	css_filename = cl.OutputPath() / cl.ProjectName();
+	css_filename.replace_extension(L".css");
 	std::wstring user_css = cl.UserCSS();
 	
 	if (user_css == empty)
@@ -75,7 +76,7 @@ void css_file::build(const CommandLine& cl)
 	}
 }
 
-void css_file::save(std::wstring &filename)
+void css_file::save(path &filename)
 {
 	HANDLE hFile; 
 	std::wstring xilgerr;
@@ -90,7 +91,7 @@ void css_file::save(std::wstring &filename)
 		std::wstring xilgerr_file = widen(__FILE__);
 		throw (xilg_error(xilgerr,xilgerr_file,xilgerr_line));
 	}
-	DWORD BytesToWrite = css.length() * sizeof(wchar_t);
+	DWORD BytesToWrite = static_cast<DWORD>(css.length() * sizeof(wchar_t));
 	DWORD BytesWritten;
 	
 	BOOL success = WriteFile(hFile,css.c_str(),BytesToWrite,&BytesWritten,NULL);
@@ -102,7 +103,7 @@ void css_file::save(std::wstring &filename)
 		_itow_s(err,buffer,0x10,10);
 
 		xilgerr = L" WriteFile failed!: ";
-		xilgerr += filename;
+		xilgerr += filename.wstring();
 		xilgerr += L"\nGetLastError returned: ";
 		xilgerr += buffer;
 		
@@ -117,7 +118,7 @@ void css_file::save(std::wstring &filename)
 
 }
 
-void css_file::BiggestThumbSize(std::pair<int,int>& bts)
+void css_file::BiggestThumbSize(std::pair<size_t, size_t >& bts)
 {
 	biggest_thumb_x = bts.first;
 	biggest_thumb_y = bts.second;

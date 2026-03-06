@@ -12,12 +12,12 @@ build_css::~build_css(void)
 {
 }
 
-void build_css::thumbsize_x(int x)
+void build_css::thumbsize_x(size_t  x)
 {
 	biggest_thumb_x = x;
 }
 
-void build_css::thumbsize_y(int y)
+void build_css::thumbsize_y(size_t  y)
 {
 	biggest_thumb_y = y;
 }
@@ -176,9 +176,7 @@ std::wstring& build_css::div_banner(std::wstring &st, const CommandLine &cl)
 	std::wstring bi = L"images/";
 	bi += PathFindFileName(cl.BannerImage().c_str());
 
-	wchar_t buf1[0x10];
-	_itow_s(cl.BannerHeight(),buf1,0x10,10);
-	std::wstring height = buf1;
+	std::wstring height = std::format(L"{}", cl.BannerHeight());;
 	height += L"px";
 
 	temp = L"div.banner";
@@ -192,9 +190,8 @@ std::wstring& build_css::div_banner(std::wstring &st, const CommandLine &cl)
 	return st;
 }
 
-std::wstring& build_css::h2(std::wstring &st, const CommandLine &cl)
+std::wstring& build_css::h2(std::wstring &st, [[maybe_unused]] const CommandLine &cl)
 {
-	UNREFERENCED_PARAMETER(cl);
 	temp = L"h2";
 	st = create_selector(temp);
 	st = insert_prop_dec(st,L"text-align",L"center");
@@ -215,9 +212,8 @@ std::wstring& build_css::p(std::wstring &st, const CommandLine &cl)
 	return st;
 }
 
-std::wstring& build_css::p_boilerplate(std::wstring &st, const CommandLine &cl)
+std::wstring& build_css::p_boilerplate(std::wstring &st, [[maybe_unused]] const CommandLine &cl)
 {
-	UNREFERENCED_PARAMETER(cl);
 	temp = L"p.boilerplate";
 	st = create_selector(temp);
 	st = insert_prop_dec(st,L"font-size",L"xx-small");
@@ -226,17 +222,10 @@ std::wstring& build_css::p_boilerplate(std::wstring &st, const CommandLine &cl)
 	return st;
 }
 
-std::wstring& build_css::div_float(std::wstring &st, const CommandLine &cl)
+std::wstring& build_css::div_float(std::wstring &st, [[maybe_unused]] const CommandLine &cl)
 {
-	UNREFERENCED_PARAMETER(cl);
-	wchar_t buf1[0xF];
-	wchar_t buf2[0xF];
-
-	_itow_s(biggest_thumb_x,buf1,0xF,10);
-	_itow_s(biggest_thumb_y,buf2,0xF,10);
-
-	std::wstring width = buf1;
-	std::wstring height = buf2;
+	std::wstring width = std::format(L"{}", biggest_thumb_x);
+	std::wstring height = std::format(L"{}", biggest_thumb_y);
 	width += L"px";
 	height += L"px";
 	
@@ -250,9 +239,8 @@ std::wstring& build_css::div_float(std::wstring &st, const CommandLine &cl)
 	return st;
 }
 
-std::wstring& build_css::div_container(std::wstring &st, const CommandLine &cl)
+std::wstring& build_css::div_container(std::wstring &st, [[maybe_unused]] const CommandLine &cl)
 {
-	UNREFERENCED_PARAMETER(cl);
 	temp = L"div.container";
 	st = create_selector(temp);
 	st = insert_prop_dec(st,L"text-align",L"center");
@@ -262,9 +250,8 @@ std::wstring& build_css::div_container(std::wstring &st, const CommandLine &cl)
 	return st;
 }
 
-std::wstring& build_css::div_spacer(std::wstring &st, const CommandLine &cl)
+std::wstring& build_css::div_spacer(std::wstring &st, [[maybe_unused]] const CommandLine &cl)
 {
-	UNREFERENCED_PARAMETER(cl);
 	temp = L"div.spacer";
 	st = create_selector(temp);
 	st = insert_prop_dec(st,L"clear",L"both");
@@ -315,9 +302,8 @@ std::wstring& build_css::anchor_link(std::wstring &st, const CommandLine &cl)
 	return st;
 }
 
-std::wstring& build_css::anchor_active(std::wstring &st, const CommandLine &cl)
+std::wstring& build_css::anchor_active(std::wstring &st, [[maybe_unused]] const CommandLine &cl)
 {
-	UNREFERENCED_PARAMETER(cl);
 	temp = L"a:active";
 	st = create_selector(temp);
 	st = insert_prop_dec(st,L"color",L"red");
@@ -325,9 +311,8 @@ std::wstring& build_css::anchor_active(std::wstring &st, const CommandLine &cl)
 	return st;
 }
 
-std::wstring& build_css::anchor_visited(std::wstring &st, const CommandLine &cl)
+std::wstring& build_css::anchor_visited(std::wstring &st, [[maybe_unused]] const CommandLine &cl)
 {
-	UNREFERENCED_PARAMETER(cl);
 	temp = L"a:visited";
 	st = create_selector(temp);
 	st = insert_prop_dec(st,L"color",L"purple");
@@ -335,9 +320,8 @@ std::wstring& build_css::anchor_visited(std::wstring &st, const CommandLine &cl)
 	return st;
 }
 
-std::wstring& build_css::anchor_hover(std::wstring &st, const CommandLine &cl)
+std::wstring& build_css::anchor_hover(std::wstring &st, [[maybe_unused]] const CommandLine &cl)
 {
-	UNREFERENCED_PARAMETER(cl);
 	temp = L"a:hover";
 	st = create_selector(temp);
 	st = insert_prop_dec(st,L"color",L"red");
@@ -345,9 +329,8 @@ std::wstring& build_css::anchor_hover(std::wstring &st, const CommandLine &cl)
 	return st;
 }
 
-std::wstring& build_css::dot_center(std::wstring &st, const CommandLine &cl)
+std::wstring& build_css::dot_center(std::wstring &st, [[maybe_unused]] const CommandLine &cl)
 {
-	UNREFERENCED_PARAMETER(cl);
 	temp = L".center";
 	st = create_selector(temp);
 	st = insert_prop_dec(st,L"text-align",L"center");
@@ -355,9 +338,8 @@ std::wstring& build_css::dot_center(std::wstring &st, const CommandLine &cl)
 	return st;
 }
 
-std::wstring& build_css::dot_link(std::wstring &st, const CommandLine &cl)
+std::wstring& build_css::dot_link(std::wstring &st, [[maybe_unused]] const CommandLine &cl)
 {
-	UNREFERENCED_PARAMETER(cl);
 	temp = L".link";
 	st = create_selector(temp);
 	st = insert_prop_dec(st,L"width",L"50%");

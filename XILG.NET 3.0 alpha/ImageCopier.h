@@ -26,8 +26,8 @@ public:
 	ImageCopier();
 	virtual ~ImageCopier();
 private:
-	std::wstring image_src;
-	std::wstring image_dst;
+	path image_src;
+	path image_dst;
 	CLSID encoderClsid;
 	WaterMarker* wm;
 	int tick;

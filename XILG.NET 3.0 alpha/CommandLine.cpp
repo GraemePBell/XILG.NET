@@ -440,7 +440,7 @@ void CommandLine::Defaults()
 	OnlyHTML(false);
 	NoHTML(false);
 	WaterMark(empty);
-	WatermarkPosition(br);
+	WatermarkPosition(position::br);
 	WatermarkAlpha(0.2f);
 	WatermarkScale(0.2f);
 	NoCaption(false);
@@ -475,28 +475,27 @@ void CommandLine::Defaults()
 }
 
 
-const std::wstring& CommandLine::ProjectName() const
+const path& CommandLine::ProjectName() const
 {
 	return project_name;
 }
 
-void CommandLine::ProjectName(const std::wstring p_name)
+void CommandLine::ProjectName(const path& p_name)
 {
 	project_name = p_name;
 //	replace(project_name.begin(),project_name.end(),L' ',L'_');
 }
 
-void CommandLine::PageTitle(const std::wstring p_name)
+void CommandLine::PageTitle(const path& p_name)
 {
 	page_title = p_name;
 }
 
-void CommandLine::InputPath(const std::wstring i_path)
+void CommandLine::InputPath(const path& i_path)
 {
 	if (PathIsDirectory(i_path.c_str()))
 	{
 		input_path = i_path;
-		AddBackSlash(input_path);
 		InsertInputPath(input_path);
 		InputStatus(true);
 	}
@@ -511,26 +510,25 @@ void CommandLine::InputPath(const std::wstring i_path)
 	}
 }
 
-const std::wstring& CommandLine::InputPath() const
+const path& CommandLine::InputPath() const
 {
 	return input_paths.front();
 }
 
 
-void CommandLine::OutputPath(const std::wstring o_path)
+void CommandLine::OutputPath(const path& o_path)
 {
 	output_path = o_path;
-	AddBackSlash(output_path);
 	OutputStatus(true);
 }
 
-const std::wstring& CommandLine::OutputPath() const
+const path& CommandLine::OutputPath() const
 {
 	return output_path;
 }
 
 
-const std::wstring& CommandLine::PageTitle() const
+const path& CommandLine::PageTitle() const
 {
 	return page_title;
 }
@@ -678,12 +676,12 @@ position CommandLine::WatermarkPosition(void) const
 }
 
 
-int CommandLine::ThumbWidth() const
+size_t CommandLine::ThumbWidth() const
 {
 	return thumb_width;
 }
 
-int CommandLine::ThumbHeight() const
+size_t CommandLine::ThumbHeight() const
 {
 	return thumb_height;
 }
@@ -750,12 +748,12 @@ const std::wstring& CommandLine::ThumbWidthString() const
 
 
 
-const std::wstring& CommandLine::WaterMark() const
+const path& CommandLine::WaterMark() const
 {
 	return water_mark;
 }
 
-void CommandLine::WaterMark(const std::wstring& wm)
+void CommandLine::WaterMark(const path& wm)
 {
 	water_mark = wm;
 }
@@ -768,47 +766,47 @@ void CommandLine::ParseWmPos(const std::wstring& wmpos)
 	
 	if (wmp == L"tl")
 	{
-		WatermarkPosition(tl);
+		WatermarkPosition(position::tl);
 		valid = true;
 	}
 	if (wmp == L"tc")
 	{
-		WatermarkPosition(tc);	
+		WatermarkPosition(position::tc);
 		valid = true;
 	}
 	if (wmp == L"tr")
 	{
-		WatermarkPosition(tr);	
+		WatermarkPosition(position::tr);
 		valid = true;
 	}
 	if (wmp == L"cl")
 	{
-		WatermarkPosition(lc);	
+		WatermarkPosition(position::lc);
 		valid = true;
 	}
 	if (wmp == L"center" || wmp == L"centre")
 	{
-		WatermarkPosition(center);	
+		WatermarkPosition(position::center);
 		valid = true;
 	}
 	if (wmp == L"cr")
 	{
-		WatermarkPosition(cr);	
+		WatermarkPosition(position::cr);
 		valid = true;
 	}
 	if (wmp == L"bl")
 	{
-		WatermarkPosition(bl);	
+		WatermarkPosition(position::bl);
 		valid = true;
 	}
 	if (wmp == L"bc")
 	{
-		WatermarkPosition(bc);	
+		WatermarkPosition(position::bc);
 		valid = true;
 	}
 	if (wmp == L"br")
 	{
-		WatermarkPosition(br);	
+		WatermarkPosition(position::br);
 		valid = true;
 	}
 	if (!valid)
@@ -840,7 +838,7 @@ const float CommandLine::WatermarkScale() const
 	return wm_scale;
 }
 
-void CommandLine::SetWM(const std::wstring& wsr)
+void CommandLine::SetWM(const path& wsr)
 {
 	if (PathFileExists(wsr.c_str()))
 	{
@@ -983,12 +981,12 @@ void CommandLine::HtmlBackgroundImagePosition(const std::wstring &pos)
 	html_background_image_position = pos;
 }
 
-const std::wstring& CommandLine::BannerImage(void) const
+const path& CommandLine::BannerImage(void) const
 {
 	return banner;
 }
 
-void CommandLine::BannerImage(const std::wstring &banner_path)
+void CommandLine::BannerImage(const path &banner_path)
 {
 	banner = banner_path;
 }
@@ -1037,7 +1035,7 @@ void CommandLine::NumberOfPages(const size_t h)
 	number_of_pages = h;
 }
 
-void CommandLine::InsertInputPath(const std::wstring &i_path)
+void CommandLine::InsertInputPath(const path &i_path)
 {
 	input_paths.push_back(i_path);
 	input_paths.unique();
@@ -1048,7 +1046,7 @@ const size_t CommandLine::NumberOfInputPaths() const
 	return input_paths.size();
 }
 
-const std::list<std::wstring>& CommandLine::InputPaths() const
+const std::list<path>& CommandLine::InputPaths() const
 {
 	return input_paths;
 }
@@ -1084,12 +1082,12 @@ const bool CommandLine::Diagnostic() const
 	return diagnostic;
 }
 
-void CommandLine::UserCSS(const std::wstring& csspath)
+void CommandLine::UserCSS(const path& csspath)
 {
 	usercss = csspath;
 }
 
-const std::wstring& CommandLine::UserCSS(void) const
+const path& CommandLine::UserCSS(void) const
 {
 	return usercss;
 }

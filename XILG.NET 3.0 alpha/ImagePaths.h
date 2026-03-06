@@ -12,7 +12,7 @@
 //#pragma warning(disable:4786)
 
 #include <string>
-
+#include <filesystem>
 
 ////////////////
 class ImagePaths  
@@ -21,24 +21,24 @@ public:
 	ImagePaths();
 	virtual ~ImagePaths();
 
-	void SetOriginalFolder(const std::wstring& foldername);
-	void SetLargeImageFolder(const std::wstring& foldername);
-	void SetThumbnailImageFolder(const std::wstring& foldername);
+	void SetOriginalFolder(const path& foldername);
+	void SetLargeImageFolder(const path& foldername);
+	void SetThumbnailImageFolder(const path& foldername);
 
-	void SetOriginalFolders(const std::list<std::wstring>& folders);
+	void SetOriginalFolders(const std::list<path>& folders);
 
-	const std::wstring& GetOriginalFolder() const;
-	const std::wstring& GetLargeImageFolder() const;
-	const std::wstring& GetThumbnailImageFolder() const;
+	const path& GetOriginalFolder() const;
+	const path& GetLargeImageFolder() const;
+	const path& GetThumbnailImageFolder() const;
 
-	const std::list<std::wstring>& GetOriginalFolders() const;
+	const std::list<path>& GetOriginalFolders() const;
 
 private:
-	std::wstring original_image_folder;
-	std::wstring large_image_folder;
-	std::wstring thumbnail_image_folder;
+	path original_image_folder;
+	path large_image_folder;
+	path thumbnail_image_folder;
 
-	std::list<std::wstring> input_folders;
+	std::list<path> input_folders;
 };
 
 class ImageNames
@@ -47,21 +47,21 @@ public:
 	ImageNames();
 	virtual ~ImageNames();
 
-	void SetOriginalName(const std::wstring& filename);
-	void SetLargeImageName(const std::wstring& filename);
-	void SetThumbnailImageName(const std::wstring& filename);
-	void SetOriginalPath(const std::wstring& filename);
+	void SetOriginalName(const path& filename);
+	void SetLargeImageName(const path& filename);
+	void SetThumbnailImageName(const path& filename);
+	void SetOriginalPath(const path& filename);
 
-	const std::wstring& GetOriginalName();
-	const std::wstring& GetLargeImageName();
-	const std::wstring& GetThumbnailImageName();
-	const std::wstring& GetOriginalPath();
+	const path& GetOriginalName();
+	const path& GetLargeImageName();
+	const path& GetThumbnailImageName();
+	const path& GetOriginalPath();
 
 private:
-	std::wstring original_name;
-	std::wstring large_image_name;
-	std::wstring thumbnail_image_name;
-	std::wstring original_path;
+	path original_name;
+	path large_image_name;
+	path thumbnail_image_name;
+	path original_path;
 };
 
 

@@ -28,9 +28,9 @@ PictureHandler::~PictureHandler()
 	Gdiplus::GdiplusShutdown(gdiplus_token);
 }
 
-std::pair<int,int> PictureHandler::BiggestImageDimensions() const
+std::pair<size_t, size_t> PictureHandler::BiggestImageDimensions() const
 {
-	std::pair<int,int> bid(biggest_width,biggest_height);
+	std::pair<size_t, size_t> bid(biggest_width,biggest_height);
 	return bid;
 }
 
@@ -39,48 +39,42 @@ int PictureHandler::GetEncoderClsid(const std::wstring& format, CLSID* pClsid)
    UINT  num = 0;          // number of image encoders
    UINT  size = 0;         // size of the image encoder array in bytes
 
-   Gdiplus::ImageCodecInfo* pImageCodecInfo = NULL;
 
    Gdiplus::GetImageEncodersSize(&num, &size);
-   if(size == 0)
-      return -1;  // Failure
 
-   pImageCodecInfo = (Gdiplus::ImageCodecInfo*)(malloc(size));
-   if(pImageCodecInfo == NULL)
-      return -1;  // Failure
+   std::unique_ptr<BYTE[]> buffer(new BYTE[size]);
+   Gdiplus::ImageCodecInfo* pImageCodecInfo = reinterpret_cast<Gdiplus::ImageCodecInfo*>(buffer.get());
 
-   Gdiplus::GetImageEncoders(num, size, pImageCodecInfo);
+   GetImageEncoders(num, size, pImageCodecInfo);
 
    for(UINT j = 0; j < num; ++j)
    {
-      if( wcscmp(pImageCodecInfo[j].MimeType, format.c_str()) == 0 )
+      if( wcsncmp(pImageCodecInfo[j].MimeType, format.c_str(),size) == 0 )
       {
          *pClsid = pImageCodecInfo[j].Clsid;
-         free(pImageCodecInfo);
          return j;  // Success
       }    
    }
 
-   free(pImageCodecInfo);
    return -1;  // Failure
 }
 
-void PictureHandler::BiggestHeight(int h)
+void PictureHandler::BiggestHeight(size_t h)
 {
 	biggest_height = h;
 }
 
-int PictureHandler::BiggestHeight()
+size_t PictureHandler::BiggestHeight()
 {
 	return biggest_height;
 }
 
-void PictureHandler::BiggestWidth(int w)
+void PictureHandler::BiggestWidth(size_t w)
 {
 	biggest_width = w;
 }
 
-int PictureHandler::BiggestWidth()
+size_t PictureHandler::BiggestWidth()
 {
 	return biggest_width;
 }

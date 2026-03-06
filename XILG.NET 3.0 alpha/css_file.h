@@ -19,16 +19,16 @@ public:
 	virtual ~css_file();
 
 	void build(const CommandLine& cl);
-	void BiggestThumbSize(std::pair<int,int>& bts);
+	void BiggestThumbSize(std::pair<size_t, size_t >& bts);
 
 private:
 
-	int biggest_thumb_x;
-	int biggest_thumb_y;
-	void save(std::wstring &filename);
+	size_t  biggest_thumb_x;
+	size_t  biggest_thumb_y;
+	void save(path &filename);
 	std::wofstream css_out;
 	std::wstring css;
-	std::wstring css_filename;
+	path css_filename;
 };
 
 #endif // !defined(AFX_CSS_FILE_H__DA82169E_0E92_47E7_B131_A24F5D00B6B6__INCLUDED_)

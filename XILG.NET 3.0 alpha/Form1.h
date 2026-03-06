@@ -43,6 +43,11 @@ namespace XILGNET30alpha {
 			{
 				delete components;
 			}
+			if (ln != nullptr)
+			{
+				delete ln;   // This calls IDisposable::Dispose()
+				ln = nullptr;
+			}
 		}
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
@@ -303,6 +308,10 @@ namespace XILGNET30alpha {
 	private: System::Void SetHeaderStyles();
 	private: System::Void SetBodyStyles();
 	private: position WatermarkPos();
+		   [System::Diagnostics::CodeAnalysis::SuppressMessage(
+			   "Microsoft.Security",
+			   "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>

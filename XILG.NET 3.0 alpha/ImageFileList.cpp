@@ -28,7 +28,7 @@ void ImageFileList::GatherImageNames()
 {
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind;
-	std::list<std::wstring>::iterator first;
+//	std::list<path>::iterator first;
 	pathnames = GetOrgPaths();
 	
 	if (recurse)
@@ -37,26 +37,23 @@ void ImageFileList::GatherImageNames()
 	pathnames.sort();
 	pathnames.unique();
 	
-	first = pathnames.begin();
+	// first = pathnames.begin();
 
-	std::wstring pathname;// = GetOrgPath();
+	path pathname;// = GetOrgPath();
 	
-	unsigned int number_of_paths = pathnames.size();
+	size_t number_of_paths = pathnames.size();
 	
-	for (unsigned int counter = 0; counter < number_of_paths; counter++)
+	for (const auto& pathname : pathnames)
 	{
 		bool finished_find = false;
-		// (*first) += L"*.*"
-		pathname = (*first);
-		pathname += L"*.*";
-		
-		hFind = FindFirstFile(pathname.c_str(), &FindFileData);
+		path wildcarded = pathname.wstring() + L"/*.*";
+		wildcarded = wildcarded.make_preferred();
+
+		hFind = FindFirstFile(wildcarded.c_str(), &FindFileData);
 		if (hFind == INVALID_HANDLE_VALUE) 
 		{
 			DWORD GLE = GetLastError();
-			wchar_t buf[0x10];
-			_itow_s(GLE,buf,0x10,10);
-
+			std::wstring buf = std::format(L" {}!\n",GLE);
 			std::wstring xilgerr = L"FindFirstFile returned INVALID_HANDLE_VALUE\n";
 			xilgerr += L"GetLastError returns: ";
 			xilgerr += buf;
@@ -72,7 +69,7 @@ void ImageFileList::GatherImageNames()
 				DWORD error = GetLastError();
 				if (error == ERROR_NO_MORE_FILES) 
 				{ 
-					if (!numfiles && counter == number_of_paths)
+					if (!numfiles == number_of_paths)
 					{
 						std::wstring xilgerr = L"No images found in the input folders!"; 
 						std::wstring xilgerr_line = stringer(__LINE__);
@@ -84,8 +81,7 @@ void ImageFileList::GatherImageNames()
 				else
 				{
 					DWORD GLE = GetLastError();
-					wchar_t buf[0x10];
-					_itow_s(GLE,buf,0x10,10);
+					std::wstring buf = std::format(L" {}!\n", GLE);
 					std::wstring xilgerr = L"FindNextFile failed\n";
 					xilgerr += L"GetLastError returns: ";
 					xilgerr += buf;
@@ -101,7 +97,7 @@ void ImageFileList::GatherImageNames()
 			{
 				std::wstring buf1 = FindFileData.cFileName;
 				std::transform(buf1.begin(),buf1.end(),buf1.begin(),tolower);
-				const wchar_t* tmp = PathFindSuffixArray(buf1.c_str(), suffixes, suffix_list.size());
+				auto tmp = PathFindSuffixArray(buf1.c_str(), suffixes, static_cast<int>(suffix_list.size()));
 				
 				if (tmp)
 				{
@@ -113,7 +109,7 @@ void ImageFileList::GatherImageNames()
 
 					ImageNames temp;
 					temp.SetOriginalName(FindFileData.cFileName);
-					temp.SetOriginalPath((*first));
+					temp.SetOriginalPath(pathname);
 
 					temp.SetLargeImageName(li_name);
 					temp.SetThumbnailImageName(th_name);
@@ -124,7 +120,6 @@ void ImageFileList::GatherImageNames()
 			}
 		}
 		FindClose(hFind);
-		first++;
 	}
 
 	if (!numfiles)
@@ -144,49 +139,49 @@ void ImageFileList::SetPathInfo(const CommandLine& cl)
 	i_paths.SetOriginalFolders(cl.InputPaths());
 	///////////////////////////////////////////////
 
-	i_paths.SetLargeImageFolder(cl.OutputPath()+L"images");
-	i_paths.SetThumbnailImageFolder(cl.OutputPath()+L"thumbs");
+	i_paths.SetLargeImageFolder(cl.OutputPath() / L"images");
+	i_paths.SetThumbnailImageFolder(cl.OutputPath() / L"thumbs");
 }
 
-//void ImageFileList::SetOrgPath(const std::wstring &orgpath)
-//{
-////	i_paths.SetOriginalFolder(orgpath);
-//}
+void ImageFileList::SetOrgPath(const path &orgpath)
+{
+	i_paths.SetOriginalFolder(orgpath);
+}
 
 //////////////////////////////////////////////////////////////////////
-void ImageFileList::SetOrgPaths(const std::list<std::wstring> &orgpath)
+void ImageFileList::SetOrgPaths(const std::list<path> &orgpath)
 {
 	i_paths.SetOriginalFolders(orgpath);
 }
 ///////////////////////////////////////////////////////////////////////
 
-void ImageFileList::SetBigPath(const std::wstring &bigpath)
+void ImageFileList::SetBigPath(const path &bigpath)
 {
 	i_paths.SetLargeImageFolder(bigpath);
 }
 
-void ImageFileList::SetThumbPath(const std::wstring &thumbpath)
+void ImageFileList::SetThumbPath(const path &thumbpath)
 {
 	i_paths.SetThumbnailImageFolder(thumbpath);
 }
 
-const std::wstring& ImageFileList::GetOrgPath() const
+const path& ImageFileList::GetOrgPath() const
 {
 	return i_paths.GetOriginalFolder();
 }
 
-const std::list<std::wstring>& ImageFileList::GetOrgPaths() const
+const std::list<path>& ImageFileList::GetOrgPaths() const
 {
 	return i_paths.GetOriginalFolders();
 }
 
 
-const std::wstring& ImageFileList::GetBigPath() const
+const path& ImageFileList::GetBigPath() const
 {
 	return i_paths.GetLargeImageFolder();
 }
 
-const std::wstring& ImageFileList::GetThumbPath() const
+const path& ImageFileList::GetThumbPath() const
 {
 	return i_paths.GetThumbnailImageFolder();
 }
@@ -194,7 +189,7 @@ const std::wstring& ImageFileList::GetThumbPath() const
 
 void ImageFileList::CreateUnsafeArrayOfImageTypes()
 {
-	typedef std::list<std::wstring>::iterator sl_iter;
+	typedef std::list<path>::iterator sl_iter;
 
 	sl_iter first = suffix_list.begin();
 	std::list<std::wstring>::size_type max_items = suffix_list.size();
@@ -242,9 +237,9 @@ const std::list<ImageNames>& ImageFileList::RetrieveImageNames() const
 	return i_names;
 }
 
-void ImageFileList::AddSubPaths(std::list<std::wstring>& paths)
+void ImageFileList::AddSubPaths(std::list<path>& paths)
 {
-	std::list<std::wstring>::iterator iter;
+	std::list<path>::iterator iter;
 	
 	for(iter = paths.begin(); iter != paths.end(); iter++)
 	{
@@ -254,13 +249,12 @@ void ImageFileList::AddSubPaths(std::list<std::wstring>& paths)
 	pathnames.splice(pathnames.end(),recursed_paths);
 }
 
-void ImageFileList::RecurseFolders(const std::wstring& folder)
+void ImageFileList::RecurseFolders(const path& folder)
 {
 	HANDLE file_handle;
 	WIN32_FIND_DATA find_data;
-	std::wstring filename = folder;
-	AddBackSlash(filename);
-	filename += L"*.*";
+	path filename = folder;
+	filename += L"/*.*";
 
 	file_handle = FindFirstFile(filename.c_str(),&find_data);
 
@@ -269,13 +263,12 @@ void ImageFileList::RecurseFolders(const std::wstring& folder)
 		if( find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )
 		{
 
-			std::wstring fullname = find_data.cFileName;
+			path fullname = find_data.cFileName;
 			if (fullname != L"." && fullname != L"..")
 			{
-				std::wstring newfolder = folder;
-				AddBackSlash(newfolder);
-				newfolder += fullname;
-				AddBackSlash(newfolder);
+				path newfolder = folder;
+				newfolder /= fullname;
+
 				recursed_paths.push_back(newfolder);
 				RecurseFolders(newfolder);
 			}

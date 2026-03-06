@@ -7,12 +7,15 @@
 
 //#pragma warning(disable:4786)
 #include "stdafx.h"
+#include <filesystem>
 
+
+using namespace std::filesystem;
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-enum position { center, cr, tc, lc, bc, br, bl, tr, tl };
+enum class position { center, cr, tc, lc, bc, br, bl, tr, tl, bad_pos };
 
 class CommandLine  
 {
@@ -23,14 +26,14 @@ public:
 
 	///////////////////// GET FUNCTIONS //////////////////////////////
 	
-	const std::wstring& OutputPath() const;
-	const std::wstring& InputPath() const;
-	const std::wstring& ProjectName() const;
-	const std::wstring& PageTitle() const;
-	const std::wstring& WaterMark() const;
+	const path& OutputPath() const;
+	const path& InputPath() const;
+	const path& ProjectName() const;
+	const path& PageTitle() const;
+	const path& WaterMark() const;
 
-	int ThumbHeight() const;
-	int ThumbWidth() const;
+	size_t ThumbHeight() const;
+	size_t ThumbWidth() const;
 	const std::wstring& ThumbHeightString() const;
 	const std::wstring& ThumbWidthString() const;
 
@@ -57,16 +60,16 @@ public:
 	const std::wstring& HtmlBackgroundImageRepeat() const;
 	const std::wstring& HtmlBackgroundImagePosition() const;
 
-	const std::wstring& BannerImage() const;
+	const path& BannerImage() const;
 	const size_t BannerHeight() const;
 
 	const size_t ImagesPerPage() const;
 	const size_t NumberOfPages() const;
 
 	const size_t NumberOfInputPaths() const; 
-	const std::list<std::wstring>& InputPaths() const;
+	const std::list<path>& InputPaths() const;
 
-	const std::wstring& UserCSS() const;
+	const path& UserCSS() const;
 
 	// header
 	const std::wstring& H1Color() const;
@@ -88,13 +91,13 @@ public:
 
 	////////////////////////////// SET FUNCTIONS ////////////////////////////////////
 	
-	void OutputPath(const std::wstring o_path);
-	void InputPath(const std::wstring i_path);
-	void ProjectName(const std::wstring p_name);
-	void PageTitle(const std::wstring p_title);
+	void OutputPath(const path& o_path);
+	void InputPath(const path& i_path);
+	void ProjectName(const path& p_name);
+	void PageTitle(const path& p_title);
 
 	void WatermarkPosition(const position p);
-	void WaterMark(const std::wstring& wm);
+	void WaterMark(const path& wm);
 	void WatermarkAlpha(const float wma);
 	void WatermarkScale(const float wms);
 
@@ -113,10 +116,10 @@ public:
 
 	void ThumbHeight(const std::wstring& h);
 	void ThumbWidth(const std::wstring& h);
-	void SetWM(const std::wstring& wsr);
+	void SetWM(const path& wsr);
 	void ParseWmPos(const std::wstring& wmp);
 
-	void BannerImage(const std::wstring& banner_path);
+	void BannerImage(const path& banner_path);
 	void BannerHeight(const size_t h);
 
 	void ImagesPerPage(const size_t h);
@@ -149,9 +152,9 @@ public:
 
 	void ImagesPerPage(const std::wstring& mipp);
 
-	void InsertInputPath(const std::wstring& i_path);
+	void InsertInputPath(const path& i_path);
 
-	void UserCSS(const std::wstring& csspath);
+	void UserCSS(const path& csspath);
 
 private:
 //functions
@@ -197,25 +200,25 @@ private:
 	size_t pics_per_page;
 	size_t number_of_pages;
 	
-	unsigned int banner_height;
+	size_t banner_height;
 
 	float wm_alpha;
 	float wm_scale;
 
 	position pos;
 
-	std::wstring input_path;
-	std::wstring output_path;
-	std::wstring project_name;
-	std::wstring page_title;
+	path input_path;
+	path output_path;
+	path project_name;
+	path page_title;
 	std::wstring height_string;
 	std::wstring width_string;
 	std::wstring nohtml_string;
 	std::wstring onlyhtml_string;
-	std::wstring water_mark;
+	path water_mark;
 	std::wstring wm_pos;
-	std::wstring banner;
-	std::wstring usercss;
+	path banner;
+	path usercss;
 	
 	// CSS stuff
 	std::wstring html_color;
@@ -246,7 +249,7 @@ private:
 	std::vector <std::wstring> switch_table;
 	std::map <std::wstring,std::wstring> user_params;
 
-	std::list<std::wstring> input_paths;
+	std::list<path> input_paths;
 };
 
 

@@ -23,12 +23,12 @@ void ThumbCreator::MakeAndSaveThumbs(const CommandLine &cl, const ImageFileList 
 	if (!cl.Verbose())
 		std::wcout << L"Making Thumbnails";
 	
-	unsigned int file_count = 0;
+	size_t file_count = 0;
 	DWORD bufsize = MAX_PATH;
 	wchar_t buf[MAX_PATH];
 	CLSID   encoderClsid;
-	int xres;
-	int yres;
+	size_t xres;
+	size_t yres;
 		
 	typedef std::list<ImageNames>::iterator IN_iter;
 
@@ -43,8 +43,8 @@ void ThumbCreator::MakeAndSaveThumbs(const CommandLine &cl, const ImageFileList 
 
  	for (file_count = 0; file_count < max_items; file_count++)
 	{
-		image_src = (*first).GetOriginalPath() + (*first).GetOriginalName();
-		image_dst = ifl.GetThumbPath() + (*first).GetThumbnailImageName();
+		image_src = (*first).GetOriginalPath() / (*first).GetOriginalName();
+		image_dst = ifl.GetThumbPath() / (*first).GetThumbnailImageName();
 	
 		GetFullPathName(image_dst.c_str(),bufsize,buf,0);
 		image_dst = buf;
@@ -58,12 +58,12 @@ void ThumbCreator::MakeAndSaveThumbs(const CommandLine &cl, const ImageFileList 
 		if (i.GetHeight() < i.GetWidth())
 		{
 			xres = cl.ThumbWidth();
-			yres = (int)((float)i.GetHeight() * ((float)(cl.ThumbWidth()/(float)i.GetWidth())));
+			yres = (size_t)((float)i.GetHeight() * ((float)(cl.ThumbWidth()/(float)i.GetWidth())));
 		}
 		else
 		{
 			yres = cl.ThumbWidth();
-			xres = (int)((float)i.GetWidth() * ((float)(cl.ThumbWidth()/(float)i.GetHeight())));
+			xres = (size_t)((float)i.GetWidth() * ((float)(cl.ThumbWidth()/(float)i.GetHeight())));
 		}
 		
 		/////////////////////////////////////////
@@ -76,7 +76,7 @@ void ThumbCreator::MakeAndSaveThumbs(const CommandLine &cl, const ImageFileList 
 		/////////////////////////////////////
 		// Make and save the actual thumbnail
 		/////////////////////////////////////
-		Gdiplus::Image* pThumbnail = i.GetThumbnailImage(xres, yres, NULL, NULL);
+		Gdiplus::Image* pThumbnail = i.GetThumbnailImage(static_cast<UINT>(xres), static_cast<UINT>(yres), NULL, NULL);
 		pThumbnail->Save(image_dst.c_str(),&encoderClsid, NULL);
 
 		if (cl.Verbose())
@@ -94,8 +94,8 @@ void ThumbCreator::MakeAndSaveThumbsSlowly(const CommandLine &cl, const ImageFil
 	DWORD bufsize = MAX_PATH;
 	wchar_t buf[MAX_PATH];
 	CLSID   encoderClsid;
-	int xres;
-	int yres;
+	size_t xres;
+	size_t yres;
 		
 	typedef std::list<ImageNames>::iterator IN_iter;
 
@@ -111,8 +111,8 @@ void ThumbCreator::MakeAndSaveThumbsSlowly(const CommandLine &cl, const ImageFil
 		first++;
 	}
 
-	image_src = (*first).GetOriginalPath() + (*first).GetOriginalName();
-	image_dst = ifl.GetThumbPath() + (*first).GetThumbnailImageName();
+	image_src = (*first).GetOriginalPath() / (*first).GetOriginalName();
+	image_dst = ifl.GetThumbPath() / (*first).GetThumbnailImageName();
 
 	GetFullPathName(image_dst.c_str(),bufsize,buf,0);
 	image_dst = buf;
@@ -121,12 +121,12 @@ void ThumbCreator::MakeAndSaveThumbsSlowly(const CommandLine &cl, const ImageFil
 	if (i.GetHeight() < i.GetWidth())
 	{
 		xres = cl.ThumbWidth();
-		yres = (int)((float)i.GetHeight() * ((float)(cl.ThumbWidth()/(float)i.GetWidth())));
+		yres = (size_t)((float)i.GetHeight() * ((float)(cl.ThumbWidth()/(float)i.GetWidth())));
 	}
 	else
 	{
 		yres = cl.ThumbWidth();
-		xres = (int)((float)i.GetWidth() * ((float)(cl.ThumbWidth()/(float)i.GetHeight())));
+		xres = (size_t)((float)i.GetWidth() * ((float)(cl.ThumbWidth()/(float)i.GetHeight())));
 	}
 	
 	/////////////////////////////////////////
@@ -139,7 +139,7 @@ void ThumbCreator::MakeAndSaveThumbsSlowly(const CommandLine &cl, const ImageFil
 	/////////////////////////////////////
 	// Make and save the actual thumbnail
 	/////////////////////////////////////
-	Gdiplus::Image* pThumbnail = i.GetThumbnailImage(xres, yres, NULL, NULL);
+	Gdiplus::Image* pThumbnail = i.GetThumbnailImage(static_cast<UINT>(xres), static_cast<UINT>(yres), NULL, NULL);
 	pThumbnail->Save(image_dst.c_str(),&encoderClsid, NULL);
 
 	delete pThumbnail;

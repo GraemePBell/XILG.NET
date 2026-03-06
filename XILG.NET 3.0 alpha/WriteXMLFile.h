@@ -15,7 +15,11 @@
 #include "ImageFileList.h"
 
 
-#import <msxml6.dll>
+#import <msxml6.dll> \
+    rename("value", "xmlValue") \
+    exclude("ISequentialStream") \
+    exclude("_FILETIME")
+
 using namespace MSXML2;
 
 inline void test_hr ( HRESULT _hr ) { if FAILED(_hr) throw(_hr); }
@@ -37,7 +41,7 @@ protected:
 	void cr_indent(int il,MSXML2::IXMLDOMElementPtr ePtr);
 //	data
 	MSXML2::IXMLDOMDocumentPtr doc_ptr;
-	std::wstring project_name;
+	path project_name;
 private:
 };
 /////////////////////////////////////////////////////////////////////////////
@@ -50,7 +54,7 @@ public:
 	virtual ~xml_image_list();
 
 	virtual bool build(const CommandLine& cl, const ImageFileList& ifl);
-	virtual bool buildrange(const CommandLine& cl, const ImageFileList& ifl, const unsigned int start, const unsigned int how_many);
+	virtual bool buildrange(const CommandLine& cl, const ImageFileList& ifl, const size_t start, const size_t how_many);
 	virtual bool buildone(const CommandLine& cl, const ImageFileList& ifl);
 private:
 	void xslinclude(const std::wstring& xsl_filename);
@@ -62,8 +66,8 @@ private:
 	void ImageListAttributes(	MSXML2::IXMLDOMDocumentPtr doc_ptr, 
 								const CommandLine& cl, 
 								MSXML2::IXMLDOMElementPtr ilp, 
-								const unsigned int index, 
-								const unsigned int max_pages);
+								const size_t  index,
+								const size_t  max_pages);
 };
 /////////////////////////////////////////////////////////////////////////////
 
@@ -79,7 +83,7 @@ private:
 	bool internal_css;
 	bool no_caption;
 	std::wstring banner;
-	unsigned int images_per_page;
+	size_t images_per_page;
 //functions
 	MSXML2::IXMLDOMElementPtr build_preamble();
 	void css_declaration(MSXML2::IXMLDOMElementPtr head_ptr);
