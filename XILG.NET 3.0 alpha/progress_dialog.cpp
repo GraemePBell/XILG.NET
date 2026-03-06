@@ -95,9 +95,9 @@ System::Void progress_dialog::ProxyToCommand(CommandLine& cl)
 	cl.WatermarkScale(params->wm_scale);
 
 	int count = params->input_paths->Count;
-	for (int x = 0; x < count; x++)
+	for (int xj = 0; xj < count; xj++)
 	{
-		p = PtrToStringChars(params->input_paths[x]);
+		p = PtrToStringChars(params->input_paths[xj]);
 		cl.InputPath(path(p));
 	}
 
@@ -111,7 +111,7 @@ System::Void progress_dialog::ProxyToCommand(CommandLine& cl)
 	cl.Verbose(false);
 }
 
-System::Void progress_dialog::progress_dialog_Load(System::Object^  sender, System::EventArgs^  e) 
+System::Void progress_dialog::progress_dialog_Load([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 
 	backgroundWorker1->RunWorkerAsync();
@@ -119,7 +119,7 @@ System::Void progress_dialog::progress_dialog_Load(System::Object^  sender, Syst
 }
 
 
-System::Void progress_dialog::backgroundWorker1_DoWork(System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e) 
+System::Void progress_dialog::backgroundWorker1_DoWork([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::ComponentModel::DoWorkEventArgs^  e)
 {
 	CommandLine cl(L"XILG");
 	ProxyToCommand(cl);
@@ -251,14 +251,14 @@ System::Void progress_dialog::backgroundWorker1_DoWork(System::Object^  sender, 
 	}
 }
 
-System::Void progress_dialog::backgroundWorker1_RunWorkerCompleted(System::Object^  sender, System::ComponentModel::RunWorkerCompletedEventArgs^  e) 
+System::Void progress_dialog::backgroundWorker1_RunWorkerCompleted([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::ComponentModel::RunWorkerCompletedEventArgs^  e)
 {
 //	progress_dialog::Close();
 	this->Text = L"Finished!";
 	cancel_build->Text = "Close";
 }
 
-System::Void progress_dialog::cancel_build_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void progress_dialog::cancel_build_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	if (backgroundWorker1->IsBusy)
 		backgroundWorker1->CancelAsync();
@@ -266,7 +266,7 @@ System::Void progress_dialog::cancel_build_Click(System::Object^  sender, System
 	progress_dialog::Close();
 }
 
-System::Void progress_dialog::backgroundWorker1_ProgressChanged(System::Object^  sender, System::ComponentModel::ProgressChangedEventArgs^  e) 
+System::Void progress_dialog::backgroundWorker1_ProgressChanged([[maybe_unused]] System::Object^  sender, System::ComponentModel::ProgressChangedEventArgs^  e) 
 {
 	if (progress_picture_copy->Value < 100)
 	{

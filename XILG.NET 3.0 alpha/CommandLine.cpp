@@ -4,7 +4,7 @@
 //#pragma warning(disable:4786)
 #include "stdafx.h"
 #include "CommandLine.h"
-
+#include <wctype.h>
 
 //////////////////////////////////////////////////////////////////////
 // CommandLine Class
@@ -762,8 +762,13 @@ void CommandLine::ParseWmPos(const std::wstring& wmpos)
 {
 	bool valid = false;
 	std::wstring wmp = wmpos;
-	std::transform(wmp.begin(),wmp.end(),wmp.begin(),tolower);
-	
+	std::transform(
+		wmp.begin(), wmp.end(),
+		wmp.begin(),
+		[](wchar_t c) { return towlower(c); }
+	);
+
+
 	if (wmp == L"tl")
 	{
 		WatermarkPosition(position::tl);
@@ -975,10 +980,10 @@ const std::wstring& CommandLine::HtmlBackgroundImagePosition(void) const
 	return html_background_image_position;
 }
 
-void CommandLine::HtmlBackgroundImagePosition(const std::wstring &pos)
+void CommandLine::HtmlBackgroundImagePosition(const std::wstring &posit)
 {
 	// simple Validation - can be done upstream
-	html_background_image_position = pos;
+	html_background_image_position = posit;
 }
 
 const path& CommandLine::BannerImage(void) const

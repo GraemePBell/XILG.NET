@@ -12,7 +12,7 @@ System::Void Results::LoadParameters(CLProxy^ clp)
 	params = clp;
 }
 
-System::Void Results::Results_Load(System::Object^  sender, System::EventArgs^  e)
+System::Void Results::Results_Load([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	combo_browsers->Items->Add(L"[Default Browser]");
 
@@ -46,7 +46,7 @@ System::Void Results::Results_Load(System::Object^  sender, System::EventArgs^  
 	combo_browsers->SelectedIndex = 0;
 }
 
-System::Void Results::button_view_in_browser_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Results::button_view_in_browser_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	String^ filename;
 	String^ ext = L".html";
@@ -64,11 +64,11 @@ System::Void Results::button_view_in_browser_Click(System::Object^  sender, Syst
 
 	Process^ mybrowser = gcnew Process;
 
-	String^ text = combo_browsers->Text;
+	String^ mytext = combo_browsers->Text;
 	
 	try 
 	{
-		if (text == L"[Default Browser]")
+		if (mytext == L"[Default Browser]")
 		{
 			mybrowser->StartInfo->FileName = filename;
 			mybrowser->StartInfo->Verb = "Open";
@@ -78,7 +78,7 @@ System::Void Results::button_view_in_browser_Click(System::Object^  sender, Syst
 		else
 		{
 			mybrowser->StartInfo->Arguments = L"\"" + filename + L"\"";
-			mybrowser->StartInfo->FileName = (String^)alsp[text];
+			mybrowser->StartInfo->FileName = (String^) alsp[mytext];
 			mybrowser->StartInfo->Verb = "Open";
 			mybrowser->StartInfo->UseShellExecute = true;
 			mybrowser->Start();
@@ -91,7 +91,7 @@ System::Void Results::button_view_in_browser_Click(System::Object^  sender, Syst
 }
 
 
-System::Void Results::FolderOpen_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Results::FolderOpen_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	try 
 	{
@@ -116,16 +116,17 @@ System::Void Results::FolderOpen_Click(System::Object^  sender, System::EventArg
 //		FTPWindow->AppendText("**Test**\n");
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-System::Void Results::ButtonFTPUpload_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Results::ButtonFTPUpload_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	backgroundWorker1->RunWorkerAsync();
 }
 
-System::Void Results::backgroundWorker1_DoWork(System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e)
+System::Void Results::backgroundWorker1_DoWork([[maybe_unused]] System::Object^  sender, 
+	[[maybe_unused]] System::ComponentModel::DoWorkEventArgs^  e)
 {
 	ButtonFTPUpload->Enabled = false;
 	
-	String^ filename = L"d:\\test.txt";
+	// String^ filename = L"d:\\test.txt";
 	String^ dirname = textRemDir->Text + L"/" + params->project_name;
 	String^ i_dirname = dirname + L"/images";
 	String^ t_dirname = dirname + L"/thumbs";
@@ -245,7 +246,7 @@ System::Void Results::FTPMakeDirectory(String^ directory)
 	if (backgroundWorker1->CancellationPending)
 		return;
 
-	DirectoryInfo^ DirInf = gcnew DirectoryInfo(directory);
+	[[maybe_unused]] DirectoryInfo^ DirInf = gcnew DirectoryInfo(directory);
 	String^ uri = L"ftp://" + textURI->Text + L"/" + directory;
 
 	FtpWebRequest^ reqFTP;
@@ -275,12 +276,13 @@ System::Void Results::FTPMakeDirectory(String^ directory)
 	}
 }
 
-System::Void Results::backgroundWorker1_ProgressChanged(System::Object^  sender, System::ComponentModel::ProgressChangedEventArgs^  e) 
+System::Void Results::backgroundWorker1_ProgressChanged([[maybe_unused]] System::Object^  sender, 
+	[[maybe_unused]] System::ComponentModel::ProgressChangedEventArgs^  e) 
 {
 	FTPWindow->AppendText(ftp_out);
 }	
 
-System::Void Results::CloseResults_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Results::CloseResults_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	if (backgroundWorker1->IsBusy)
 		backgroundWorker1->CancelAsync();

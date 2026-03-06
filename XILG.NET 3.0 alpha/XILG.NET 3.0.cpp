@@ -6,7 +6,8 @@
 using namespace XILGNET30alpha;
 
 [STAThreadAttribute]
-int main(array<System::String ^> ^args)
+//int main(array<System::String^>^ args)
+int main()
 {
 	// Enabling Windows XP visual effects before any controls are created
 	Application::EnableVisualStyles();

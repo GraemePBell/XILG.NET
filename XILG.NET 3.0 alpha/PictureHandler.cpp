@@ -18,7 +18,7 @@ PictureHandler::PictureHandler()
     startupInput.SuppressBackgroundThread = FALSE;
     startupInput.SuppressExternalCodecs = FALSE;
 
-    Gdiplus::Status status = Gdiplus::GdiplusStartup(&gdiplus_token,&gdiplusStartupInput,0);
+    [[maybe_unused]] Gdiplus::Status status = Gdiplus::GdiplusStartup(&gdiplus_token,&gdiplusStartupInput,0);
 	biggest_height = 0;
 	biggest_width = 0;
 }

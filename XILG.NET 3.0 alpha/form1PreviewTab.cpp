@@ -6,13 +6,13 @@ namespace XILGNET30alpha {
 
 
 
-System::Void Form1::tabPage2_Enter(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::tabPage2_Enter([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	LoadPreview();
 }
 
 
-System::Void Form1::fontDialog1_Apply(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::fontDialog1_Apply([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	header_font_label->Font = fontDialog1->Font;
 	header_font_label->ForeColor = fontDialog1->Color;
@@ -21,7 +21,7 @@ System::Void Form1::fontDialog1_Apply(System::Object^  sender, System::EventArgs
 	LoadPreview();
 }
 
-System::Void Form1::fontDialog2_Apply(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::fontDialog2_Apply([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	caption_font_label->Font = fontDialog2->Font;
 	caption_font_label->ForeColor = fontDialog2->Color;

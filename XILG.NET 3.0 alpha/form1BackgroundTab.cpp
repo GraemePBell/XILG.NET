@@ -4,7 +4,7 @@
 
 namespace XILGNET30alpha {
 
-System::Void Form1::EnableBackgroundImage_CheckedChanged(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::EnableBackgroundImage_CheckedChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	if (EnableBackgroundImageCheck->Checked)
 	{
@@ -57,7 +57,7 @@ System::Void Form1::EnableBackgroundImage_CheckedChanged(System::Object^  sender
 }
 
 
-System::Void Form1::v_h_tiling_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::v_h_tiling_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	if (v_h_tiling->Checked)
 	{
@@ -67,7 +67,7 @@ System::Void Form1::v_h_tiling_Click(System::Object^  sender, System::EventArgs^
 }
 
 
-System::Void Form1::horizontal_tiling_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::horizontal_tiling_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	if (horizontal_tiling->Checked)
 	{
@@ -83,7 +83,7 @@ System::Void Form1::horizontal_tiling_Click(System::Object^  sender, System::Eve
 }
 
 
-System::Void Form1::vertical_tiling_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::vertical_tiling_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	if (vertical_tiling->Checked)
 	{
@@ -100,7 +100,7 @@ System::Void Form1::vertical_tiling_Click(System::Object^  sender, System::Event
 
 
 
-System::Void Form1::no_tiling_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::no_tiling_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	if (no_tiling->Checked)
 	{
@@ -115,7 +115,7 @@ System::Void Form1::no_tiling_Click(System::Object^  sender, System::EventArgs^ 
 	}
 }
 
-System::Void Form1::button6_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::button6_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	openFileDialog1->Filter = L"Image Files(*.bmp;*.jpg;*.jpeg;*.gif;*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
 	openFileDialog1->InitialDirectory = my_pictures_folder;
@@ -128,12 +128,12 @@ System::Void Form1::button6_Click(System::Object^  sender, System::EventArgs^  e
 	}
 }
 
-System::Void Form1::tabPage4_Leave(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::tabPage4_Leave([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	finalise_background_tab();
 }
 
-System::Void Form1::EnableBannerImage_CheckedChanged(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::EnableBannerImage_CheckedChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	if (EnableBannerImageCheck->Checked)
 	{
@@ -153,7 +153,7 @@ System::Void Form1::EnableBannerImage_CheckedChanged(System::Object^  sender, Sy
 	}
 }
 
-System::Void Form1::button7_Click(System::Object^  sender, System::EventArgs^  e)
+System::Void Form1::button7_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	openFileDialog1->Filter = L"Image Files(*.bmp;*.jpg;*.jpeg;*.gif;*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
 	openFileDialog1->InitialDirectory = my_pictures_folder;

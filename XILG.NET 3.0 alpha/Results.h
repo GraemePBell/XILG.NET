@@ -322,15 +322,15 @@ namespace XILGNET30alpha {
 #pragma endregion
 public:  System::Void LoadParameters(CLProxy^ clp); 
 
-private: System::Void Results_Load(System::Object^  sender, System::EventArgs^  e);
-private: System::Void button_view_in_browser_Click(System::Object^  sender, System::EventArgs^  e);
-private: System::Void FolderOpen_Click(System::Object^  sender, System::EventArgs^  e);
-private: System::Void ButtonFTPUpload_Click(System::Object^  sender, System::EventArgs^  e);
+private: System::Void Results_Load([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e);
+private: System::Void button_view_in_browser_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e);
+private: System::Void FolderOpen_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e);
+private: System::Void ButtonFTPUpload_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e);
 private: bool FTPUploadFile(IO::FileInfo^ file, String^ target);
 private: System::Void FTPMakeDirectory(String^ directory);
 private: System::Void GatherAndUpload(String^ source, String^ dest);
-private: System::Void backgroundWorker1_DoWork(System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e);
-private: System::Void backgroundWorker1_ProgressChanged(System::Object^  sender, System::ComponentModel::ProgressChangedEventArgs^  e);
-private: System::Void CloseResults_Click(System::Object^  sender, System::EventArgs^  e);
+private: System::Void backgroundWorker1_DoWork([[maybe_unused]] System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e);
+private: System::Void backgroundWorker1_ProgressChanged([[maybe_unused]] System::Object^  sender, System::ComponentModel::ProgressChangedEventArgs^  e);
+private: System::Void CloseResults_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e);
 };
 }

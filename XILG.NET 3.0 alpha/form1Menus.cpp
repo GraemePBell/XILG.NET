@@ -7,7 +7,7 @@ namespace XILGNET30alpha {
 
 
 
-System::Void Form1::headingFontToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::headingFontToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	String^ hf = header_font;
 	String^ hs = header_font_size;
@@ -39,7 +39,7 @@ System::Void Form1::headingFontToolStripMenuItem_Click(System::Object^  sender, 
 }
 
 
-System::Void Form1::bodyFontToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::bodyFontToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 //	fontDialog1->ShowDialog();
 	String^ bf = body_font;
@@ -73,7 +73,7 @@ System::Void Form1::bodyFontToolStripMenuItem_Click(System::Object^  sender, Sys
 }
 
 
-System::Void Form1::bodyColourToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::bodyColourToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	String^ bc = body_color;
 
@@ -94,24 +94,23 @@ System::Void Form1::bodyColourToolStripMenuItem_Click(System::Object^  sender, S
 			caption_font_panel->BackColor = colorDialog1->Color;
 		
 		back_color = colorDialog1->Color;
-
 		LoadPreview();
 	}
 
 }
 
 
-System::Void Form1::backgroundImageToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::backgroundImageToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	tabControl1->SelectTab(tabPage4);
 }
 
-System::Void Form1::bannerImageToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::bannerImageToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	tabControl1->SelectTab(tabPage4);
 }
 
-System::Void Form1::includeSubfoldersToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::includeSubfoldersToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	include_subfolders = (!include_subfolders);
 	auto_inc_sub_check->Checked = include_subfolders;
@@ -119,7 +118,7 @@ System::Void Form1::includeSubfoldersToolStripMenuItem_Click(System::Object^  se
 
 
 
-System::Void Form1::restoreDefaultsToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::restoreDefaultsToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	if (Windows::Forms::MessageBox::Show(L"Are you sure?","Restore Default Settings",MessageBoxButtons::YesNo,MessageBoxIcon::Question)
 		== Windows::Forms::DialogResult::Yes)
@@ -131,14 +130,14 @@ System::Void Form1::restoreDefaultsToolStripMenuItem_Click(System::Object^  send
 }
 
 
-System::Void Form1::aboutToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::aboutToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	xilg_about^ xa = gcnew xilg_about;
 	xa->StartPosition = Windows::Forms::FormStartPosition::CenterParent;
 	xa->ShowDialog();
 }
 
-System::Void Form1::addImageFolderToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::addImageFolderToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	if ( folderBrowserDialog2->ShowDialog() == Windows::Forms::DialogResult::OK)
 	{
@@ -156,8 +155,8 @@ System::Void Form1::addImageFolderToolStripMenuItem_Click(System::Object^  sende
 		else
 		{
 			listBox1->Items->Add(newImageFolder);
-			int index = listBox1->FindStringExact( newImageFolder );
-			listBox1->SetSelected(index,true);
+			int ndex = listBox1->FindStringExact( newImageFolder );
+			listBox1->SetSelected(ndex,true);
 			//toolTip1->SetToolTip
 		}
 		button3->Enabled = true;

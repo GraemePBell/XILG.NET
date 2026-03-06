@@ -175,10 +175,10 @@ namespace XILGNET30alpha {
 #pragma endregion
 public:  System::Void LoadParameters(CLProxy^ clp); 
 private: System::Void ProxyToCommand(CommandLine& cl);
-private: System::Void progress_dialog_Load(System::Object^  sender, System::EventArgs^  e);
-private: System::Void backgroundWorker1_DoWork(System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e);
-private: System::Void backgroundWorker1_RunWorkerCompleted(System::Object^  sender, System::ComponentModel::RunWorkerCompletedEventArgs^  e);
-private: System::Void cancel_build_Click(System::Object^  sender, System::EventArgs^  e);
-private: System::Void backgroundWorker1_ProgressChanged(System::Object^  sender, System::ComponentModel::ProgressChangedEventArgs^  e);
+private: System::Void progress_dialog_Load([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e);
+private: System::Void backgroundWorker1_DoWork([[maybe_unused]] System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e);
+private: System::Void backgroundWorker1_RunWorkerCompleted([[maybe_unused]] System::Object^  sender, System::ComponentModel::RunWorkerCompletedEventArgs^  e);
+private: System::Void cancel_build_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e);
+private: System::Void backgroundWorker1_ProgressChanged([[maybe_unused]] System::Object^  sender, System::ComponentModel::ProgressChangedEventArgs^  e);
 };
 }

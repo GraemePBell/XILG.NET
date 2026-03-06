@@ -6,7 +6,8 @@ namespace XILGNET30alpha {
 
 
 
-System::Void Form1::treeView1_AfterSelect(System::Object^  sender, System::Windows::Forms::TreeViewEventArgs^  e) 
+System::Void Form1::treeView1_AfterSelect([[maybe_unused]] System::Object^  sender, 
+	[[maybe_unused]] System::Windows::Forms::TreeViewEventArgs^  e)
 {
 	Form1::Cursor = Cursors::AppStarting;
 	treeView1->BeginUpdate();
@@ -107,7 +108,7 @@ System::Void Form1::treeView1_folders()
 
 			try 
 			{   // Let's not add anything to the list that causes a deeper exception
-				array<IO::DirectoryInfo^>^deeperfolders = mydir->GetDirectories();
+				[[maybe_unused]] array<IO::DirectoryInfo^>^deeperfolders = mydir->GetDirectories();
 				my_nodes->Add(mydir->FullName,mydir->Name,closed_folder_icon,open_folder_icon);
 			}
 			catch (Exception ^e)
@@ -123,7 +124,7 @@ System::Void Form1::treeView1_folders()
 }
 
 
-System::Void Form1::button2_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::button2_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	if(treeView1->SelectedNode)
 	{
@@ -141,8 +142,8 @@ System::Void Form1::button2_Click(System::Object^  sender, System::EventArgs^  e
 		else
 		{
 			listBox1->Items->Add(my_selection);
-			int index = listBox1->FindStringExact( my_selection );
-			listBox1->SetSelected(index,true);
+			int id = listBox1->FindStringExact( my_selection );
+			listBox1->SetSelected(id,true);
 			//toolTip1->SetToolTip
 		}
 		button3->Enabled = true;
@@ -151,7 +152,7 @@ System::Void Form1::button2_Click(System::Object^  sender, System::EventArgs^  e
 }
 
 
-System::Void Form1::button3_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::button3_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	if (listBox1->SelectedItem)
 	{
@@ -173,7 +174,7 @@ System::Void Form1::button3_Click(System::Object^  sender, System::EventArgs^  e
 }
 
 
-System::Void Form1::button4_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::button4_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	listBox1->Items->Clear();
 	button3->Enabled = false;
@@ -182,7 +183,7 @@ System::Void Form1::button4_Click(System::Object^  sender, System::EventArgs^  e
 
 
 
-System::Void Form1::checkBox1_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::checkBox1_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	include_subfolders = (!include_subfolders);
 	if(auto_inc_sub_check->Checked)
@@ -196,7 +197,8 @@ System::Void Form1::checkBox1_Click(System::Object^  sender, System::EventArgs^ 
 }
 
 
-System::Void Form1::listBox1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
+System::Void Form1::listBox1_MouseMove([[maybe_unused]] System::Object^  sender, 
+	[[maybe_unused]] System::Windows::Forms::MouseEventArgs^  e)
 {
 	String^ strTip = L"";
 
@@ -209,7 +211,7 @@ System::Void Form1::listBox1_MouseMove(System::Object^  sender, System::Windows:
 }
 
 
-System::Void Form1::EnableUserCSSCheck_CheckedChanged(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::EnableUserCSSCheck_CheckedChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	user_css = !user_css;
 
@@ -228,7 +230,7 @@ System::Void Form1::EnableUserCSSCheck_CheckedChanged(System::Object^  sender, S
 }
 
 
-System::Void Form1::tabPage1_Leave(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::tabPage1_Leave([[maybe_unused]] System::Object^ sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	finalise_input_folders_tab();
 }

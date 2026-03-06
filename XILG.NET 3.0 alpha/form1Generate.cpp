@@ -6,7 +6,7 @@
 
 namespace XILGNET30alpha {
 
-System::Void Form1::build_website_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::build_website_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
 	// finalise all our sheets!
 	finalise_input_folders_tab();

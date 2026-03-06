@@ -4,7 +4,7 @@
 namespace XILGNET30alpha {
 
 
-System::Void Form1::enable_watermark_check_CheckedChanged(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::enable_watermark_check_CheckedChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	if (enable_watermark_check->Checked)
 	{
@@ -79,7 +79,7 @@ System::Void Form1::enable_watermark_check_CheckedChanged(System::Object^  sende
 	}
 }
 
-System::Void Form1::button8_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::button8_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	openFileDialog1->Filter = L"Image Files(*.bmp;*.jpg;*.jpeg;*.gif;*.png)|*.bmp;*.jpg;*.jpeg;*.gif;*.png";
 	openFileDialog1->InitialDirectory = my_pictures_folder;
@@ -92,7 +92,7 @@ System::Void Form1::button8_Click(System::Object^  sender, System::EventArgs^  e
 	}
 }
 
-System::Void Form1::tabPage5_Leave(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::tabPage5_Leave([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	finalise_watermark_tab();
 }

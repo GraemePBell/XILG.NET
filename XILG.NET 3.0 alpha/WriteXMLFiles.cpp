@@ -110,14 +110,16 @@ void xml_image_list::xslinclude(const std::wstring& xsl_filename)
 	basic_xmlfile::write_processing_instruction(L"xml-stylesheet",temp);
 }
 
-void xml_image_list::xslinclude(MSXML2::IXMLDOMDocumentPtr doc_ptr, const std::wstring& xsl_filename)
+void xml_image_list::xslinclude(MSXML2::IXMLDOMDocumentPtr mydoc_ptr, const std::wstring& xsl_filename)
 {
 	std::wstring first_arg = L"xml-stylesheet";
 	std::wstring second_arg = L"type=\"text/xsl\" href=\"" + xsl_filename + L"\"";
 	BSTR t2 = SysAllocString(second_arg.c_str());
 	BSTR t1 = SysAllocString(first_arg.c_str());
 	try {
-		write_processing_instruction(doc_ptr, t1,t2,true);
+		write_processing_instruction(mydoc_ptr, t1,t2,true);
+		SysFreeString(t1);
+		SysFreeString(t2);
 	}
 	catch (...)
 	{
@@ -125,8 +127,6 @@ void xml_image_list::xslinclude(MSXML2::IXMLDOMDocumentPtr doc_ptr, const std::w
 		SysFreeString(t2);
 		throw;
 	}
-	SysFreeString(t1);
-	SysFreeString(t2);
 }
 
 bool xml_image_list::build(const CommandLine& cl, const ImageFileList& ifl)
@@ -165,7 +165,7 @@ bool xml_image_list::buildone(const CommandLine& cl, const ImageFileList& ifl)
 	std::list <ImageNames> i_names = ifl.RetrieveImageNames();
 
 	std::list<ImageNames>::iterator first = i_names.begin();
-	std::list<ImageNames>::size_type max_items = i_names.size();
+	//std::list<ImageNames>::size_type max_items = i_names.size();
 
 	for (auto name : i_names)
 	{
@@ -281,7 +281,7 @@ bool xml_image_list::buildrange(const CommandLine &cl, const ImageFileList &ifl,
 	return true;
 }
 
-void xml_image_list::ImageListAttributes(MSXML2::IXMLDOMDocumentPtr doc_ptr, 
+void xml_image_list::ImageListAttributes(MSXML2::IXMLDOMDocumentPtr mydoc_ptr, 
 										 const CommandLine& cl, 
 										 MSXML2::IXMLDOMElementPtr ilp, 
 										 const size_t index,
@@ -323,12 +323,12 @@ void xml_image_list::ImageListAttributes(MSXML2::IXMLDOMDocumentPtr doc_ptr,
 	ilp->setAttribute(L"prev",att2.c_str());
 	ilp->setAttribute(L"next",att3.c_str());
 
-	doc_ptr->appendChild(ilp);
+	mydoc_ptr->appendChild(ilp);
 }
 
 
 //////////////////// carriage return and indent ///////////////
-void xml_image_list::cr_indent(MSXML2::IXMLDOMDocumentPtr doc_ptr, int il, MSXML2::IXMLDOMElementPtr ePtr) 
+void xml_image_list::cr_indent(MSXML2::IXMLDOMDocumentPtr mydoc_ptr, int il, MSXML2::IXMLDOMElementPtr ePtr) 
 {
 	MSXML2::IXMLDOMTextPtr textPtr;
 	std::wstring level = L"\n";
@@ -338,12 +338,12 @@ void xml_image_list::cr_indent(MSXML2::IXMLDOMDocumentPtr doc_ptr, int il, MSXML
 		level += L"\t";
 	}
 	
-	textPtr = doc_ptr->createTextNode(level.c_str());
+	textPtr = mydoc_ptr->createTextNode(level.c_str());
 	ePtr->appendChild(textPtr);
 }
 
 //////////////////// save the file ////////////////////////////
-bool xml_image_list::save(MSXML2::IXMLDOMDocumentPtr doc_ptr, const std::wstring& filename, const CommandLine& cl)
+bool xml_image_list::save([[maybe_unused]] MSXML2::IXMLDOMDocumentPtr mydoc_ptr, const std::wstring& filename, const CommandLine& cl)
 {
 	if (cl.PathCreate())
 	{
@@ -367,27 +367,27 @@ bool xml_image_list::save(MSXML2::IXMLDOMDocumentPtr doc_ptr, const std::wstring
 		}
 	}
 
-	doc_ptr->save(filename.c_str());
+	mydoc_ptr->save(filename.c_str());
 	return 0;
 }
 
 
 //////////////////// create an XML PI //////////////////////////
-void xml_image_list::write_processing_instruction(MSXML2::IXMLDOMDocumentPtr doc_ptr, BSTR s1, BSTR s2, bool initial)
+void xml_image_list::write_processing_instruction(MSXML2::IXMLDOMDocumentPtr mydoc_ptr, BSTR s1, BSTR s2, bool initial)
 {
 	MSXML2::IXMLDOMProcessingInstructionPtr pi = NULL;
 	const _variant_t refChild;
 
-	pi = doc_ptr->createProcessingInstruction(s1,s2);
+	pi = mydoc_ptr->createProcessingInstruction(s1,s2);
 	
 	if (!initial)
-		doc_ptr->appendChild(pi);
+		mydoc_ptr->appendChild(pi);
 	else
-		doc_ptr->insertBefore(pi,&refChild);
+		mydoc_ptr->insertBefore(pi,&refChild);
 }
 
 /////////////////// standard XML Declaration
-void xml_image_list::xml_declaration(MSXML2::IXMLDOMDocumentPtr doc_ptr)
+void xml_image_list::xml_declaration(MSXML2::IXMLDOMDocumentPtr mydoc_ptr)
 {
 	const std::wstring xml = L"xml";
 	const std::wstring ver = L"version='1.0' encoding='ISO-8859-1' ";
@@ -396,7 +396,7 @@ void xml_image_list::xml_declaration(MSXML2::IXMLDOMDocumentPtr doc_ptr)
 	BSTR s2 = SysAllocString(ver.c_str());
 
 	try {
-		write_processing_instruction(doc_ptr, s1, s2, true);
+		write_processing_instruction(mydoc_ptr, s1, s2, true);
 	}
 	catch (...)
 	{

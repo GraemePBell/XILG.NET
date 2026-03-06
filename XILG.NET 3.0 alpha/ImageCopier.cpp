@@ -106,7 +106,7 @@ void ImageCopier::copy_one_at_a_time(const CommandLine &cl, const ImageFileList 
 		
 	std::list<ImageNames> i_names = ifl.RetrieveImageNames();
 	std::list<ImageNames>::iterator  first = i_names.begin();
-	std::list<ImageNames>::size_type max_items = i_names.size();
+	// std::list<ImageNames>::size_type max_items = i_names.size();
 
 	if (watermark)
 	{

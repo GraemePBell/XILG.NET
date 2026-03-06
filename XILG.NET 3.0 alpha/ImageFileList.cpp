@@ -4,6 +4,9 @@
 
 
 #include "stdafx.h"
+
+#include <wctype.h>
+
 //#pragma warning(disable:4786)
 #include "ImageFileList.h"
 #include "ImagePaths.h"
@@ -37,16 +40,12 @@ void ImageFileList::GatherImageNames()
 	pathnames.sort();
 	pathnames.unique();
 	
-	// first = pathnames.begin();
-
-	path pathname;// = GetOrgPath();
-	
 	size_t number_of_paths = pathnames.size();
 	
-	for (const auto& pathname : pathnames)
+	for (const auto& pname : pathnames)
 	{
 		bool finished_find = false;
-		path wildcarded = pathname.wstring() + L"/*.*";
+		path wildcarded = pname.wstring() + L"/*.*";
 		wildcarded = wildcarded.make_preferred();
 
 		hFind = FindFirstFile(wildcarded.c_str(), &FindFileData);
@@ -96,7 +95,12 @@ void ImageFileList::GatherImageNames()
 			if (!finished_find)
 			{
 				std::wstring buf1 = FindFileData.cFileName;
-				std::transform(buf1.begin(),buf1.end(),buf1.begin(),tolower);
+				std::transform(
+					buf1.begin(), buf1.end(),
+					buf1.begin(),
+					[](wchar_t c) { return towlower(c); }
+				);
+
 				auto tmp = PathFindSuffixArray(buf1.c_str(), suffixes, static_cast<int>(suffix_list.size()));
 				
 				if (tmp)
@@ -109,7 +113,7 @@ void ImageFileList::GatherImageNames()
 
 					ImageNames temp;
 					temp.SetOriginalName(FindFileData.cFileName);
-					temp.SetOriginalPath(pathname);
+					temp.SetOriginalPath(pname);
 
 					temp.SetLargeImageName(li_name);
 					temp.SetThumbnailImageName(th_name);

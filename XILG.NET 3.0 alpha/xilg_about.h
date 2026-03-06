@@ -118,7 +118,7 @@ namespace XILGNET30alpha {
 
 		}
 #pragma endregion
-private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
+private: System::Void button1_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e);
 
 	
 	

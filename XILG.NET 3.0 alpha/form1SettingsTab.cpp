@@ -50,13 +50,13 @@ System::Void Form1::LoadSettingsPage()
 }
 
 
-System::Void Form1::textBox2_TextChanged(System::Object^  sender, System::EventArgs^  e)
+System::Void Form1::textBox2_TextChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	page_title = webpage_title_text->Text;
 }
 
 
-System::Void Form1::button5_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::button5_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	String^ mdf;
 	if (IO::Directory::Exists(textBox1->Text))
@@ -74,7 +74,7 @@ System::Void Form1::button5_Click(System::Object^  sender, System::EventArgs^  e
 
 }
 
-System::Void Form1::default_size_CheckedChanged(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::default_size_CheckedChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	if (default_size->Checked)
 	{
@@ -84,7 +84,7 @@ System::Void Form1::default_size_CheckedChanged(System::Object^  sender, System:
 	}
 }
 
-System::Void Form1::custom_size_CheckedChanged(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::custom_size_CheckedChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	if (custom_size->Checked)
 	{
@@ -94,7 +94,7 @@ System::Void Form1::custom_size_CheckedChanged(System::Object^  sender, System::
 }
 
 
-System::Void Form1::enable_multipage_check_CheckedChanged(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::enable_multipage_check_CheckedChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	if(enable_multipage_check->Checked)
 	{
@@ -113,7 +113,7 @@ System::Void Form1::enable_multipage_check_CheckedChanged(System::Object^  sende
 }
 
 
-System::Void Form1::xml_plus_html_Clicked(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::xml_plus_html_Clicked([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	if (xml_plus_html->Checked)
 	{
@@ -132,7 +132,7 @@ System::Void Form1::xml_plus_html_Clicked(System::Object^  sender, System::Event
 	}
 }
 
-System::Void Form1::enable_header_check_CheckedChanged(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::enable_header_check_CheckedChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	if (enable_header_check->Checked)
 	{
@@ -156,7 +156,7 @@ System::Void Form1::enable_header_check_CheckedChanged(System::Object^  sender, 
 	}
 }
 
-System::Void Form1::enable_caption_check_CheckedChanged(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::enable_caption_check_CheckedChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	if (enable_caption_check->Checked)
 	{
@@ -180,7 +180,7 @@ System::Void Form1::enable_caption_check_CheckedChanged(System::Object^  sender,
 	}
 }
 
-System::Void Form1::project_name_TextChanged(System::Object^  sender, System::EventArgs^  e)
+System::Void Form1::project_name_TextChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	String^ my_title = project_name->Text->Trim(L' ');
 
@@ -193,7 +193,7 @@ System::Void Form1::project_name_TextChanged(System::Object^  sender, System::Ev
 }
 
 
-System::Void Form1::BrowseCSS_Click(System::Object^  sender, System::EventArgs^  e) 
+System::Void Form1::BrowseCSS_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
 	openFileDialog1->Filter = L"Cascading Style Sheet(*.css)|*.css";
 	openFileDialog1->InitialDirectory = my_documents_folder;

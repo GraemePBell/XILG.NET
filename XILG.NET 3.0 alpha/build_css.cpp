@@ -24,8 +24,13 @@ void build_css::thumbsize_y(size_t  y)
 
 std::wstring& build_css::create_selector(std::wstring& selector)
 {
-	transform(selector.begin(),selector.end(),selector.begin(),tolower);
-	selector += L" {}";	
+	std::transform(
+		selector.begin(), selector.end(),
+		selector.begin(),
+		[](wchar_t c) { return towlower(c); }
+	);
+
+	selector += L" {}";
 	selector += nlf;
 	return selector;
 }
@@ -34,8 +39,13 @@ std::wstring& build_css::add_selector(std::wstring& rule, const std::wstring& ne
 {
 	std::wstring ns = newselector;
 	
-	transform(ns.begin(),ns.end(),ns.begin(),tolower);
-	
+	std::transform(
+		ns.begin(), ns.end(),
+		ns.begin(),
+		[](wchar_t c) { return towlower(c); }
+	);
+
+
 	std::wstring s2 = L" {";
 	std::wstring::iterator pos;
 
@@ -54,11 +64,20 @@ std::wstring& build_css::insert_prop_dec(std::wstring& rule,const std::wstring& 
 	std::wstring prop1 = prop;
 	std::wstring dec1 = dec;
 
-	transform(prop1.begin(),prop1.end(),prop1.begin(),tolower);
+	std::transform(
+		prop1.begin(), prop1.end(),
+		prop1.begin(),
+		[](wchar_t c) { return towlower(c); }
+	);
 
 	if (prop1 != L"font-family")
-		transform(dec1.begin(),dec1.end(),dec1.begin(),tolower);
-
+	{
+		std::transform(
+			dec1.begin(), dec1.end(),
+			dec1.begin(),
+			[](wchar_t c) { return towlower(c); }
+		);
+	}
 	std::wstring s1 = L" ";
 	std::wstring s2 = L"; }";
 	std::wstring s3 = L"{}";
