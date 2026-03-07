@@ -18,12 +18,7 @@
 
 // utility functions
 const path& MakeTempFileName(path& filename_buffer);
-//std::wstring& AddBackSlash(std::wstring& w);
-//std::wstring& StripExtension(std::wstring& w);
-//std::wstring& AddExtension(std::wstring& w, const std::wstring& ext);
-//std::wstring& ReplaceExtension(std::wstring& w, const std::wstring& ext);
 
-//std::list<std::wstring>& AddBackSlashes(std::list<std::wstring>& w);
 
 class xilg_error
 {

@@ -32,7 +32,7 @@ void ImageCopier::copy(const CommandLine &cl, const ImageFileList &ifl)
 	if (!cl.Verbose())
 		std::wcout << L"\nCopying";
 
-	unsigned int file_count = 0;
+	// unsigned int file_count = 0;
 	DWORD bufsize = MAX_PATH;
 	wchar_t buf[MAX_PATH];
 	bool watermark = (cl.WaterMark() != L"");
@@ -41,7 +41,7 @@ void ImageCopier::copy(const CommandLine &cl, const ImageFileList &ifl)
 		
 	std::list<ImageNames> i_names = ifl.RetrieveImageNames();
 	std::list<ImageNames>::iterator  first = i_names.begin();
-	std::list<ImageNames>::size_type max_items = i_names.size();
+	// std::list<ImageNames>::size_type max_items = i_names.size();
 
 	if (watermark)
 	{
@@ -56,11 +56,11 @@ void ImageCopier::copy(const CommandLine &cl, const ImageFileList &ifl)
 		BannerCopy(cl,ifl);
 	}
 
- 	
-	for (file_count = 0; file_count < max_items; file_count++)
+	//for (file_count = 0; file_count < max_items; file_count++)
+	for (auto& imgname : i_names)
 	{
-		image_src = (*first).GetOriginalPath() / (*first).GetOriginalName();
-		image_dst = ifl.GetBigPath() / (*first).GetLargeImageName();
+		image_src = imgname.GetOriginalPath() / imgname.GetOriginalName();
+		image_dst = ifl.GetBigPath() / imgname.GetLargeImageName();
 	
 		GetFullPathName(image_dst.c_str(),bufsize,buf,0);
 		image_dst = buf;
@@ -84,7 +84,6 @@ void ImageCopier::copy(const CommandLine &cl, const ImageFileList &ifl)
 			std::wcout << L" ... done" << std::endl;
 		else
 			std::wcout << L".";
-		first++;
 	}
 
 	if (watermark)

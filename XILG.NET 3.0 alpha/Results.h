@@ -98,7 +98,7 @@ namespace XILGNET30alpha {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Results::typeid));
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(Results::typeid));
 			this->button_view_in_browser = (gcnew System::Windows::Forms::Button());
 			this->combo_browsers = (gcnew System::Windows::Forms::ComboBox());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
@@ -220,6 +220,7 @@ namespace XILGNET30alpha {
 			// 
 			resources->ApplyResources(this->textURI, L"textURI");
 			this->textURI->Name = L"textURI";
+			this->textURI->TextChanged += gcnew System::EventHandler(this, &Results::textURI_TextChanged);
 			// 
 			// RemoteDir
 			// 
@@ -332,5 +333,7 @@ private: System::Void GatherAndUpload(String^ source, String^ dest);
 private: System::Void backgroundWorker1_DoWork([[maybe_unused]] System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e);
 private: System::Void backgroundWorker1_ProgressChanged([[maybe_unused]] System::Object^  sender, System::ComponentModel::ProgressChangedEventArgs^  e);
 private: System::Void CloseResults_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e);
+private: System::Void textURI_TextChanged([[maybe_unused]] System::Object^ sender, [[maybe_unused]] System::EventArgs^ e) {
+}
 };
 }

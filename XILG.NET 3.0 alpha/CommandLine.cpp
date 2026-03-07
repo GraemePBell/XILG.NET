@@ -98,7 +98,7 @@ void CommandLine::ParseCommandLine()
 
 	arguments = CommandLineToArgvW(cmd_line.c_str(), &arg_count);
 
-	int count =0 ;
+	size_t count = 0;
 
 	for (count = 0; count < arg_count; count++)
 	{
@@ -109,40 +109,38 @@ void CommandLine::ParseCommandLine()
 
 	if (arg_count ==1 )
 		throw (help());
-
-
-	for(vi = switch_table.begin(); vi < switch_table.end() ; vi++)
+	for (auto& sw : switch_table)
 	{
 		for (count = 0; count < arg_count; count++)
 		{
 			std::wstring user_parameter = cmd_params[count];
-			if (*vi == user_parameter)
+			if (sw == user_parameter)
 			{
 				if (IsParamUnary(user_parameter))
 				{
-					user_params[*vi] = b_true;
+					user_params[sw] = b_true;
 				}
 				else
 				{
-					if (count+1 < arg_count)
+					if (count + 1 < arg_count)
 					{
-						std::wstring next_user_parameter = cmd_params[count+1];
+						std::wstring next_user_parameter = cmd_params[count + 1];
 
 						if (!IsValidSwitch(next_user_parameter))
 						{
-							if(*vi == switch_i)
+							if (sw == switch_i)
 							{
 								// Doing this here enables multiple input paths
 								InputPath(next_user_parameter);
 							}
-							user_params[*vi] = cmd_params[count+1];
+							user_params[sw] = cmd_params[count + 1];
 						}
 						else
 						{
-							std::wstring xilgerr = L"Bad Parameter - not expecting " + cmd_params[count+1] + L" here!\n";
+							std::wstring xilgerr = L"Bad Parameter - not expecting " + cmd_params[count + 1] + L" here!\n";
 							std::wstring xilgerr_line = stringer(__LINE__);
 							std::wstring xilgerr_file = widen(__FILE__);
-							throw (xilg_error(xilgerr,xilgerr_file,xilgerr_line));
+							throw (xilg_error(xilgerr, xilgerr_file, xilgerr_line));
 						}
 					}
 					else
@@ -150,7 +148,7 @@ void CommandLine::ParseCommandLine()
 						std::wstring xilgerr = L"Bad Parameter - expecting a value after: " + user_parameter + L"\n";
 						std::wstring xilgerr_line = stringer(__LINE__);
 						std::wstring xilgerr_file = widen(__FILE__);
-						throw (xilg_error(xilgerr,xilgerr_file,xilgerr_line));
+						throw (xilg_error(xilgerr, xilgerr_file, xilgerr_line));
 					}
 				}
 			}
@@ -193,12 +191,11 @@ bool CommandLine::IsParamUnary(std::wstring param)
 
 bool CommandLine::IsValidSwitch(std::wstring param)
 {
-	std::vector<std::wstring>::iterator vi;
 	bool is_valid = false;
 
-	for(vi = switch_table.begin(); vi < switch_table.end() ; vi++)
+	for(auto& vi : switch_table)
 	{
-		if (*vi == param)
+		if (vi == param)
 			is_valid = true;
 	}
 	
@@ -483,7 +480,6 @@ const path& CommandLine::ProjectName() const
 void CommandLine::ProjectName(const path& p_name)
 {
 	project_name = p_name;
-//	replace(project_name.begin(),project_name.end(),L' ',L'_');
 }
 
 void CommandLine::PageTitle(const path& p_name)
@@ -862,7 +858,7 @@ void CommandLine::SetWM(const path& wsr)
 	temp = user_params[switch_wmpos];
 	if (temp != empty)
 	{
-			ParseWmPos(temp);
+		ParseWmPos(temp);
 	}
 
 	temp = user_params[switch_wmalpha];

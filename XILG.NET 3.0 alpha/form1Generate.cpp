@@ -234,8 +234,6 @@ bool Form1::PassFoldersToParameter(CLProxy^ cl)
 	for (int count = 0; count < listBox1->Items->Count; count++)
 	{
 		String^ st = listBox1->Items[count]->ToString();
-			//listBox1->Items[count]->ToString();
-		
 		cl->input_paths->Add(st);
 	}
 

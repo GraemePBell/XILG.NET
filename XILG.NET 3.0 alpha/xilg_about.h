@@ -90,7 +90,7 @@ namespace XILGNET30alpha {
 			this->textBox1->Size = System::Drawing::Size(247, 137);
 			this->textBox1->TabIndex = 0;
 			this->textBox1->TabStop = false;
-			this->textBox1->Text = L"XILG\r\n\r\nXML Image List Generator\r\nVersion 3.00.00.alpha\r\n\r\nCreate Websites from y" 
+			this->textBox1->Text = L"XILG\r\n\r\nXML Image List Generator\r\nVersion 3.00.00\r\n\r\nCreate Websites from y" 
 				L"our own pictures\r\n\r\nCopyright © 2007-2026 Graeme P. Bell";
 			this->textBox1->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
