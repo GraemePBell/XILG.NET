@@ -48,19 +48,9 @@ System::Void Results::Results_Load([[maybe_unused]] System::Object^  sender, [[m
 
 System::Void Results::button_view_in_browser_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
-	String^ filename;
-	String^ ext = L".html";
-	String^ number = L"";
-
-	if (params->no_html)
-	{
-		ext = L".xml";
-	}
-	if (params->pics_per_page > 1)
-	{
-		number = L"-1";
-	}
-	filename = params->output_path + L"\\" + params->project_name + L"\\" + params->project_name + number + ext; 
+	String^ ext = params->no_html ? L".xml" : L".html";
+	String^ number = params->pics_per_page > 1 ? L"-1" : L"";
+	String^ filename = params->output_path + L"\\" + params->project_name + L"\\" + params->project_name + number + ext;
 
 	Process^ mybrowser = gcnew Process;
 
@@ -145,14 +135,8 @@ System::Void Results::backgroundWorker1_DoWork([[maybe_unused]] System::Object^ 
 	GatherAndUpload(local_i_name,i_dirname);
 	GatherAndUpload(local_t_name,t_dirname);
 
-	if (backgroundWorker1->CancellationPending)
-	{
-		ftp_out = "CANCELLED";
-	}
-	else
-	{
-		ftp_out = "DONE!";
-	}
+	ftp_out = (backgroundWorker1->CancellationPending) ? L"FTP Upload Cancelled!" : L"FTP Upload Completed!";
+
 	backgroundWorker1->ReportProgress(1);
 	ButtonFTPUpload->Enabled = true;
 }

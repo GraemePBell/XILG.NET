@@ -41,7 +41,6 @@ System::Void Form1::headingFontToolStripMenuItem_Click([[maybe_unused]] System::
 
 System::Void Form1::bodyFontToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
 {
-//	fontDialog1->ShowDialog();
 	String^ bf = body_font;
 	String^ bs = body_font_size;
 	String^ bc = body_font_color;
@@ -166,7 +165,6 @@ System::Void Form1::addImageFolderToolStripMenuItem_Click([[maybe_unused]] Syste
 			listBox1->Items->Add(newImageFolder);
 			int ndex = listBox1->FindStringExact( newImageFolder );
 			listBox1->SetSelected(ndex,true);
-			//toolTip1->SetToolTip
 		}
 		button3->Enabled = true;
 		button4->Enabled = true;

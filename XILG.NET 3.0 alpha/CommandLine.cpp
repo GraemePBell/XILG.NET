@@ -43,48 +43,48 @@ CommandLine::~CommandLine()
 
 void CommandLine::BuildSwitchTable()
 {
-	switch_table.push_back(switch_diagnostic);	// verbose error messages
-	switch_table.push_back(switch_i);			// input path
-	switch_table.push_back(switch_o);			// output path
-	switch_table.push_back(switch_p);			// project title
-	switch_table.push_back(switch_t);			// page title 
-	switch_table.push_back(switch_h);			// thumbnail height
-	switch_table.push_back(switch_w);			// thumbnail width
-	switch_table.push_back(switch_ic);			// internal css
-	switch_table.push_back(switch_css);			// user css
-	switch_table.push_back(switch_nc);			// don't create new folders - may cause failure
-	switch_table.push_back(switch_nohtml);		// only create XML, XSL & CSS
-	switch_table.push_back(switch_onlyhtml);	// delete XML & XSL intermediates
-	switch_table.push_back(switch_query);		// show help screen
-	switch_table.push_back(switch_nocaption);	// no captions under the images
-	switch_table.push_back(switch_notitle);		// no title 
-	switch_table.push_back(switch_watermark);	// watermark the large image
-	switch_table.push_back(switch_wmpos);		// where to put the watermark
-	switch_table.push_back(switch_wmalpha);		// how transparent the watermark is
-	switch_table.push_back(switch_wmscale);		// how big the watermark is
-	switch_table.push_back(switch_hcolor);		// html text color
-	switch_table.push_back(switch_hbcolor);		// html background color
-	switch_table.push_back(switch_hbimage);		// html background image
-	switch_table.push_back(switch_hbimpos);		// html background image position
-	switch_table.push_back(switch_hbimrep);		// html background image repeat
-	switch_table.push_back(switch_banner);		// banner
-	switch_table.push_back(switch_mipp);		// maximum images per page
-	switch_table.push_back(switch_recurse);		// recurse subdirectories
-	switch_table.push_back(switch_verbose);		// verbose output during processing
-	switch_table.push_back(switch_h1color);		// h1 text color
-	switch_table.push_back(switch_h1size);		// h1 size
-	switch_table.push_back(switch_h1font);		// h1 font
-	switch_table.push_back(switch_h1style);		// h1 style
-	switch_table.push_back(switch_h1weight);	// h1 weight
-	switch_table.push_back(switch_h1underline);	// h1 underline
-	switch_table.push_back(switch_h1strike);	// h1 strikeout
-	switch_table.push_back(switch_acolor);		// a color
-	switch_table.push_back(switch_asize);		// a size
-	switch_table.push_back(switch_afont);		// a font
-	switch_table.push_back(switch_astyle);		// a style
-	switch_table.push_back(switch_aweight);		// a weight
-	switch_table.push_back(switch_aunderline);	// a underline
-	switch_table.push_back(switch_astrike);		// a strikeout
+	switch_table.emplace_back(switch_diagnostic);	// verbose error messages
+	switch_table.emplace_back(switch_i);			// input path
+	switch_table.emplace_back(switch_o);			// output path
+	switch_table.emplace_back(switch_p);			// project title
+	switch_table.emplace_back(switch_t);			// page title 
+	switch_table.emplace_back(switch_h);			// thumbnail height
+	switch_table.emplace_back(switch_w);			// thumbnail width
+	switch_table.emplace_back(switch_ic);			// internal css
+	switch_table.emplace_back(switch_css);			// user css
+	switch_table.emplace_back(switch_nc);			// don't create new folders - may cause failure
+	switch_table.emplace_back(switch_nohtml);		// only create XML, XSL & CSS
+	switch_table.emplace_back(switch_onlyhtml);	// delete XML & XSL intermediates
+	switch_table.emplace_back(switch_query);		// show help screen
+	switch_table.emplace_back(switch_nocaption);	// no captions under the images
+	switch_table.emplace_back(switch_notitle);		// no title 
+	switch_table.emplace_back(switch_watermark);	// watermark the large image
+	switch_table.emplace_back(switch_wmpos);		// where to put the watermark
+	switch_table.emplace_back(switch_wmalpha);		// how transparent the watermark is
+	switch_table.emplace_back(switch_wmscale);		// how big the watermark is
+	switch_table.emplace_back(switch_hcolor);		// html text color
+	switch_table.emplace_back(switch_hbcolor);		// html background color
+	switch_table.emplace_back(switch_hbimage);		// html background image
+	switch_table.emplace_back(switch_hbimpos);		// html background image position
+	switch_table.emplace_back(switch_hbimrep);		// html background image repeat
+	switch_table.emplace_back(switch_banner);		// banner
+	switch_table.emplace_back(switch_mipp);		// maximum images per page
+	switch_table.emplace_back(switch_recurse);		// recurse subdirectories
+	switch_table.emplace_back(switch_verbose);		// verbose output during processing
+	switch_table.emplace_back(switch_h1color);		// h1 text color
+	switch_table.emplace_back(switch_h1size);		// h1 size
+	switch_table.emplace_back(switch_h1font);		// h1 font
+	switch_table.emplace_back(switch_h1style);		// h1 style
+	switch_table.emplace_back(switch_h1weight);	// h1 weight
+	switch_table.emplace_back(switch_h1underline);	// h1 underline
+	switch_table.emplace_back(switch_h1strike);	// h1 strikeout
+	switch_table.emplace_back(switch_acolor);		// a color
+	switch_table.emplace_back(switch_asize);		// a size
+	switch_table.emplace_back(switch_afont);		// a font
+	switch_table.emplace_back(switch_astyle);		// a style
+	switch_table.emplace_back(switch_aweight);		// a weight
+	switch_table.emplace_back(switch_aunderline);	// a underline
+	switch_table.emplace_back(switch_astrike);		// a strikeout
 }
 
 
@@ -93,8 +93,6 @@ void CommandLine::ParseCommandLine()
 	Defaults();
 
 	std::wstring cmd_line = GetCommandLine();
-//delete	std::wstring::size_type spos = 0;
-	std::vector<std::wstring>::iterator vi;
 
 	arguments = CommandLineToArgvW(cmd_line.c_str(), &arg_count);
 
@@ -102,7 +100,7 @@ void CommandLine::ParseCommandLine()
 
 	for (count = 0; count < arg_count; count++)
 	{
-		cmd_params.push_back(arguments[count]);
+		cmd_params.emplace_back(arguments[count]);
 	}
 
 	GlobalFree(arguments);
@@ -564,10 +562,7 @@ const bool CommandLine::PathCreate() const
 
 const std::wstring& CommandLine::NotPathCreate_Bool_String() const
 {
-	if (create_path)
-		return b_false;
-	else
-		return b_true;
+	return create_path ? b_true : b_false;
 }
 
 
@@ -647,17 +642,11 @@ const std::wstring& CommandLine::OnlyHTML_Bool_String() const
 
 const std::wstring& CommandLine::DefaultCSS_Bool_String() const
 {
-	if (default_css)
-		return b_true;
-	else
-		return b_false;
+	return default_css ? b_true : b_false;	
 }
 const std::wstring& CommandLine::InternalCSS_Bool_String() const
 {
-	if (internal_css)
-		return b_true;
-	else
-		return b_false;
+	return internal_css ? b_true : b_false;
 }
 
 

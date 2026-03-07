@@ -105,11 +105,9 @@ void ImageCopier::copy_one_at_a_time(const CommandLine &cl, const ImageFileList 
 		
 	std::list<ImageNames> i_names = ifl.RetrieveImageNames();
 	std::list<ImageNames>::iterator  first = i_names.begin();
-	// std::list<ImageNames>::size_type max_items = i_names.size();
 
 	if (watermark)
 	{
-		wm = new WaterMarker;
 	}
 
 	for (file_count = 0; file_count < index; file_count++)
@@ -129,6 +127,7 @@ void ImageCopier::copy_one_at_a_time(const CommandLine &cl, const ImageFileList 
 	if (watermark)
 	{
 		CLSID encoder = encoderClsid;
+		wm = new WaterMarker;
 		wm->Save(image_dst,cl,i,encoder);
 	}
 	else

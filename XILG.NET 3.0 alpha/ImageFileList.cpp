@@ -31,7 +31,6 @@ void ImageFileList::GatherImageNames()
 {
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind;
-//	std::list<path>::iterator first;
 	pathnames = GetOrgPaths();
 	
 	if (recurse)
@@ -207,13 +206,13 @@ void ImageFileList::CreateUnsafeArrayOfImageTypes()
 
 void ImageFileList::CreateSafeListOfImageTypes()
 {
-	suffix_list.push_back(L"jpeg");
-	suffix_list.push_back(L"jpg");
-	suffix_list.push_back(L"gif");
-	suffix_list.push_back(L"tif");
-	suffix_list.push_back(L"tiff");
-	suffix_list.push_back(L"png");
-	suffix_list.push_back(L"bmp");
+	suffix_list.emplace_back(L"jpeg");
+	suffix_list.emplace_back(L"jpg");
+	suffix_list.emplace_back(L"gif");
+	suffix_list.emplace_back(L"tif");
+	suffix_list.emplace_back(L"tiff");
+	suffix_list.emplace_back(L"png");
+	suffix_list.emplace_back(L"bmp");
 
 	CreateUnsafeArrayOfImageTypes();
 }
@@ -222,17 +221,11 @@ void ImageFileList::CreateSafeListOfImageTypes()
 
 void ImageFileList::OutPutToScreen()
 {
-	typedef std::list<ImageNames>::iterator IN_iter;
-	
-	IN_iter first = i_names.begin();
-	std::list<ImageNames>::size_type max_items = i_names.size();
-
-	for (unsigned int count = 0; count < max_items; count++)
+	for (auto& img : i_names)
 	{
-		std::wcout << GetOrgPath() << (*first).GetOriginalName() << std::endl;
-		std::wcout << GetBigPath() << (*first).GetLargeImageName() << std::endl;
-		std::wcout << GetThumbPath() << (*first).GetThumbnailImageName() << std::endl << std::endl;
-		first++;
+		std::wcout << GetOrgPath() << img.GetOriginalName() << std::endl;
+		std::wcout << GetBigPath() << img.GetLargeImageName() << std::endl;
+		std::wcout << GetThumbPath() << img.GetThumbnailImageName() << std::endl << std::endl;
 	}
 }
 
@@ -243,12 +236,9 @@ const std::list<ImageNames>& ImageFileList::RetrieveImageNames() const
 
 void ImageFileList::AddSubPaths(std::list<path>& paths)
 {
-	std::list<path>::iterator iter;
-	
-	for(iter = paths.begin(); iter != paths.end(); iter++)
+	for(auto& iter : paths)
 	{
-		std::wstring dirname = (*iter);
-		RecurseFolders(dirname);
+		RecurseFolders(iter);
 	}
 	pathnames.splice(pathnames.end(),recursed_paths);
 }

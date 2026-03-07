@@ -23,28 +23,20 @@ void ThumbCreator::MakeAndSaveThumbs(const CommandLine &cl, const ImageFileList 
 	if (!cl.Verbose())
 		std::wcout << L"Making Thumbnails";
 	
-	size_t file_count = 0;
 	DWORD bufsize = MAX_PATH;
 	wchar_t buf[MAX_PATH];
 	CLSID   encoderClsid;
-	size_t xres;
-	size_t yres;
-		
-	typedef std::list<ImageNames>::iterator IN_iter;
+	size_t xres = 0;
+	size_t yres = 0;
 
 	std::list<ImageNames> i_names = ifl.RetrieveImageNames();
-
-	IN_iter first = i_names.begin();
-
-	std::list<ImageNames>::size_type max_items = i_names.size();
-
 	// Get the CLSID of the JPEG encoder.
 	GetEncoderClsid(L"image/jpeg", &encoderClsid);
 
- 	for (file_count = 0; file_count < max_items; file_count++)
+ 	for (auto& img : i_names)
 	{
-		image_src = (*first).GetOriginalPath() / (*first).GetOriginalName();
-		image_dst = ifl.GetThumbPath() / (*first).GetThumbnailImageName();
+		image_src = img.GetOriginalPath() / img.GetOriginalName();
+		image_dst = ifl.GetThumbPath() / img.GetThumbnailImageName();
 	
 		GetFullPathName(image_dst.c_str(),bufsize,buf,0);
 		image_dst = buf;
@@ -82,7 +74,6 @@ void ThumbCreator::MakeAndSaveThumbs(const CommandLine &cl, const ImageFileList 
 		if (cl.Verbose())
 			std::wcout << L" ... done" << std::endl;
 		delete pThumbnail;
-		first++;
 	}
 	if (!cl.Verbose())
 		std::wcout << std::endl;
@@ -94,8 +85,8 @@ void ThumbCreator::MakeAndSaveThumbsSlowly(const CommandLine &cl, const ImageFil
 	DWORD bufsize = MAX_PATH;
 	wchar_t buf[MAX_PATH];
 	CLSID   encoderClsid;
-	size_t xres;
-	size_t yres;
+	size_t xres = 0;
+	size_t yres = 0;
 		
 	typedef std::list<ImageNames>::iterator IN_iter;
 

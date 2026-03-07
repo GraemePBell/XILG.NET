@@ -243,10 +243,8 @@ std::wstring& build_css::p_boilerplate(std::wstring &st, [[maybe_unused]] const 
 
 std::wstring& build_css::div_float(std::wstring &st, [[maybe_unused]] const CommandLine &cl)
 {
-	std::wstring width = std::format(L"{}", biggest_thumb_x);
-	std::wstring height = std::format(L"{}", biggest_thumb_y);
-	width += L"px";
-	height += L"px";
+	std::wstring width = std::format(L"{}px", biggest_thumb_x);
+	std::wstring height = std::format(L"{}px", biggest_thumb_y);
 	
 	temp = L"div.float";
 	st = create_selector(temp);

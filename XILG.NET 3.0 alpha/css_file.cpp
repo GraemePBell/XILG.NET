@@ -12,8 +12,8 @@
 
 css_file::css_file()
 {
-		wchar_t BOM = 0xFEFF;
-		css = BOM;
+	wchar_t BOM = 0xFEFF;
+	css = BOM;
 }
 
 css_file::~css_file(){}
@@ -78,15 +78,11 @@ void css_file::build(const CommandLine& cl)
 
 void css_file::save(path &filename)
 {
-	HANDLE hFile; 
-	std::wstring xilgerr;
- 
-	hFile = CreateFile(filename.c_str(),GENERIC_WRITE,FILE_SHARE_WRITE,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL);
+	HANDLE hFile = CreateFile(filename.c_str(),GENERIC_WRITE,FILE_SHARE_WRITE,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL);
 
 	if (hFile == INVALID_HANDLE_VALUE) 
 	{ 
-		xilgerr = L"Could not create file: ";
-		xilgerr += filename;
+		std::wstring xilgerr = L"Could not create file: " + filename.wstring();
 		std::wstring xilgerr_line = stringer(__LINE__);
 		std::wstring xilgerr_file = widen(__FILE__);
 		throw (xilg_error(xilgerr,xilgerr_file,xilgerr_line));
@@ -99,13 +95,10 @@ void css_file::save(path &filename)
 	if (!success)
 	{
 		DWORD err = GetLastError();
-		wchar_t buffer[0x10];
-		_itow_s(err,buffer,0x10,10);
-
-		xilgerr = L" WriteFile failed!: ";
-		xilgerr += filename.wstring();
-		xilgerr += L"\nGetLastError returned: ";
-		xilgerr += buffer;
+		std::wstring xilgerr = L" WriteFile failed!: " 
+								+ filename.wstring() 
+								+ std::format(L"\nGetLastError return: {}\n", err
+								);
 		
 		CloseHandle(hFile);
 

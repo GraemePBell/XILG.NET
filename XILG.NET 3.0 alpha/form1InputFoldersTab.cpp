@@ -108,7 +108,7 @@ System::Void Form1::treeView1_folders()
 
 			try 
 			{   // Let's not add anything to the list that causes a deeper exception
-				[[maybe_unused]] array<IO::DirectoryInfo^>^deeperfolders = mydir->GetDirectories();
+				// [[maybe_unused]] array<IO::DirectoryInfo^>^deeperfolders = mydir->GetDirectories();
 				my_nodes->Add(mydir->FullName,mydir->Name,closed_folder_icon,open_folder_icon);
 			}
 			catch (Exception ^e)

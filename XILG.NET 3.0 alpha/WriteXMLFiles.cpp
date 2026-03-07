@@ -19,7 +19,6 @@ basic_xmlfile::~basic_xmlfile() {}
 //////////////////// carriage return and indent ///////////////
 void basic_xmlfile::cr_indent(int il, MSXML2::IXMLDOMElementPtr ePtr) 
 {
-	MSXML2::IXMLDOMTextPtr textPtr;
 	std::wstring level = L"\n";
 	
 	for (int i = 0; i < il; i++)
@@ -27,7 +26,7 @@ void basic_xmlfile::cr_indent(int il, MSXML2::IXMLDOMElementPtr ePtr)
 		level += L"\t";
 	}
 	
-	textPtr = doc_ptr->createTextNode(level.c_str());
+	MSXML2::IXMLDOMTextPtr textPtr = doc_ptr->createTextNode(level.c_str());
 	ePtr->appendChild(textPtr);
 }
 
@@ -63,23 +62,22 @@ bool basic_xmlfile::save(const std::wstring& filename, const CommandLine& cl)
 //////////////////// create an XML PI //////////////////////////
 void basic_xmlfile::write_processing_instruction(const std::wstring& s1, const std::wstring& s2, bool initial)
 {
-	MSXML2::IXMLDOMProcessingInstructionPtr pi = NULL;
 	const _variant_t refChild;
 	BSTR b1 = SysAllocString(s1.data());
 	BSTR b2 = SysAllocString(s2.data());
 
 	try {
 
-		pi = doc_ptr->createProcessingInstruction(b1, b2);
+		MSXML2::IXMLDOMProcessingInstructionPtr pi = doc_ptr->createProcessingInstruction(b1, b2);
 
-		SysFreeString(b1);
-		SysFreeString(b2);
 
 		if (!initial)
 			doc_ptr->appendChild(pi);
 		else
 			doc_ptr->insertBefore(pi, &refChild);
 
+		SysFreeString(b1);
+		SysFreeString(b2);
 	}
 	catch (...)
 	{
@@ -146,9 +144,6 @@ bool xml_image_list::build(const CommandLine& cl, const ImageFileList& ifl)
 bool xml_image_list::buildone(const CommandLine& cl, const ImageFileList& ifl)
 {
 	std::wcout << L"\nCreating the XML file";
-	MSXML2::IXMLDOMElementPtr image_list_ptr;
-	MSXML2::IXMLDOMElementPtr image_ptr;
-	MSXML2::IXMLDOMTextPtr text_ptr;
 
 	project_name = cl.ProjectName();
 	path xsl_filename = project_name.wstring() + L"_xsl.xml";
@@ -157,7 +152,7 @@ bool xml_image_list::buildone(const CommandLine& cl, const ImageFileList& ifl)
 	basic_xmlfile::xml_declaration();
 	xslinclude(xsl_filename);
 
-	image_list_ptr = doc_ptr->createElement(L"image-list");
+	MSXML2::IXMLDOMElementPtr image_list_ptr = doc_ptr->createElement(L"image-list");
 	image_list_ptr->setAttribute(L"title",cl.PageTitle().c_str());
 	image_list_ptr->setAttribute(L"project",project_name.c_str());
 	doc_ptr->appendChild(image_list_ptr);
@@ -169,37 +164,30 @@ bool xml_image_list::buildone(const CommandLine& cl, const ImageFileList& ifl)
 
 	for (auto name : i_names)
 	{
-		std::wstring image_name;
-		std::wstring thumb_name;
-		std::wstring display_name;
-
 		basic_xmlfile::cr_indent(1,image_list_ptr);
-		image_ptr = doc_ptr->createElement(L"image");
+		MSXML2::IXMLDOMElementPtr image_ptr = doc_ptr->createElement(L"image");
 
-		image_name = L"images" / name.GetLargeImageName();
+		std::wstring image_name = L"images" / name.GetLargeImageName();
 		
 		image_ptr->setAttribute(L"image-name",image_name.c_str());
 		
-		thumb_name = L"thumbs" / name.GetThumbnailImageName();
+		std::wstring thumb_name = L"thumbs" / name.GetThumbnailImageName();
 		image_ptr->setAttribute(L"thumb-name",thumb_name.c_str());
 
-		display_name = name.GetOriginalName();
+		std::wstring display_name = name.GetOriginalName();
 		image_ptr->setAttribute(L"display-name",display_name.c_str());
 
 		image_list_ptr->appendChild(image_ptr);
 	}
 	basic_xmlfile::cr_indent(0, image_list_ptr);
-
 	basic_xmlfile::save(xml_filename,cl);
 
 	return true;
 }
 
 
-bool xml_image_list::buildrange(const CommandLine &cl, const ImageFileList &ifl, const size_t start, const size_t how_many)
+bool xml_image_list::buildrange(const CommandLine &cl, const ImageFileList &ifl, [[maybe_unused]] const size_t start, const size_t how_many)
 {
-	UNREFERENCED_PARAMETER(start);
-
 	std::wcout << L"\nCreating the XML files";
 	size_t num_pages = 1;
 	project_name = cl.ProjectName();
@@ -236,41 +224,27 @@ bool xml_image_list::buildrange(const CommandLine &cl, const ImageFileList &ifl,
 	
 	for(unsigned int i = 0; i < num_pages; i++)
 	{
-		MSXML2::IXMLDOMElementPtr image_list_ptr;
-		MSXML2::IXMLDOMElementPtr image_ptr;
-		MSXML2::IXMLDOMTextPtr text_ptr;
-
 		xml_declaration(multidocs[i]);
 		xslinclude(multidocs[i],xsl_filename);
 
-		image_list_ptr = multidocs[i]->createElement(L"image-list");
+		MSXML2::IXMLDOMElementPtr image_list_ptr = multidocs[i]->createElement(L"image-list");
 
 		ImageListAttributes(multidocs[i], cl, image_list_ptr,i, num_pages);
 
-		std::list<ImageNames>::iterator voi = vector_of_imagelists[i].begin();
-		size_t size = vector_of_imagelists[i].size();
-
-		for (std::list<ImageNames>::size_type count = 0; count < size; count++)
+		for (auto& voi : vector_of_imagelists[i])
 		{
-				std::wstring image_name;
-				std::wstring thumb_name;
-				std::wstring display_name;
-
-			image_name = L"images" / voi->GetLargeImageName();
-			thumb_name = L"thumbs" / voi->GetThumbnailImageName();
-			display_name = voi->GetOriginalName();
+			std::wstring image_name = L"images" / voi.GetLargeImageName();
+			std::wstring thumb_name = L"thumbs" / voi.GetThumbnailImageName();
+			std::wstring display_name = voi.GetOriginalName();
 
 			cr_indent(multidocs[i],1,image_list_ptr);
-				image_ptr = doc_ptr->createElement(L"image");
+			MSXML2::IXMLDOMElementPtr image_ptr = doc_ptr->createElement(L"image");
 
 			image_ptr->setAttribute(L"image-name",image_name.c_str());
 			image_ptr->setAttribute(L"thumb-name",thumb_name.c_str());
 			image_ptr->setAttribute(L"display-name",display_name.c_str());
-
-				image_list_ptr->appendChild(image_ptr);
-
-			voi++;
-			}
+			image_list_ptr->appendChild(image_ptr);
+		}
 		cr_indent(multidocs[i],0, image_list_ptr);	
 
 		std::wstring page = std::format(L"{}", i);
@@ -287,13 +261,7 @@ void xml_image_list::ImageListAttributes(MSXML2::IXMLDOMDocumentPtr mydoc_ptr,
 										 const size_t index,
 										 const size_t max_pages)
 {
-	std::wstring att1;
-	std::wstring att2;
-	std::wstring att3;
-	std::wstring att_temp;
-	std::wstring ext;
-
-	size_t  previous = index -1;
+	signed long long  previous = index - 1;
 	if (previous <= 0) previous = max_pages-1;
 	size_t  nex = index + 1;
 	if (nex >= max_pages) nex = 1;
@@ -301,21 +269,13 @@ void xml_image_list::ImageListAttributes(MSXML2::IXMLDOMDocumentPtr mydoc_ptr,
 
 	std::wstring pnum = std::format(L"{}", current);
 
-	att_temp = L"";
-	att1 = att_temp + pnum;
-
-	if (cl.NoHTML())
-		ext = L".xml";
-	else
-		ext = L".html";
-
+	std::wstring att_temp = L"";
+	std::wstring att1 = att_temp + pnum;
+	std::wstring ext = cl.NoHTML() ? L".xml" : L".html";
 	std::wstring prev = std::format(L"{}", previous);
-
-	att2 = cl.ProjectName().wstring() + L"-" + prev + ext;
-
+	std::wstring att2 = cl.ProjectName().wstring() + L"-" + prev + ext;
 	std::wstring next = std::format(L"{}", nex);
-
-	att3 = cl.ProjectName().wstring() + L"-" + next + ext;
+	std::wstring att3 = cl.ProjectName().wstring() + L"-" + next + ext;
 
 	ilp->setAttribute(L"title",cl.PageTitle().c_str());
 	ilp->setAttribute(L"project",project_name.c_str());
@@ -330,7 +290,6 @@ void xml_image_list::ImageListAttributes(MSXML2::IXMLDOMDocumentPtr mydoc_ptr,
 //////////////////// carriage return and indent ///////////////
 void xml_image_list::cr_indent(MSXML2::IXMLDOMDocumentPtr mydoc_ptr, int il, MSXML2::IXMLDOMElementPtr ePtr) 
 {
-	MSXML2::IXMLDOMTextPtr textPtr;
 	std::wstring level = L"\n";
 	
 	for (size_t  i = 0; i < il; i++)
@@ -338,7 +297,7 @@ void xml_image_list::cr_indent(MSXML2::IXMLDOMDocumentPtr mydoc_ptr, int il, MSX
 		level += L"\t";
 	}
 	
-	textPtr = mydoc_ptr->createTextNode(level.c_str());
+	MSXML2::IXMLDOMTextPtr textPtr = mydoc_ptr->createTextNode(level.c_str());
 	ePtr->appendChild(textPtr);
 }
 
@@ -420,10 +379,8 @@ void xml_image_list::xml_declaration(MSXML2::IXMLDOMDocumentPtr mydoc_ptr)
 xsl_image_list::xsl_image_list() {}
 xsl_image_list::~xsl_image_list() {}
 
-bool xsl_image_list::build(const CommandLine& cl, const ImageFileList& ifl)
+bool xsl_image_list::build(const CommandLine& cl, [[maybe_unused]] const ImageFileList& ifl)
 {
-	UNREFERENCED_PARAMETER(ifl);
-
 	std::wcout << L"\nCreating the XSL file";
 	project_name = cl.ProjectName();
 	internal_css = cl.InternalCSS();
@@ -460,18 +417,14 @@ MSXML2::IXMLDOMElementPtr xsl_image_list::build_preamble()
 	std::wstring pn = project_name;
 	std::wstring css_doc_att = L"document(" + pn + L".css)"; 
 
-	MSXML2::IXMLDOMElementPtr style_sheetPtr;
-	MSXML2::IXMLDOMElementPtr output_ptr;
-	MSXML2::IXMLDOMElementPtr variable_ptr;
-
-	style_sheetPtr = doc_ptr->createElement(L"xsl:stylesheet");
+	MSXML2::IXMLDOMElementPtr style_sheetPtr = doc_ptr->createElement(L"xsl:stylesheet");
 	style_sheetPtr->setAttribute(L"xmlns:xsl",L"http://www.w3.org/1999/XSL/Transform");
 	style_sheetPtr->setAttribute(L"version",L"1.0");
 	style_sheetPtr->setAttribute(L"xmlns",L"http://www.w3.org/1999/xhtml");
 	doc_ptr->appendChild(style_sheetPtr);
 
 	cr_indent(0,style_sheetPtr);
-	output_ptr = doc_ptr->createElement(L"xsl:output");
+	MSXML2::IXMLDOMElementPtr output_ptr = doc_ptr->createElement(L"xsl:output");
 	output_ptr->setAttribute(L"method",L"xml");
 	output_ptr->setAttribute(L"version",L"1.0");
 	output_ptr->setAttribute(L"encoding",L"UTF-16");
@@ -486,7 +439,7 @@ MSXML2::IXMLDOMElementPtr xsl_image_list::build_preamble()
 		cr_indent(0,style_sheetPtr);
 		cr_indent(0,style_sheetPtr);
 		
-		variable_ptr = doc_ptr->createElement(L"xsl:variable");
+		MSXML2::IXMLDOMElementPtr variable_ptr = doc_ptr->createElement(L"xsl:variable");
 		variable_ptr->setAttribute(L"name",L"stylesheet");
 		variable_ptr->setAttribute(L"select",css_doc_att.c_str());
 		style_sheetPtr->appendChild(variable_ptr);
@@ -498,16 +451,13 @@ MSXML2::IXMLDOMElementPtr xsl_image_list::build_preamble()
 
 void xsl_image_list::build_root_template(MSXML2::IXMLDOMElementPtr style_sheetPtr)
 {
-	MSXML2::IXMLDOMElementPtr template_ptr;
-	MSXML2::IXMLDOMElementPtr html_ptr;
-
-	template_ptr = doc_ptr->createElement(L"xsl:template");
+	MSXML2::IXMLDOMElementPtr template_ptr = doc_ptr->createElement(L"xsl:template");
 	template_ptr->setAttribute(L"match",L"/");
 	style_sheetPtr->appendChild(template_ptr);
 
 	cr_indent(1,template_ptr);
 
-	html_ptr = doc_ptr->createElement(L"html");
+	MSXML2::IXMLDOMElementPtr html_ptr = doc_ptr->createElement(L"html");
 
 	html_ptr->setAttribute(L"lang",L"en-GB");
 	template_ptr->appendChild(html_ptr);
@@ -527,16 +477,12 @@ void xsl_image_list::build_root_template(MSXML2::IXMLDOMElementPtr style_sheetPt
 
 void xsl_image_list::build_html_head(MSXML2::IXMLDOMElementPtr html_ptr)
 {
-	MSXML2::IXMLDOMElementPtr head_ptr;
-	MSXML2::IXMLDOMElementPtr e4ptr;
-	MSXML2::IXMLDOMElementPtr e5ptr;
-
-	head_ptr = doc_ptr->createElement(L"head");
+	MSXML2::IXMLDOMElementPtr head_ptr = doc_ptr->createElement(L"head");
 	html_ptr->appendChild(head_ptr);
 	
 	cr_indent(3,head_ptr);
 	
-	e4ptr = doc_ptr->createElement(L"meta");
+	MSXML2::IXMLDOMElementPtr e4ptr = doc_ptr->createElement(L"meta");
 	e4ptr->setAttribute(L"name",L"generator");
 	e4ptr->setAttribute(L"content",L"XILG 3.00 by Graeme P. Bell");
 	head_ptr->appendChild(e4ptr);
@@ -548,7 +494,7 @@ void xsl_image_list::build_html_head(MSXML2::IXMLDOMElementPtr html_ptr)
 
 	cr_indent(4,e4ptr);
 	
-	e5ptr = doc_ptr->createElement(L"xsl:value-of");
+	MSXML2::IXMLDOMElementPtr e5ptr = doc_ptr->createElement(L"xsl:value-of");
 	e5ptr->setAttribute(L"select",L"//@title");
 	e4ptr->appendChild(e5ptr);
 	
@@ -562,19 +508,15 @@ void xsl_image_list::build_html_head(MSXML2::IXMLDOMElementPtr html_ptr)
 
 void xsl_image_list::css_declaration(MSXML2::IXMLDOMElementPtr head_ptr)
 {
-	MSXML2::IXMLDOMElementPtr e4ptr;
-	MSXML2::IXMLDOMElementPtr e5ptr;
-	MSXML2::IXMLDOMTextPtr text_ptr;
-
 	if (internal_css)
 	{
-		e4ptr = doc_ptr->createElement(L"style");
+		MSXML2::IXMLDOMElementPtr e4ptr = doc_ptr->createElement(L"style");
 		e4ptr->setAttribute(L"type",L"text/css");
 		head_ptr->appendChild(e4ptr);
 
 		cr_indent(4,e4ptr);
 
-		e5ptr = doc_ptr->createElement(L"xsl:value-of");
+		MSXML2::IXMLDOMElementPtr e5ptr = doc_ptr->createElement(L"xsl:value-of");
 		e5ptr->setAttribute(L"select",L"$stylesheet");
 		e4ptr->appendChild(e5ptr);
 
@@ -584,15 +526,15 @@ void xsl_image_list::css_declaration(MSXML2::IXMLDOMElementPtr head_ptr)
 	{
 		std::wstring import = L"@import url('" + project_name.wstring() + L".css');";
 		
-		e4ptr = doc_ptr->createElement(L"style");
+		MSXML2::IXMLDOMElementPtr e4ptr = doc_ptr->createElement(L"style");
 		e4ptr->setAttribute(L"type",L"text/css");
 		head_ptr->appendChild(e4ptr);
 
 		cr_indent(4,e4ptr);
 
-		e5ptr = doc_ptr->createElement(L"xsl:text");
+		MSXML2::IXMLDOMElementPtr e5ptr = doc_ptr->createElement(L"xsl:text");
 		e4ptr->appendChild(e5ptr);
-		text_ptr  = doc_ptr->createTextNode(import.c_str());
+		MSXML2::IXMLDOMTextPtr text_ptr  = doc_ptr->createTextNode(import.c_str());
 		e5ptr->appendChild(text_ptr);
 
 		cr_indent(3,e4ptr);
@@ -602,10 +544,7 @@ void xsl_image_list::css_declaration(MSXML2::IXMLDOMElementPtr head_ptr)
 
 void xsl_image_list::build_html_body(MSXML2::IXMLDOMElementPtr html_ptr)
 {
-	MSXML2::IXMLDOMElementPtr body_ptr;
-	MSXML2::IXMLDOMElementPtr e4ptr;
-
-	body_ptr = doc_ptr->createElement(L"body");
+	MSXML2::IXMLDOMElementPtr body_ptr = doc_ptr->createElement(L"body");
 	html_ptr->appendChild(body_ptr);
 
 	cr_indent(3,body_ptr);
@@ -614,7 +553,7 @@ void xsl_image_list::build_html_body(MSXML2::IXMLDOMElementPtr html_ptr)
 
 	cr_indent(3,body_ptr);
 
-	e4ptr = doc_ptr->createElement(L"div");
+	MSXML2::IXMLDOMElementPtr e4ptr = doc_ptr->createElement(L"div");
 	body_ptr->appendChild(e4ptr);
 
 	cr_indent(4,e4ptr);
@@ -633,7 +572,6 @@ void xsl_image_list::build_html_body(MSXML2::IXMLDOMElementPtr html_ptr)
 
 	cr_indent(3,e4ptr);
 	cr_indent(2,body_ptr);
-
 }
 
 
@@ -685,19 +623,15 @@ void xsl_image_list::set_html_title(MSXML2::IXMLDOMElementPtr body_ptr)
 
 void xsl_image_list::applytemplates(MSXML2::IXMLDOMElementPtr e4ptr)
 {
-	MSXML2::IXMLDOMElementPtr e5ptr;
-	MSXML2::IXMLDOMElementPtr e6ptr;
-	MSXML2::IXMLDOMTextPtr text_ptr;
-
-	e5ptr = doc_ptr->createElement(L"xsl:attribute");
+	MSXML2::IXMLDOMElementPtr e5ptr = doc_ptr->createElement(L"xsl:attribute");
 	e5ptr->setAttribute(L"name",L"class");
 	e4ptr->appendChild(e5ptr);
 
 
 	cr_indent(5,e5ptr);
-	e6ptr = doc_ptr->createElement(L"xsl:text");
+	MSXML2::IXMLDOMElementPtr e6ptr = doc_ptr->createElement(L"xsl:text");
 	e5ptr->appendChild(e6ptr);
-	text_ptr = doc_ptr->createTextNode(L"container");
+	MSXML2::IXMLDOMTextPtr text_ptr = doc_ptr->createTextNode(L"container");
 	e6ptr->appendChild(text_ptr);
 	
 	cr_indent(4,e5ptr);
@@ -710,17 +644,7 @@ void xsl_image_list::applytemplates(MSXML2::IXMLDOMElementPtr e4ptr)
 
 void xsl_image_list::insert_links(MSXML2::IXMLDOMElementPtr e4ptr)
 {
-	MSXML2::IXMLDOMElementPtr e5ptr;
-	MSXML2::IXMLDOMElementPtr e6ptr;
-	MSXML2::IXMLDOMElementPtr e7ptr;
-	MSXML2::IXMLDOMElementPtr e8ptr;
-	MSXML2::IXMLDOMElementPtr e9ptr;
-	MSXML2::IXMLDOMElementPtr e10ptr;
-	MSXML2::IXMLDOMTextPtr text_ptr;
-
-//	cr_indent(4,e4ptr);
-
-	e5ptr = doc_ptr->createElement(L"table");
+	MSXML2::IXMLDOMElementPtr e5ptr = doc_ptr->createElement(L"table");
 	e5ptr->setAttribute(L"class",L"link");
 	e4ptr->appendChild(e5ptr);
 	e5ptr->setAttribute(L"summary",L"links");
@@ -728,28 +652,28 @@ void xsl_image_list::insert_links(MSXML2::IXMLDOMElementPtr e4ptr)
 
 	cr_indent(5,e5ptr);
 	
-	e6ptr = doc_ptr->createElement(L"tr");
+	MSXML2::IXMLDOMElementPtr e6ptr = doc_ptr->createElement(L"tr");
 	e5ptr->appendChild(e6ptr);
 
 	cr_indent(6,e6ptr);
 
-	e7ptr = doc_ptr->createElement(L"td");
+	MSXML2::IXMLDOMElementPtr e7ptr = doc_ptr->createElement(L"td");
 	e6ptr->appendChild(e7ptr);
 
 	cr_indent(7,e7ptr);
 //////////////////////////////////////////////
-	e8ptr = doc_ptr->createElement(L"a");
+	MSXML2::IXMLDOMElementPtr e8ptr = doc_ptr->createElement(L"a");
 	e7ptr->appendChild(e8ptr);
 
 	cr_indent(8,e8ptr);
 
-	e9ptr = doc_ptr->createElement(L"xsl:attribute");
+	MSXML2::IXMLDOMElementPtr e9ptr = doc_ptr->createElement(L"xsl:attribute");
 	e9ptr->setAttribute(L"name",L"href");
 	e8ptr->appendChild(e9ptr);
 
 	cr_indent(9,e9ptr);
 
-	e10ptr = doc_ptr->createElement(L"xsl:value-of");
+	MSXML2::IXMLDOMElementPtr e10ptr = doc_ptr->createElement(L"xsl:value-of");
 	e10ptr->setAttribute(L"select",L"//@prev");
 	e9ptr->appendChild(e10ptr);
 
@@ -758,7 +682,7 @@ void xsl_image_list::insert_links(MSXML2::IXMLDOMElementPtr e4ptr)
 
 	e9ptr = doc_ptr->createElement(L"xsl:text");
 	e8ptr->appendChild(e9ptr);
-	text_ptr = doc_ptr->createTextNode(L" PREV ");
+	MSXML2::IXMLDOMTextPtr text_ptr = doc_ptr->createTextNode(L" PREV ");
 	e9ptr->appendChild(text_ptr);
 	cr_indent(7,e8ptr);
 
@@ -808,20 +732,14 @@ void xsl_image_list::insert_links(MSXML2::IXMLDOMElementPtr e4ptr)
 
 void xsl_image_list::boilerplate(MSXML2::IXMLDOMElementPtr e4ptr)
 {
-	MSXML2::IXMLDOMElementPtr e5ptr;
-	MSXML2::IXMLDOMElementPtr e6ptr;
-	MSXML2::IXMLDOMElementPtr e7ptr;
-	MSXML2::IXMLDOMElementPtr e8ptr;
-	MSXML2::IXMLDOMTextPtr text_ptr;
-
-	e5ptr = doc_ptr->createElement(L"xsl:attribute");
+	MSXML2::IXMLDOMElementPtr e5ptr = doc_ptr->createElement(L"xsl:attribute");
 	e5ptr->setAttribute(L"name",L"class");
 	e4ptr->appendChild(e5ptr);
 
 	cr_indent(5,e5ptr);
-	e6ptr = doc_ptr->createElement(L"xsl:text");
+	MSXML2::IXMLDOMElementPtr e6ptr = doc_ptr->createElement(L"xsl:text");
 	e5ptr->appendChild(e6ptr);
-	text_ptr = doc_ptr->createTextNode(L"spacer center");
+	MSXML2::IXMLDOMTextPtr text_ptr = doc_ptr->createTextNode(L"spacer center");
 	e6ptr->appendChild(text_ptr);
 
 	cr_indent(4,e5ptr);
@@ -855,23 +773,17 @@ void xsl_image_list::boilerplate(MSXML2::IXMLDOMElementPtr e4ptr)
 
 void xsl_image_list::format_list_template(MSXML2::IXMLDOMElementPtr e1ptr)
 {
-	MSXML2::IXMLDOMElementPtr e2ptr;
-	MSXML2::IXMLDOMElementPtr e3ptr;
-	MSXML2::IXMLDOMElementPtr e4ptr;
-	MSXML2::IXMLDOMElementPtr e5ptr;
-	MSXML2::IXMLDOMTextPtr text_ptr;
-
 	cr_indent(2,e1ptr);
 
-	e2ptr = doc_ptr->createElement(L"xsl:attribute");
+	MSXML2::IXMLDOMElementPtr e2ptr = doc_ptr->createElement(L"xsl:attribute");
 	e2ptr->setAttribute(L"name",L"class");
 	e1ptr->appendChild(e2ptr);
 
 	cr_indent(3,e2ptr);
 
-	e3ptr = doc_ptr->createElement(L"xsl:text");
+	MSXML2::IXMLDOMElementPtr e3ptr = doc_ptr->createElement(L"xsl:text");
 	e2ptr->appendChild(e3ptr);
-	text_ptr = doc_ptr->createTextNode(L"float");
+	MSXML2::IXMLDOMTextPtr text_ptr = doc_ptr->createTextNode(L"float");
 	cr_indent(3,e2ptr);
 	e3ptr->appendChild(text_ptr);
 
@@ -888,7 +800,7 @@ void xsl_image_list::format_list_template(MSXML2::IXMLDOMElementPtr e1ptr)
 
 	cr_indent(4,e3ptr);
 
-	e4ptr = doc_ptr->createElement(L"xsl:value-of");
+	MSXML2::IXMLDOMElementPtr e4ptr = doc_ptr->createElement(L"xsl:value-of");
 	e4ptr->setAttribute(L"select",L"@image-name");
 	e3ptr->appendChild(e4ptr);
 
@@ -905,7 +817,7 @@ void xsl_image_list::format_list_template(MSXML2::IXMLDOMElementPtr e1ptr)
 	e3ptr->appendChild(e4ptr);
 
 	cr_indent(5,e4ptr);
-	e5ptr = doc_ptr->createElement(L"xsl:value-of");
+	MSXML2::IXMLDOMElementPtr e5ptr = doc_ptr->createElement(L"xsl:value-of");
 	e5ptr->setAttribute(L"select",L"@thumb-name");
 	e4ptr->appendChild(e5ptr);
 
@@ -917,20 +829,6 @@ void xsl_image_list::format_list_template(MSXML2::IXMLDOMElementPtr e1ptr)
 	e4ptr = doc_ptr->createElement(L"xsl:attribute");
 	e4ptr->setAttribute(L"name",L"alt");
 	e3ptr->appendChild(e4ptr);
-
-/*	// Add Project Name to Image Name
-	cr_indent(5,e4ptr);
-	e5ptr = doc_ptr->createElement(L"xsl:value-of");
-	e5ptr->setAttribute(L"select",L"//@project");
-	e4ptr->appendChild(e5ptr);
-
-	cr_indent(5,e4ptr);
-
-	e5ptr = doc_ptr->createElement(L"xsl:text");
-	e4ptr->appendChild(e5ptr);
-	text_ptr = doc_ptr->createTextNode(L" ");
-	e5ptr->appendChild(text_ptr);
-*/
 
 	cr_indent(5,e4ptr);
 	e5ptr = doc_ptr->createElement(L"xsl:value-of");
@@ -945,16 +843,13 @@ void xsl_image_list::format_list_template(MSXML2::IXMLDOMElementPtr e1ptr)
 
 void xsl_image_list::build_image_template(MSXML2::IXMLDOMElementPtr style_sheetPtr)
 {
-	MSXML2::IXMLDOMElementPtr template_ptr;
-	MSXML2::IXMLDOMElementPtr e1ptr;
-
-	template_ptr = doc_ptr->createElement(L"xsl:template");
+	MSXML2::IXMLDOMElementPtr template_ptr = doc_ptr->createElement(L"xsl:template");
 	template_ptr->setAttribute(L"match",L"image");
 	style_sheetPtr->appendChild(template_ptr);
 
 	cr_indent(1,template_ptr);
 
-	e1ptr = doc_ptr->createElement(L"div");
+	MSXML2::IXMLDOMElementPtr e1ptr = doc_ptr->createElement(L"div");
 	template_ptr->appendChild(e1ptr);
 
 	format_list_template(e1ptr);
@@ -971,29 +866,24 @@ void xsl_image_list::ImageCaption(MSXML2::IXMLDOMElementPtr e1ptr)
 {
 	if (!no_caption)
 	{
-		MSXML2::IXMLDOMElementPtr e2ptr;
-		MSXML2::IXMLDOMElementPtr e3ptr;
-		MSXML2::IXMLDOMElementPtr e4ptr;
-		MSXML2::IXMLDOMElementPtr e5ptr;
-
-		e2ptr = doc_ptr->createElement(L"p");
+		MSXML2::IXMLDOMElementPtr e2ptr = doc_ptr->createElement(L"p");
 		e1ptr->appendChild(e2ptr);
 
 		cr_indent(3,e2ptr);
 	
-		e3ptr = doc_ptr->createElement(L"a");
+		MSXML2::IXMLDOMElementPtr e3ptr = doc_ptr->createElement(L"a");
 		e2ptr->appendChild(e3ptr);
 
 		cr_indent(4,e3ptr);
 
-		e4ptr = doc_ptr->createElement(L"xsl:attribute");
+		MSXML2::IXMLDOMElementPtr e4ptr = doc_ptr->createElement(L"xsl:attribute");
 		e4ptr->setAttribute(L"name",L"href");
 		e3ptr->appendChild(e4ptr);
 
 		cr_indent(5,e4ptr);
 
 
-		e5ptr = doc_ptr->createElement(L"xsl:value-of");
+		MSXML2::IXMLDOMElementPtr e5ptr = doc_ptr->createElement(L"xsl:value-of");
 		e5ptr->setAttribute(L"select",L"@image-name");
 		e4ptr->appendChild(e5ptr);
 
@@ -1033,10 +923,8 @@ WebPageBuilder::~WebPageBuilder(){}
 // Awful kludge!!!! //
 //////////////////////////////////////////////////////////////////////////
 //bool basic_xmlfile::load(const CommandLine& cl)
-bool WebPageBuilder::load(const CommandLine& cl)
+bool WebPageBuilder::load([[maybe_unused]] const CommandLine& cl)
 {
-	UNREFERENCED_PARAMETER(cl);
-
 	std::wstring xilgerr;
 
 	if(PathFileExists(xml_file.c_str()))
@@ -1066,10 +954,8 @@ bool WebPageBuilder::load(const CommandLine& cl)
 	return 0;
 }
 
-bool WebPageBuilder::build(const CommandLine& cl, const ImageFileList& ifl)
+bool WebPageBuilder::build(const CommandLine& cl, [[maybe_unused]] const ImageFileList& ifl)
 {
-	UNREFERENCED_PARAMETER(ifl);
-	
 	std::wcout << L"\nCreating your website!\n";
 	project_name = cl.OutputPath()/cl.ProjectName();
 	xsl_file = project_name.wstring() + L"_xsl.xml";
@@ -1134,14 +1020,11 @@ bool WebPageBuilder::internal_build(const CommandLine& cl)
 
 
 //////////////////// save the file ////////////////////////////
-bool WebPageBuilder::save(const std::wstring& filename, const CommandLine& cl)
+bool WebPageBuilder::save(const std::wstring& filename, [[maybe_unused]] const CommandLine& cl)
 {
-	UNREFERENCED_PARAMETER(cl);	
-
-	HANDLE hFile; 
 	std::wstring xilgerr;
  
-	hFile = CreateFile(filename.c_str(),GENERIC_WRITE,FILE_SHARE_WRITE,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL);
+	HANDLE hFile = CreateFile(filename.c_str(),GENERIC_WRITE,FILE_SHARE_WRITE,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL);
 
 	if (hFile == INVALID_HANDLE_VALUE) 
 	{ 

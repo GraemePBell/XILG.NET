@@ -184,10 +184,7 @@ System::Void Form1::project_name_TextChanged([[maybe_unused]] System::Object^  s
 {
 	String^ my_title = project_name->Text->Trim(L' ');
 
-	if (my_title != String::Empty)
-		this->Text = my_title + L" - XILG";
-	else
-		this->Text = L"XILG";
+	this->Text = (my_title != String::Empty) ? my_title + L" - XILG" : L"XILG";
 
 	project = project_name->Text;
 }
