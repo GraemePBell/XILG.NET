@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta name="Author" content="Graeme P. Bell" />
+  <title>XILG: The XML Image List Generator</title>
+  <style type="text/css">
+		body {color : saddlebrown;background-color : lightyellow; margin: 5%;}
+		h1.c1 {font-family : 'Times New Roman', serif;font-size : xx-large;text-align : center;color : red;}
+		h2.c1 {font-family : 'Times New Roman', serif;text-align : center;font-size : 100%;color : red;}
+		h3.c1 {font-family : 'Times New Roman', serif;font-size : x-large;text-align : center;color : green;}
+		h4.c1 {font-family : 'Times New Roman', serif;font-size : large;text-align : center;color : green;}
+		h5.c1 {font-family : 'Times New Roman', serif;font-size : large;text-align : center;color : navy;}
+		h6.c1 {font-family : Arial, sans-serif;text-align : center;color : green;}
+		a:link {text-decoration: none;color : blue;}
+		a:active {text-decoration: none;color : red;}
+		a:visited {text-decoration: none;color : purple;}
+		a:hover {text-decoration: none;background-color: #cccc99;color : #222200;}
+		p.copyright {font-family : Arial, sans-serif;font-size : xx-small;font-weight : bold;margin-left: auto;margin-right: auto;text-align : center;color : maroon;}
+		p.navigation {font-family : Arial, sans-serif;font-size : small;font-weight : bold;margin-left: auto;margin-right: auto;text-align : center;color : red;}
+		p.mid {margin-left: auto;margin-right: auto;text-align : center;}
+		hr.quarter {width: 25%;}
+		span.updated {background-color: black; color: yellow; font-weight: bold;}	
+	</style>
+</head>
+
+<body>
+<h3 id="title" class="c1">XILG: XML Image List Generator</h3>
+
+<h5 class="c1">Version 2.13</h5>
+
+<h6 class="c1">(pronounce it zilge - to rhyme with bilge)</h6>
+
+<div title="Introduction" id="Introduction">
+<p>The <em>XILG</em> program is intended to automate the process of building
+simple thumbnail web pages. It has a very simple and (I hope) self
+explanatory user interface.</p>
+</div>
+
+<div title="instructions" id="Instructions">
+
+<div id="stephelp">
+<h2><span style="color: #FF0000">Instructions</span></h2>
+<br />
+<br />
+
+
+<p style="text-align: center"><img alt="XML Image List Generator Dialog"
+src="graphics/xilg/xilg1.jpg" /></p>
+<ol>
+  <li>Choose the folder with the images that you wish to convert in the top
+    "Edit Box" - or browse to it using the button beside it.</li>
+  <li>Choose the destination folder, where you wish to create the new web
+    page project.</li>
+  <li>The Project Title is <strong>required</strong>. It will be used to
+    create the project folders under the destination folder you chose.</li>
+  <li>The Page title is <em>optional</em>. It is the title that will be
+    displayed by a web browser viewing the page. If you do not enter one, the
+    default "Image List" will be used.</li>
+  <li>You may customise the size of the thumbnails, by selecting the
+    "<kbd>Custom</kbd>" 'radio button'. The default size of the thumbnails is
+    220 x 142 pixels. You may select values for the width (x) and height (y)
+    between 32 and 500 pixels. <br />
+    <br />
+    Below 32 is too small to be practical (32x32 is the size of a standard
+    Windows icon) and above 500 is not really a thumbnail. Choosing values
+    outside the limits will result in the value being set to the nearest
+    limit.</li>
+</ol>
+</div>
+
+<p>You are now ready to press the "<kbd>Generate</kbd>" button.</p>
+<br />
+</div>
+
+<div id="generate" title="What happens when I press the button">
+<h2><span style="color: #FF0000">What happens behind the curtains</span></h2>
+<br />
+
+
+<p>On pressing the button, the program will now:</p>
+<ol>
+  <li>Create the folder hierarchy based on your chosen destination folder <br
+    />
+    <br />
+
+    <ul>
+      <li><code><em>destination-folder\project-title</em></code></li>
+      <li><code><em>destination-folder\project-title\originals</em></code></li>
+      <li><code><em>destination-folder\project-title\thumbnails</em></code>
+        <br />
+        <br />
+      </li>
+    </ul>
+  </li>
+  <li>Create the following files in
+    <code><em>destination-folder\project-title</em></code> <br />
+    <br />
+
+    <ul>
+      <li><code><em>project-title</em><strong>.css</strong></code></li>
+      <li><code><em>project-title</em><strong>.xsl</strong></code></li>
+    </ul>
+    <br />
+    <br />
+  </li>
+  <li>Generate <code><em>project-title</em><strong>.xml</strong></code> from
+    the image files it finds in the folder given in the top edit box. The
+    program recognises the following image types, by file extension: <br />
+    <br />
+
+    <ul>
+      <li>JPG, JPEG.</li>
+      <li>GIF</li>
+      <li>TIF,TIFF</li>
+      <li>PNG</li>
+      <li>BMP</li>
+    </ul>
+    <br />
+    <br />
+  </li>
+  <li>Use the files generated in steps 2 &amp; 3, and <em>MSXML</em> version3
+    to create the file <br />
+    <br />
+
+    <ul>
+      <li><code><em>project-title</em><strong>.html</strong></code></li>
+    </ul>
+    <br />
+    <br />
+
+    <p>in the folder</p>
+    <p><code><em>destination-folder\project-title</em></code></p>
+    <p style="text-align: center"><img
+    alt="Folders and files created by this point."
+    src="graphics/xilg/xilg5.jpg" /></p>
+    <br />
+    <br />
+  </li>
+  <li>Copy the image files from the images folder indicated into the folder
+    <br />
+    <br />
+    <em><code>destination-folder\project-title\originals</code></em> <br />
+    <br />
+
+    <p style="text-align: center"><img alt="Copying the files to 'originals'"
+    src="graphics/xilg/xilg2.jpg" /></p>
+  </li>
+  <li>Generate JPEG thumbnails of the images and write them into the folder
+    <br />
+    <br />
+    <code><em>destination-folder\project-title\thumbnails</em></code> <br />
+    <br />
+
+    <p style="text-align: center"><img
+    alt="Creating the thumbnail jpg images in 'thumbnails'"
+    src="graphics/xilg/xilg3.jpg" /></p>
+  </li>
+  <li>If everything has gone well, there should be a folder tree containing a
+    functional web site of thumbnails, which point to full-sized images. <br
+    />
+    <br />
+
+    <p style="text-align: center"><img alt="Finished!"
+    src="graphics/xilg/xilg4.jpg" /></p>
+    <br />
+    <br />
+  </li>
+</ol>
+
+<p style="text-align: center"><img alt="example site"
+src="graphics/xilg/xilg6.jpg" /></p>
+
+<p>The <kbd>"View Page"</kbd> button will load the new
+<code><em>project-title</em><strong>.html</strong></code> into your default
+Web Browser for viewing.</p>
+</div>
+
+<div id="advanced" title="Advanced Options">
+<h1 class="c1">Advanced Options</h1>
+<ul>
+  <li><p>You can customise the fonts and colour of the generated page using
+    the Advanced menu. It is recommended that you experiment and check the
+    results, before finalising your new page. Please note that the Font
+    dialogs use <em>your</em> fonts, which may not be available to people
+    viewing from other computers. If you wish to retain the default fonts,
+    but merely change their colour - simply don't select a font in the
+    dialog, just pick a colour and size.</p>
+    <p>Take care when choosing a background colour to pick one which makes
+    the text stand out (or not - if that's what you wish)!</p>
+  </li>
+  <li><p>By default <em>XILG</em> converts <strong>all</strong> names to
+    lower case - thereby limiting the chance of differing case-sensitivities
+    in the chain from page designer's machine to the web server causing
+    incorrect links. If this is not desired, checking the <code>Preserve
+    Case</code> menu option will mean that the files and link names will
+    retain their original case.</p>
+  </li>
+  <li><p><em>XILG</em> inserts CSS styles directly into the
+    <code>style</code> element. If you wish to keep the stylesheet seperate,
+    unchecking the menu option <code>Internal CSS</code> will create a CSS
+    file without the <code>stylesheet-wrapper</code> tags and include the
+    stylesheet by using</p>
+    <p><code>@import url(<em>project-name</em>.css)</code>.</p>
+    <p>This is part of an ongoing effort to make the XML/XSLT code more
+    Mozilla friendly.</p>
+  </li>
+  <li><p>You can tell <em>XILG</em> to preserve the aspect ratio of the
+    images when creating thumbnails. It does this by figuring out which is
+    the long dimension, scaling that to the requested size, then scaling the
+    short dimension by the same amount.</p>
+    <p>The minimum dimension for any side is still fixed at 32 pixels. Using
+    this option on a folder of images of widely varying size can result in a
+    generated page that looks quite dreadful. The <code>height</code> and
+    <code>width</code> <code>&lt;img&gt;</code> attributes are not generated
+    when this option is used - sorry.</p>
+  </li>
+  <li><p>New in 2.10 - There is now the option to set a background image for
+    your page. From the <code>Advanced</code> menu choose <code>Background
+    Image...</code> and you will get the following dialog box.</p>
+    <p style="text-align: center"><img
+    alt="Background Image Settings dialog'" src="graphics/xilg/xilg7.jpg"
+    /></p>
+    <p>If you require more control over background image placement - then it
+    really is time to get a good reference on Cascading Style Sheets.</p>
+  </li>
+</ul>
+</div>
+
+<div title="Notes">
+<h1 id="notes" class="c1">Notes</h1>
+
+<h3><span style="color: #E50000">Browser Compatibility</span></h3>
+
+<p>The <code><em>project-title</em><strong>.html</strong></code> created is
+an XHTML version 1.0 document that uses a CSS level 1 trick to float the
+thumbnails in such a way as to avoid using a fixed width table. In browsers
+older than version 6 this may not work properly. Even more modern browsers
+may display it incorrectly if their CSS support is not quite perfect. (as of
+this documentation - 2nd February 2005 - <em>Internet Explorer</em> 6.0
+<em>Netscape</em> 6/<em>Mozilla</em> 1.0/Firefox 1.0 and Opera Version 7.0+
+work correctly.</p>
+
+<p><span class="updated">Update</span> <em>Amaya</em> 9.0 works much 
+better now. Amaya 8.7 still displays the image layout incorrectly  - Amaya is 
+W3Cs's sort-of "reference", but not really browser/editor.</p>
+
+<p>The <code><em>project-title</em><strong>.xml</strong></code> file may be
+viewed directly in an XSLT supporting browser, e.g. <em>Internet
+Explorer</em> 5.5 and above, or Mozilla based browsers such as NetScape 7.0 and 
+above and FireFox 1.0.</p>
+
+<h3 id="OS"><span style="color: #FF0000">Version 2.12</span></h3>
+
+<p>The View button now works properly with non-Internet Explorer based
+browsers.</p>
+<p>Filenames containing ampersands no longer cause HTML generation to fail.</p> 
+
+<h3 id="OS"><span style="color: #FF0000">Version 2.13</span></h3>
+
+<p>Fixed versioning and updated documentation.</p>
+
+<h3 id="OS1"><span style="color: #FF0000">OS requirements</span></h3>
+
+<p>This program only runs on <em>Windows XP</em> and <em>Windows .NET
+Server</em>. I suppose you <em>could</em> try to get it to work on
+<em>Windows NT 4.0 SP6</em>, <em>Windows 2000</em> and <em>Windows
+98/Me</em>, but it requires the <a
+href="http://www.microsoft.com/msdownload/platformsdk/sdkupdate/default.htm?p=/msdownload/platformsdk/sdkupdate/psdkredist.htm">GDI+
+libraries</a> from <em>Microsoft</em> and <em>9x/Me</em> will also require
+the <a
+href="http://www.microsoft.com/msdownload/platformsdk/sdkupdate/default.htm?p=/msdownload/platformsdk/sdkupdate/psdkredist.htm"><em>Microsoft
+Layer for Unicode</em></a>. If you don't have Internet Explorer 6 or above,
+you will need to install MSXML v3. There may be other requirements too. Use
+XP.</p>
+
+<h3 id="editing"><span style="color: #FF0000">Changing the appearance of the
+generated page</span></h3>
+
+<p>If you know XHTML and CSS you can hack the generated
+<code><em>project-title</em><strong>.html</strong></code> to fine tune the
+appearance of the page. The CSS is embedded within the document's style
+element, unless the advanced option <code>Internal CSS</code> is disabled -
+then hacking the <code><em>project-title</em><strong>.css</strong></code>
+file is the correct option. For example, to alter the background from the
+default black to the cute pale yellow that I use for these release notes,
+simply open <code><em>project-title</em><strong>.html</strong></code> in a
+text editor (e.g. Notepad) and change the line that says <br />
+<br />
+<code>html { color : #ffffcc; background-color : black }</code> <br />
+<br />
+to <br />
+<br />
+<code>html {color : #663300; background-color : #ffffcc }</code> <br />
+<br />
+You need to change <code>color</code> as well, because that value is (as you
+can see) the default for the foreground text. #663300 is the value for this
+brown text. # means Hexadecimal (base 16) - don't worry too much - Windows
+Calc.exe can convert it to and from good, old-fashioned, base 10,
+decimal).</p>
+
+<p>Truly brave souls can hack the XSL and CSS files, then use their favourite
+XSL tools to generate completely new pages. I recommend <a
+href="http://msdn.microsoft.com/library/en-us/dnxslgen/html/msxsl.asp?frame=true">MSXSL</a>
+from Microsoft and <a href="http://xml.apache.org/">Xalan</a> from Apache
+(although since MSXSL is 28kb and Xalan is around 24Mb, guess which I
+recommend for the merely curious - but to be fair, Xalan includes a full,
+open-source alternative to Microsoft's XML parser, called Xerxes, while MSXSL
+is a thin layer over the XML support built into Windows.)</p>
+
+<h3 id="credits"><span style="color: #FF0000">Credits and Tools</span></h3>
+
+<p>Thanks to Matthew Kirrane for a bug report.
+<br />Thanks to Mark Lewis for a bug report.</p>
+
+<p>The example above uses images from <a
+href="http://3do.jediknight.net/dcm.htm" target="_new">Al MacDonald's
+Diary of a Crazed Mimbanite</a>. They are all copyrighted to Al MacDonald.
+Don't ask me for copies, go to his web site and laugh rather a lot.</p>
+
+<p>This program is free. If you want the source, email me from my web site at
+<a href="http://www.maclogo.fsnet.co.uk/">www.maclogo.fsnet.co.uk</a>. It was
+built using the June 2002 Platform SDK from Microsoft and Visual C++ 6.0
+Professional (Service Pack 5).</p>
+
+<p>Graeme P. Bell</p>
+<hr />
+
+<p class="copyright"><a href="default.html" target="_top">Home</a>.</p>
+
+<p class="copyright">Copyright © 2005 Graeme P. Bell. All rights reserved.</p>
+</div>
+</body>
+</html>

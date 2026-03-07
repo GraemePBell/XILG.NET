@@ -129,6 +129,15 @@ System::Void Form1::restoreDefaultsToolStripMenuItem_Click([[maybe_unused]] Syst
 	}
 }
 
+System::Void Form1::releaseNotesToolStripMenuItem_Click([[maybe_unused]] System::Object^ sender, [[maybe_unused]] System::EventArgs^ e) 
+{
+	WCHAR path[MAX_PATH];
+	GetModuleFileNameW(nullptr, path, MAX_PATH);
+	PathRemoveFileSpecW(path);
+	PathAppendW(path, L"xilg_page.html");
+
+	ShellExecuteW(nullptr, L"open", path, nullptr, nullptr, SW_SHOWNORMAL);
+}
 
 System::Void Form1::aboutToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e) 
 {
