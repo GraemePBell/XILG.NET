@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Help">
+      <UniqueIdentifier>{0b6bceba-5ef3-4f40-850d-9e7e181211e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -169,6 +172,33 @@
     <Image Include="app.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\x64\Release\xilg1.jpg">
+      <Filter>Help</Filter>
+    </Image>
+    <Image Include="..\x64\Release\xilg2.jpg">
+      <Filter>Help</Filter>
+    </Image>
+    <Image Include="..\x64\Release\xilg3.jpg">
+      <Filter>Help</Filter>
+    </Image>
+    <Image Include="..\x64\Release\xilg4.jpg">
+      <Filter>Help</Filter>
+    </Image>
+    <Image Include="..\x64\Release\xilg5.jpg">
+      <Filter>Help</Filter>
+    </Image>
+    <Image Include="..\x64\Release\xilg6.jpg">
+      <Filter>Help</Filter>
+    </Image>
+    <Image Include="..\x64\Release\xilg7.jpg">
+      <Filter>Help</Filter>
+    </Image>
+    <Image Include="..\x64\Release\xilg8.jpg">
+      <Filter>Help</Filter>
+    </Image>
+    <Image Include="..\x64\Release\xilg9.jpg">
+      <Filter>Help</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -179,6 +209,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\x64\Release\xilg_page.html" />
+    <None Include="..\x64\Release\xilg_page.html">
+      <Filter>Help</Filter>
+    </None>
   </ItemGroup>
 </Project>

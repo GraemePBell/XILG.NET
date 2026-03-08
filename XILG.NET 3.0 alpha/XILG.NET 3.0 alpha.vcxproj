@@ -259,6 +259,15 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\x64\Release\xilg1.jpg" />
+    <Image Include="..\x64\Release\xilg2.jpg" />
+    <Image Include="..\x64\Release\xilg3.jpg" />
+    <Image Include="..\x64\Release\xilg4.jpg" />
+    <Image Include="..\x64\Release\xilg5.jpg" />
+    <Image Include="..\x64\Release\xilg6.jpg" />
+    <Image Include="..\x64\Release\xilg7.jpg" />
+    <Image Include="..\x64\Release\xilg8.jpg" />
+    <Image Include="..\x64\Release\xilg9.jpg" />
     <Image Include="app.ico" />
   </ItemGroup>
   <ItemGroup>
