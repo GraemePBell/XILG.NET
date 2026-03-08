@@ -178,4 +178,7 @@
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\x64\Release\xilg_page.html" />
+  </ItemGroup>
 </Project>
