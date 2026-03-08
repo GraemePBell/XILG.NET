@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta name="Author" content="Graeme P. Bell" />
+  <title>XILG: The XML Image List Generator</title>
+  <style type="text/css">
+    body {
+      color: darkslategray;
+      background-color: #e0fefe;
+      margin: 5%;
+    }
+
+    img {
+      width: 80%;
+      max-width: 640px;
+      height: auto;
+    }
+
+      img.small {
+          width: 80%;
+          max-width: 320px;
+          height: auto;
+      }
+
+    h1.c1 {
+      font-family: 'Times New Roman', serif;
+      font-size: xx-large;
+      text-align: center;
+      color: red;
+    }
+
+    h2.c1 {
+      font-family: 'Times New Roman', serif;
+      text-align: center;
+      font-size: 100%;
+      color: red;
+    }
+
+    h3.c1 {
+      font-family: 'Times New Roman', serif;
+      font-size: x-large;
+      text-align: center;
+      color: green;
+    }
+
+    h4.c1 {
+      font-family: 'Times New Roman', serif;
+      font-size: large;
+      text-align: center;
+      color: green;
+    }
+
+    h5.c1 {
+      font-family: 'Times New Roman', serif;
+      font-size: large;
+      text-align: center;
+      color: navy;
+    }
+
+    h6.c1 {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: green;
+    }
+
+    a:link {
+      text-decoration: none;
+      color: blue;
+    }
+
+    a:active {
+      text-decoration: none;
+      color: red;
+    }
+
+    a:visited {
+      text-decoration: none;
+      color: purple;
+    }
+
+    a:hover {
+      text-decoration: none;
+      background-color: #cccc99;
+      color: #222200;
+    }
+
+    p.copyright {
+      font-family: Arial, sans-serif;
+      font-size: xx-small;
+      font-weight: bold;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      color: maroon;
+    }
+
+    p.navigation {
+      font-family: Arial, sans-serif;
+      font-size: small;
+      font-weight: bold;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      color: red;
+    }
+
+    p.mid {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    hr.quarter {
+      width: 25%;
+    }
+
+    span.updated {
+      background-color: black;
+      color: yellow;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <h3 id="title" class="c1">XILG: XML Image List Generator</h3>
+
+  <h5 class="c1">Version 3</h5>
+
+  <h6 class="c1">(pronounce it zilge - to rhyme with bilge)</h6>
+
+  <div title="Introduction" id="Introduction">
+    <p>The <em>XILG</em> program is intended to automate the process of building
+      simple thumbnail web pages. It has a very simple and (I hope) self
+      explanatory user interface.</p>
+  </div>
+
+  <div title="instructions" id="Instructions">
+
+      <div id="stephelp">
+          <h2><span style="color: #FF0000">Instructions</span></h2>
+          <h3><span style="color: #E50000">Page 1 - Choosing images and options</span></h3>
+          <p style="text-align: center"><img alt="XILG Input page" src="xilg1.jpg" /></p>
+          <ul>
+              <li>
+                  Choose the folder(s) with the images that you wish to convert from the
+                  tree view on the left. You may pick as many folders as you like, but
+                  only the images in the top level of each folder will be converted.
+                  Sub-folders are ignored, unless you check the "Automatically include
+                  subfolders" option.
+              </li>
+              <li>
+                  You may choose to use your own CSS file, but it may result in less than
+                  optimal results.
+              </li>
+              <li>
+                  At this point you can simply press the <kbd>Build Website</kbd> button
+                  and get a page with the default - but bare-bones - layout and styling.
+                  If you want to customise the page, then press the other buttons to
+                  check out the more advanced options available.
+              </li>
+          </ul>
+          <h3><span style="color: #E50000">PAge 2 - The Basic Settings</span></h3>
+          <p style="text-align: center"><img alt="XILG Settings page" src="xilg2.jpg" /></p>
+          <ul>
+              <li>
+                  Choose the destination folder, where you wish to create the new web
+                  page project. By default it goes to the current user's <b>Documents</b>
+                  folder.
+              </li>
+              <li>
+                  The Page title is <em>optional</em>. It is the title that will be
+                  displayed by a web browser viewing the page. If you do not enter one, the
+                  default "User's Pictures" will be used.
+              </li>
+              <li>
+                  The Project Title is <strong>required</strong>. It will be used to
+                  create the project folders under the destination folder you chose.
+              </li>
+              <li>
+                  You may customise the size of the thumbnails, by selecting the
+                  <kbd>Thumbnail Size</kbd> 'radio button'. The default size of the thumbnails is
+                  100px on the longest side. You may select others values for the longest side.
+                  <br />
+                  Thumbnails are generated by scaling the original image to the requested size,
+                  preserving the apsect ratio.
+              </li>
+              <li>
+                  If you have a lot of images, you may was to split them into multiple pages.
+                  If you check the "Multi-page output" option, you can specify how many
+                  thumbnails you want on each page. The program will then generate as
+                  many pages as necessary to hold all the thumbnails, and link them
+                  together with "Previous" and "Next" links.
+              </li>
+              <li>
+                  The <kbd>XHTML+XML/Only XHTML/Only XML</kbd> option is for people who wish to
+                  look "under-the-hood" of the Web Site generation and not recommended
+                  for the average user to mess with.
+              </li>
+              <li>
+                  The <kbd>Choose title font</kbd> and <kbd>Choose caption font</kbd>
+                  check boxes enable or disable the presence of the title and caption
+                  text on the generated pages. Clicking on the boxes will bring up the
+                  standard Windows Font dialog, where you can choose the font, size
+                  and colour of the title and caption text.
+              </li>
+
+
+          </ul>
+
+          <h3><span style="color: #E50000">Page 3 - Advanced Background settings</span></h3>
+          <p style="text-align: center"><img alt="XILG Background page" src="xilg3.jpg" /></p>
+          <ul>
+              <li>
+                  Clicking with the <kbd>Background colour</kbd> box brings up the standard
+                  Windows colour picker dialog, where you can choose the background colour
+                  for the generated page. The default is grey.
+              </li>
+              <li>
+                  Checking the <kbd>Background Image</kbd> box enables the use of a background
+                  image, which you may browse for, using the standard Windows file picker
+                  dialog. The image will be copied to the project folder and linked to from
+                  the generated page. The default is no background image.
+              </li>
+              <li>
+                  If you have chosen a background image, you can specify how it should be
+                  displayed on the page. The default is to tile the image across and down
+                  the page. You may however choose to have it displayed only once, and
+                  aligned to your preference, or other options.
+              </li>
+              <li>
+                  You can also specify a banner image to be displayed at the top of the page.
+              </li>
+          </ul>
+          <h3><span style="color: #E50000">Page 4 - Watermark</span></h3>
+          <p style="text-align: center"><img alt="XILG Watermark page" src="xilg4.jpg" /></p>
+          <ul>
+              <li>
+                  XILG has the option to add a watermark to the full-sized images it displays
+                  on the generated page. This is a simple way to add a copyright notice to
+                  your images, without having to edit them in an image editor. The watermark
+                  is a small image that is overlaid on top of the full-sized image. You
+                  choose your own watermark image, it's position, what proportion of the
+                  original image will be overlaid and the opacity of the watermark.
+              </li>
+          </ul>
+
+          <h3><span style="color: #E50000">Page 5 - Preview</span></h3>
+          <p style="text-align: center"><img alt="XILG Preview page" src="xilg5.jpg" /></p>
+          <ul>
+              <li>
+                  A simple page where you can preview the settings you have chosen.
+              </li>
+          </ul>
+
+      </div>
+
+    <p>You are now ready to press the "<kbd>Build Website</kbd>" button.</p>
+    <br />
+  </div>
+
+  <div id="generate" title="What happens when I press the button">
+    <h2><span style="color: #FF0000">What happens behind the curtains</span></h2>
+    <br />
+
+
+    <p>On pressing the button, the program will now:</p>
+    <ol>
+        <li>
+            Display this dialog<br />
+            <p style="text-align: center"><img class="small" alt="XILG Preview page" src="xilg6.jpg" /></p>
+        </li>
+        <li>
+            Create the folder hierarchy based on your chosen destination folder <br />
+            <br />
+
+            <ul>
+                <li><code><em>destination-folder\project-title</em></code></li>
+                <li><code><em>destination-folder\project-title\originals</em></code></li>
+                <li>
+                    <code><em>destination-folder\project-title\thumbnails</em></code>
+                    <br />
+                    <br />
+                </li>
+            </ul>
+        </li>
+        <li>
+            Create the following files in
+            <code><em>destination-folder\project-title</em></code> <br />
+            <br />
+
+            <ul>
+                <li><code><em>project-title</em><strong>.css</strong></code></li>
+                <li><code><em>project-title</em><strong>.xsl</strong></code></li>
+            </ul>
+            <br />
+            <br />
+        </li>
+        <li>
+            Generate <code><em>project-title</em><strong>.xml</strong></code> from
+            the image files it finds in the folder given in the top edit box. The
+            program recognises the following image types, by file extension: <br />
+            <br />
+
+            <ul>
+                <li>JPG, JPEG.</li>
+                <li>GIF</li>
+                <li>TIF,TIFF</li>
+                <li>PNG</li>
+                <li>BMP</li>
+            </ul>
+            <br />
+            <br />
+        </li>
+        <li>
+            Use the files generated in steps 2 &amp; 3, and <em>MSXML</em> version3
+            to create the file <br />
+            <br />
+
+            <ul>
+                <li><code><em>project-title</em><strong>.html</strong></code></li>
+            </ul>
+
+            <p>in the folder</p>
+            <ul><li><code><em>destination-folder\project-title</em></code></li></ul>
+            <br />
+            <br />
+        </li>
+        <li>
+            Copy the image files from the original images folder into the folder as .jpg files, ready for use on the web site.
+            <br />
+            <br />
+            <em><code>destination-folder\project-title\images</code></em>
+            <br />
+            <p>- optionally watermarking each image, in the process</p>
+
+        </li>
+        <li>
+            XILG then creates JPEG thumbnails of the images and writes them into the folder
+            <br />
+            <br />
+            <code><em>destination-folder\project-title\thumbnails</em></code>
+            <br />
+            <br />
+
+        </li>
+        <li>
+            If everything has gone well, the dialog change to:
+            <br />
+            <p style="text-align: center"><img class="small" alt="Finished!" src="xilg7.jpg" /></p>
+            <br />
+            <br />
+        </li>
+        <li>
+            Closing that dialog will bring up this one:
+            <br />
+            <p style="text-align: center"><img alt="Finished!" src="xilg8.jpg" /></p>
+            <br />
+            <br />
+        </li>
+        <li>
+            <p>
+                The <kbd>"View Website"</kbd> button will load the new
+                <code><em>project-title</em><strong>.html</strong></code> into your default
+                Web Browser for viewing. If you wish, you can select any other browser you
+                have installed, using the dropdown menu.
+                <br />
+                <br />
+            </p>
+            <p style="text-align: center"><img alt="Finished!" src="xilg9.jpg" /></p>
+
+            </p>
+            <p>
+                The <kbd>"Open</kbd> button will open the project folder in Windows Explorer,
+                so you can examine the files that have been generated and copy them to your
+                web server as necessary.
+            </p>
+            <p>
+                You can use the <kbd>"FTP Upload"</kbd> button to upload the generated files
+                using the built-in ftp client. You will need to have an ftp server to upload
+                to, and know the hostname, username and password for your account on that
+                server. You can also specify a remote directory to upload to, if you don't want
+                the files to go into the root of your account.
+            </p>
+        </li>
+
+    </ol>
+
+  </div>
+
+
+  <div title="Notes">
+    <h1 id="notes" class="c1">Notes</h1>
+
+    <h3><span style="color: #E50000">Browser Compatibility</span></h3>
+
+    <p>
+        The <code><em>project-title</em><strong>.html</strong></code> uses 
+        the <em>XHTML 1.1</em> standard, which should be accepted by 
+        <b>all current browsers</b>, since the first version was specified 
+        in 2001, updated in 2010 and the latest is from 2018.
+    </p>
+
+    <p>The <code><em>project-title</em><strong>.xml</strong></code> file may be
+      viewed directly in an XSLT supporting browser. That's none currently, 
+      unless correctly served up by a web server. Use your favourite text editor.</p>
+
+    <p>
+        This program is free. The source code is available on
+        <a href="https://github.com/GraemePBell/XILG.NET">GitHub</a>. 
+        <br />
+        The original was built using the June 2002 Platform SDK from Microsoft 
+        and Visual C++ 6.0 Professional (Service Pack 5). 
+        <br/>
+        This version was built using Visual Studio 2022 Community Edition. 
+        It should compile and run on any Windows machine with the .NET 
+        Framework 4.0 or later installed, but I have only tested it on Windows 11. 
+        It may run on older versions of Windows, but I have not tested it on those. 
+        It will not run on non-Windows operating systems, since it uses 
+        Windows-specific APIs and features.
+    </p>
+
+    <p>Graeme P. Bell</p>
+    <hr />
+
+    <p class="copyright">Copyright© 2005-2026 Graeme P. Bell. All rights reserved.</p>
+  </div>
+</body>
+
+</html>
