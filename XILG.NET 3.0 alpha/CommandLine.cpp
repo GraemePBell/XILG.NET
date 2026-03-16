@@ -90,8 +90,6 @@ void CommandLine::BuildSwitchTable()
 
 void CommandLine::ParseCommandLine()
 {
-	Defaults();
-
 	std::wstring cmd_line = GetCommandLine();
 
 	arguments = CommandLineToArgvW(cmd_line.c_str(), &arg_count);

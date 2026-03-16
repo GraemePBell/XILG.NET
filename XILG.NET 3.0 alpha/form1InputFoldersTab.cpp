@@ -124,7 +124,7 @@ System::Void Form1::treeView1_folders()
 }
 
 
-System::Void Form1::button2_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::button2_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	if(treeView1->SelectedNode)
 	{
@@ -152,7 +152,7 @@ System::Void Form1::button2_Click([[maybe_unused]] System::Object^  sender, [[ma
 }
 
 
-System::Void Form1::button3_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::button3_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	if (listBox1->SelectedItem)
 	{
@@ -174,7 +174,7 @@ System::Void Form1::button3_Click([[maybe_unused]] System::Object^  sender, [[ma
 }
 
 
-System::Void Form1::button4_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::button4_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	listBox1->Items->Clear();
 	button3->Enabled = false;
@@ -183,7 +183,7 @@ System::Void Form1::button4_Click([[maybe_unused]] System::Object^  sender, [[ma
 
 
 
-System::Void Form1::checkBox1_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::checkBox1_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	include_subfolders = (!include_subfolders);
 	if(auto_inc_sub_check->Checked)
@@ -211,7 +211,7 @@ System::Void Form1::listBox1_MouseMove([[maybe_unused]] System::Object^  sender,
 }
 
 
-System::Void Form1::EnableUserCSSCheck_CheckedChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::EnableUserCSSCheck_CheckedChanged([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	user_css = !user_css;
 
@@ -230,7 +230,7 @@ System::Void Form1::EnableUserCSSCheck_CheckedChanged([[maybe_unused]] System::O
 }
 
 
-System::Void Form1::tabPage1_Leave([[maybe_unused]] System::Object^ sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::tabPage1_Leave([[maybe_unused]] System::Object^ sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	finalise_input_folders_tab();
 }

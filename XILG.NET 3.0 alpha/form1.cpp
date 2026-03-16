@@ -6,7 +6,7 @@ bool diagnostic = false;
 
 namespace XILGNET30alpha {
 
-System::Void Form1::Form1_Load([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::Form1_Load([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	LoadDefaults();
 
@@ -148,12 +148,12 @@ System::Void Form1::LoadInitialFolder()
 
 
 
-System::Void Form1::button1_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::button1_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	Close();
 }
 
-System::Void Form1::button_view_website_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::button_view_website_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	CLProxy^ parameters = gcnew CLProxy;
 	

@@ -7,7 +7,7 @@ namespace XILGNET30alpha {
 
 
 
-System::Void Form1::headingFontToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::headingFontToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	String^ hf = header_font;
 	String^ hs = header_font_size;
@@ -39,7 +39,7 @@ System::Void Form1::headingFontToolStripMenuItem_Click([[maybe_unused]] System::
 }
 
 
-System::Void Form1::bodyFontToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::bodyFontToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	String^ bf = body_font;
 	String^ bs = body_font_size;
@@ -72,7 +72,7 @@ System::Void Form1::bodyFontToolStripMenuItem_Click([[maybe_unused]] System::Obj
 }
 
 
-System::Void Form1::bodyColourToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::bodyColourToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	String^ bc = body_color;
 
@@ -99,17 +99,17 @@ System::Void Form1::bodyColourToolStripMenuItem_Click([[maybe_unused]] System::O
 }
 
 
-System::Void Form1::backgroundImageToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::backgroundImageToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	tabControl1->SelectTab(tabPage4);
 }
 
-System::Void Form1::bannerImageToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::bannerImageToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	tabControl1->SelectTab(tabPage4);
 }
 
-System::Void Form1::includeSubfoldersToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] [[maybe_unused]] System::EventArgs^  e)
+System::Void Form1::includeSubfoldersToolStripMenuItem_Click([[maybe_unused]] System::Object^  sender, [[maybe_unused]] System::EventArgs^  e)
 {
 	include_subfolders = (!include_subfolders);
 	auto_inc_sub_check->Checked = include_subfolders;
